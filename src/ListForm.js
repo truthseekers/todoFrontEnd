@@ -13,7 +13,7 @@ function ListForm(props) {
         console.log("form submitted");
         // console.log(event.target.value);
         event.preventDefault();
-        props.onAddTodo(taskField);
+        props.onAddList(taskField);
 
     }
 
