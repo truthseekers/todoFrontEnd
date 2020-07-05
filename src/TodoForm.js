@@ -1,27 +1,28 @@
 import React, { useState } from 'react';
 
-function ListForm(props) {
+function TodoForm(props) {
 
     const [taskField, setTaskField] = useState("");
 
-    const handleChange = (event) => {
-        //console.log("something inserted");
-        setTaskField(event.target.value)
-    }
 
     const handleSubmit = (event) => {
-        //console.log("form submitted");
-        // console.log(event.target.value);
-        event.preventDefault();
-        props.onAddList(taskField);
 
+        event.preventDefault();
+        props.onAddTodo({
+            listId: props.listId,
+            todo: taskField
+        })
+    }
+
+    const handleChange = (event) => {
+        setTaskField(event.target.value);
     }
 
     return (
         <div>
             <form onSubmit={handleSubmit}>
                 <label>
-                    Name:
+                    Todo:
                     <input type="text" value={taskField} onChange={handleChange} name="name" />
                 </label>
                 <input type="submit" value="Submit" />
@@ -29,6 +30,8 @@ function ListForm(props) {
 
         </div>
     );
+
 }
 
-export default ListForm;
+
+export default TodoForm;

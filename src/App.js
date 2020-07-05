@@ -4,85 +4,40 @@ import List from './List';
 import Lists from './Lists';
 import ListForm from './ListForm';
 import Todos from './Todos';
+import TodoForm from './TodoForm';
 
 let defaultListsState = {
   lists: [
-    {
-      id: 0, name: "shopping", todos: [
-        { id: 0, completed: false, task: "Salad" },
-        { id: 1, completed: false, task: "$6000 of Toilet Paper" },
-        { id: 2, completed: true, task: "Dog treats" },
-      ]
-    },
-    {
-      id: 1, name: "misc", todos: [
-
-      ]
-    },
-    {
-      id: 2, name: "travel", todos: [
-
-      ]
-    },
-    {
-      id: 3, name: "business", todos: [
-
-      ]
-    }
+    { id: 0, name: "shopping" },
+    { id: 1, name: "misc" },
+    { id: 2, name: "travel" },
+    { id: 3, name: "business" }
   ],
   currentListId: 0
 };
 
-// let currentListId = 0;
-// let currentList = defaultLists.find((elem) => {
+let defaultTodosState = [
+  { id: 0, listId: 0, completed: false, task: "Salad" },
+  { id: 1, listId: 0, completed: false, task: "$6000 of Toilet Paper" },
+  { id: 2, listId: 0, completed: true, task: "Dog treats" },
+  { id: 3, listId: 1, completed: false, task: "Trim bushes" },
+  { id: 5, listId: 1, completed: false, task: "Buy plane ticket" },
+  { id: 4, listId: 2, completed: false, task: "Put on my socks" },
+  { id: 6, listId: 3, completed: true, task: "Call accountant" },
+  { id: 7, listId: 3, completed: false, task: "Fire Bob" },
+];
 
-// })
-// let defaultLists = [
-//   {
-//     id: 0, name: "shopping", todos: [
-//       { id: 0, completed: false, task: "Salad" },
-//       { id: 1, completed: false, task: "$6000 of Toilet Paper" },
-//       { id: 2, completed: true, task: "Dog treats" },
-//     ]
-//   },
-
-//   {
-//     id: 1, name: "misc", todos: [
-//       { id: 3, completed: false, task: "Trim bushes" },
-//       { id: 4, completed: false, task: "Put on my socks" },
-
-//     ]
-//   },
-//   {
-//     id: 2, name: "travel", todos: [
-//       { id: 5, completed: false, task: "Buy plane ticket" },
-//     ]
-//   },
-//   {
-//     id: 3, name: "business", todos: [
-//       { id: 6, completed: false, task: "Call accountant" },
-//       { id: 7, completed: false, task: "Fire Bob" },
-//     ]
-//   }
-// ]
-
-
-// let defaultCurrentTodos = defaultTodos.filter((elem) => {
-//   if (elem.listId == 1) {
-//     return elem;
-//   }
-// })
 
 function getValidId(lists) {
-  console.log("in getid");
+  //console.log("in getid");
   let maxId = lists.length;
   lists.forEach((elem) => {
     if (elem.id >= maxId) {
       maxId = elem.id + 1;
     }
   })
-  console.log("new id is: " + maxId);
-  console.log(lists);
+  //console.log("new id is: " + maxId);
+  //console.log(lists);
   return maxId;
 }
 
@@ -90,12 +45,12 @@ function getValidId(lists) {
 function App() {
 
   const [listsState, setListsState] = useState(defaultListsState);
+  const [todosState, setTodosState] = useState(defaultTodosState);
   let currentTodos;
 
-  // addNewTodo
   const addList = (elem) => {
-    console.log("from App. elem: ");
-    console.log(elem);
+    //console.log("from App. elem: ");
+    //console.log(elem);
     let newListsState = { ...listsState };
 
     getValidId(listsState.lists)
@@ -106,85 +61,91 @@ function App() {
       todos: []
     };
     setListsState(newListsState);
-    // let newTodos = [
-    //   ...todos,
-    //   { task: elem, id: currentTodos.length, listId: 1 }
-    // ];
-    // setTodos(newTodos);
+
+  }
+
+  const addTodo = (elem) => {
+    //console.log("adding newTodo: ");
+    //console.log(elem);
+    let newState = [...todosState, { id: getValidId(todosState), listId: elem.listId, completed: false, task: elem.todo }];
+
+    setTodosState(newState);
   }
 
   const selectList = (newListId) => {
     let newState = {
       ...listsState,
-      currentList: listsState.lists[newListId],
+      // currentList: listsState.lists[newListId],
       currentListId: newListId
     }
     setListsState(newState);
+    console.log("selected list. New list is: ");
+    console.log(newState);
     currentTodos = listsState.lists.find((element) => {
       if (element.id == listsState.currentListId) {
-        console.log("match match!");
         return element.todos;
       } else {
-        console.log("NOOOOO MATCH");
       }
     });
-    console.log("currentTodos (list actually)");
-    console.log(currentTodos);
+    // console.log("currentTodos (list actually)");
+    // console.log(currentTodos);
   }
 
   const deleteList = (listId) => {
+    let newState;
     console.log("deleting list in App: " + listId);
     let updatedLists = listsState.lists.filter((elem) => {
       if (elem.id != listId) {
         return elem;
       }
+      if (listId == listsState.currentListId) {
+        newState = { ...listsState, currentListId: listsState.lists[0].id == listId ? listsState.lists[1].id : listsState.lists[0].id }
+      } else {
+        newState = { ...listsState }
+      }
     });
-    let newState = { ...listsState }
     newState.lists = updatedLists;
-
+    console.log("new State after deleting list: ");
+    console.log(newState);
     setListsState(newState);
   }
 
-  const returnCurrentList = () => {
-    console.log("hello from returnCurrentList");
-    return listsState.lists.find(element => element.id == listsState.currentList2);
+  const deleteTodo = (todoId) => {
+    let updatedTodos = todosState.filter((elem) => {
+      if (elem.id !== todoId) {
+        return elem;
+      }
+    });
+    setTodosState(updatedTodos);
   }
 
-  // const updateCurrentTodos = () => {
-  //   let newTodos = defaultTodos.filter((elem) => {
-  //     if (elem.listId == currentList.id) {
-  //       return elem;
-  //     }
-  //   })
-
-  //   setCurrentTodos(newTodos);
-  // }
 
 
+  const checkTodo = (updatedItem) => {
+    //console.log("in checkTodo");
+    //console.log(updatedItem);
+    let newState = todosState.map((elem) => {
+      if (updatedItem === elem.id) {
+        return { ...elem, completed: !elem.completed }
+      } else {
+        return elem;
+      }
+    });
+    setTodosState(newState);
 
-  // const updateTodo = (updatedItem) => {
-  //   console.log(updatedItem);
-  //   let newState = lists;
-  //   // let newTodos = currentTodos.map((elem) => {
-  //   //   if (updatedItem == elem.id) {
-  //   //     return { ...elem, completed: !elem.completed }
-  //   //   } else {
-  //   //     return elem;
-  //   //   }
-  //   // })
-  //   // setCurrentTodos(newTodos);
-  // }
+  }
 
   return (
     <div className="App">
 
 
       <div className="list-area">
-        <h3>Create a new List:</h3>
+        <h3>Create a new Lisssst:</h3>
         <ListForm onAddList={addList} />
         {/* There should be a way to compute the currentList here instead of passing in listId and generating list in Lists */}
         <Lists onChangeList={selectList} onDeleteList={deleteList} listsState={listsState} currentListId={listsState.currentListId} />
-        <Todos testProp={listsState.todos} />
+        <TodoForm onAddTodo={addTodo} listId={listsState.currentListId} />
+        <Todos todos={todosState} deleteTodo={deleteTodo} checkTodo={checkTodo} listId={listsState.currentListId} />
 
       </div>
 

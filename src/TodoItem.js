@@ -4,12 +4,15 @@ function TodoItem(props) {
 
     const [taskField, setTaskField] = useState(false);
 
+    const deleteTodoItem = () => {
+        props.deleteTodo(props.id);
+    }
 
     const handleChange = () => {
-        // console.log("checked!");
+        //console.log("checked!");
         setTaskField(taskField == true ? false : true)
-        // console.log(props.id);
-        props.handleTodo(props.id);
+        //console.log(props.id);
+        props.checkTodo(props.id);
     }
 
     return (
@@ -19,7 +22,7 @@ function TodoItem(props) {
                 checked={props.completed}
                 onChange={handleChange}
             />
-            {props.task}
+            {props.task} - <span onClick={deleteTodoItem}>Trash</span>
         </div>
     );
 }

@@ -3,14 +3,14 @@ import React from 'react';
 function ListRow(props) {
 
     const handleListChange = () => {
-        console.log("props.testProp: ");
-        console.log(props.testProp);
+        //console.log("props.testProp: ");
+        //console.log(props.testProp);
         // console.log(props.id);
         props.onSelect(props.id);
     }
 
     const deleteRow = () => {
-        console.log("deleting " + props.name);
+        //console.log("deleting " + props.name);
         props.onDeleteList(props.id);
     }
 

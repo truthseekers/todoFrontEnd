@@ -6,22 +6,8 @@ function Lists(props) {
     let rows = [];
 
     const handleListChange = (e) => {
-        console.log("testProp: ");
-        console.log(props.testProp);
-        console.log("clicked!");
-        console.log(e.target.id);
-        // let newList = props.lists.filter((elem) => {
-        //     if (e.target.id == elem.id) {
-        //         return elem;
-        //     }
-        // })
-
         props.onChangeList(e.target.id);
-
     }
-
-    console.log("props...");
-    console.log(props.listsState.lists);
 
     props.listsState.lists.map((elem) => {
         // rows.push(<li id={elem.id} onClick={handleListChange}>{elem.name}</li>);
@@ -29,14 +15,21 @@ function Lists(props) {
     })
 
     const returnListName = () => {
-        console.log("in returnListName");
+        //console.log("in returnListName");
         // return props.listsState.lists.find(element => element.id == props.currentListId);
-        let result = props.listsState.lists.find((element) => {
-            console.log("element id: " + element.id);
-            console.log("props.currentListId: " + props.currentListId);
-            return element.id == props.currentListId;
-        });
-        // console.log(result);
+        console.log("props.currentListId");
+        console.log(props.currentListId);
+        let result = props.listsState.lists.find(element => element.id == props.currentListId);
+        // let result = props.listsState.lists.find((element) => {
+        //     console.log("element in returnListName: ");
+        //     console.log(element);
+        //     console.log("props.currentListId: ");
+        //     console.log(props.currentListId);
+        //     //console.log("props.currentListId: " + props.currentListId);
+        //     return element.id == props.currentListId;
+        // });
+        console.log("final result is...");
+        console.log(result);
         return result.name;
     }
 
