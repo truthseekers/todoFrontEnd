@@ -3,8 +3,9 @@ import React from 'react';
 function ListRow(props) {
 
     const handleListChange = () => {
-        console.log("clickedaaaa!");
-        console.log(props.id);
+        console.log("props.testProp: ");
+        console.log(props.testProp);
+        // console.log(props.id);
         props.onSelect(props.id);
     }
 

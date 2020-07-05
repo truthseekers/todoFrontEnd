@@ -3,19 +3,40 @@ import './App.css';
 import List from './List';
 import Lists from './Lists';
 import ListForm from './ListForm';
+import Todos from './Todos';
 
 let defaultListsState = {
   lists: [
-    { id: 0, name: "shopping", todos: [] },
-    { id: 1, name: "misc", todos: [] },
-    { id: 2, name: "travel", todos: [] },
-    { id: 3, name: "business", todos: [] }
+    {
+      id: 0, name: "shopping", todos: [
+        { id: 0, completed: false, task: "Salad" },
+        { id: 1, completed: false, task: "$6000 of Toilet Paper" },
+        { id: 2, completed: true, task: "Dog treats" },
+      ]
+    },
+    {
+      id: 1, name: "misc", todos: [
+
+      ]
+    },
+    {
+      id: 2, name: "travel", todos: [
+
+      ]
+    },
+    {
+      id: 3, name: "business", todos: [
+
+      ]
+    }
   ],
-  currentList: { id: 0, name: "shopping", todos: [] }
+  currentListId: 0
 };
 
+// let currentListId = 0;
+// let currentList = defaultLists.find((elem) => {
 
-
+// })
 // let defaultLists = [
 //   {
 //     id: 0, name: "shopping", todos: [
@@ -68,13 +89,8 @@ function getValidId(lists) {
 
 function App() {
 
-  // const [todos, setTodos] = useState(defaultTodos);
-  //const [currentList, setCurrentList] = useState(defaultLists[0]);
-  // const [currentTodos, setCurrentTodos] = useState(defaultCurrentTodos);
-  //const [lists, setLists] = useState(defaultLists);
-
   const [listsState, setListsState] = useState(defaultListsState);
-
+  let currentTodos;
 
   // addNewTodo
   const addList = (elem) => {
@@ -98,13 +114,22 @@ function App() {
   }
 
   const selectList = (newListId) => {
-    console.log("FROM APP changed to list: ");
-    console.log(newListId);
     let newState = {
       ...listsState,
-      currentList: listsState.lists[newListId]
+      currentList: listsState.lists[newListId],
+      currentListId: newListId
     }
     setListsState(newState);
+    currentTodos = listsState.lists.find((element) => {
+      if (element.id == listsState.currentListId) {
+        console.log("match match!");
+        return element.todos;
+      } else {
+        console.log("NOOOOO MATCH");
+      }
+    });
+    console.log("currentTodos (list actually)");
+    console.log(currentTodos);
   }
 
   const deleteList = (listId) => {
@@ -120,9 +145,10 @@ function App() {
     setListsState(newState);
   }
 
-  // const addList = () => {
-  //   console.log("added list");
-  // }
+  const returnCurrentList = () => {
+    console.log("hello from returnCurrentList");
+    return listsState.lists.find(element => element.id == listsState.currentList2);
+  }
 
   // const updateCurrentTodos = () => {
   //   let newTodos = defaultTodos.filter((elem) => {
@@ -156,13 +182,13 @@ function App() {
       <div className="list-area">
         <h3>Create a new List:</h3>
         <ListForm onAddList={addList} />
-        <Lists onChangeList={selectList} onDeleteList={deleteList} listsState={listsState} currentList={listsState.currentList} />
+        {/* There should be a way to compute the currentList here instead of passing in listId and generating list in Lists */}
+        <Lists onChangeList={selectList} onDeleteList={deleteList} listsState={listsState} currentListId={listsState.currentListId} />
+        <Todos testProp={listsState.todos} />
 
       </div>
 
-      {/* <Lists onChangeList={changeList} lists={defaultLists} currentList={currentList} /> */}
-      {/* <ListForm onAddTodo={addTodo} /> */}
-      {/* <List todos={currentList.todos} handleTodo={updateTodo} /> */}
+
     </div>
   );
 }
