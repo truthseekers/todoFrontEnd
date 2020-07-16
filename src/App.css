@@ -3,7 +3,12 @@
 }
 
 body {
-  background: lightblue;
+  background: green;
+}
+
+.list-row {
+  font-size: 24px;
+  list-style-type: none;
 }
 
 .App-logo {

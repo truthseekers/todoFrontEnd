@@ -1,10 +1,23 @@
 import React, { useState } from 'react';
+import './dashboard.css';
 import './App.css';
 import List from './List';
 import Lists from './Lists';
 import ListForm from './ListForm';
 import Todos from './Todos';
 import TodoForm from './TodoForm';
+import Container from 'react-bootstrap/Container';
+import Jumbotron from 'react-bootstrap/Jumbotron';
+import Button from 'react-bootstrap/Button';
+import Toast from 'react-bootstrap/Toast';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/FormControl';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 
 let defaultListsState = {
   lists: [
@@ -65,8 +78,6 @@ function App() {
   }
 
   const addTodo = (elem) => {
-    //console.log("adding newTodo: ");
-    //console.log(elem);
     let newState = [...todosState, { id: getValidId(todosState), listId: elem.listId, completed: false, task: elem.todo }];
 
     setTodosState(newState);
@@ -87,8 +98,6 @@ function App() {
       } else {
       }
     });
-    // console.log("currentTodos (list actually)");
-    // console.log(currentTodos);
   }
 
   const deleteList = (listId) => {
@@ -119,11 +128,13 @@ function App() {
     setTodosState(updatedTodos);
   }
 
-
+  const returnListName = () => {
+    // return props.listsState.lists.find(element => element.id == props.currentListId);
+    let result = listsState.lists.find(element => element.id == listsState.currentListId);
+    return result.name;
+  }
 
   const checkTodo = (updatedItem) => {
-    //console.log("in checkTodo");
-    //console.log(updatedItem);
     let newState = todosState.map((elem) => {
       if (updatedItem === elem.id) {
         return { ...elem, completed: !elem.completed }
@@ -136,21 +147,60 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div>
+      <Navbar className="sticky-top" bg="light" expand="md">
+        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="#link">Link</Nav.Link>
+            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+          <Form inline>
+            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+            <Button variant="outline-success">Search</Button>
+          </Form>
+        </Navbar.Collapse>
+      </Navbar>
+
+      <Container fluid>
+        <Row>
+          <Nav style={{ background: 'pink' }} id="sidebarMenu" className="col-md-4 col-lg-2 d-md-block bg-light sidebar collapse">
+            <div style={{ background: '#eee' }} class="sidebar-sticky pt-3">
+              <ListForm onAddList={addList} />
+              <Lists onChangeList={selectList} onDeleteList={deleteList} listsState={listsState} currentListId={listsState.currentListId} />
+
+            </div>
+          </Nav>
+
+          <main className="col-md-8 ml-sm-auto col-lg-10 px-md-4">
+            <Row className="justify-content-md-center text-center">
+              <Col>
+                <TodoForm onAddTodo={addTodo} listId={listsState.currentListId} />
+                <h3>Todo Items For {returnListName()}:</h3>
+                <Todos todos={todosState} deleteTodo={deleteTodo} checkTodo={checkTodo} listId={listsState.currentListId} />
 
 
-      <div className="list-area">
-        <h3>Create a new Lisssst:</h3>
-        <ListForm onAddList={addList} />
-        {/* There should be a way to compute the currentList here instead of passing in listId and generating list in Lists */}
-        <Lists onChangeList={selectList} onDeleteList={deleteList} listsState={listsState} currentListId={listsState.currentListId} />
-        <TodoForm onAddTodo={addTodo} listId={listsState.currentListId} />
-        <Todos todos={todosState} deleteTodo={deleteTodo} checkTodo={checkTodo} listId={listsState.currentListId} />
+              </Col>
 
-      </div>
+            </Row>
+          </main>
+        </Row>
+
+      </Container>
 
 
     </div>
+
+
+
   );
 }
 

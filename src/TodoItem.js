@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { TrashFill } from 'react-bootstrap-icons';
+
 
 function TodoItem(props) {
 
@@ -9,9 +11,7 @@ function TodoItem(props) {
     }
 
     const handleChange = () => {
-        //console.log("checked!");
         setTaskField(taskField == true ? false : true)
-        //console.log(props.id);
         props.checkTodo(props.id);
     }
 
@@ -22,7 +22,7 @@ function TodoItem(props) {
                 checked={props.completed}
                 onChange={handleChange}
             />
-            {props.task} - <span onClick={deleteTodoItem}>Trash</span>
+            {props.task} - <TrashFill onClick={deleteTodoItem} />
         </div>
     );
 }

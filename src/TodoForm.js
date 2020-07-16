@@ -22,8 +22,7 @@ function TodoForm(props) {
         <div>
             <form onSubmit={handleSubmit}>
                 <label>
-                    Todo:
-                    <input type="text" value={taskField} onChange={handleChange} name="name" />
+                    <input type="text" placeholder="Add a Todo" value={taskField} onChange={handleChange} name="name" />
                 </label>
                 <input type="submit" value="Submit" />
             </form>
