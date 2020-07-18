@@ -1,63 +1,24 @@
 import React, { useState } from "react";
 import "./dashboard.css";
 import "./App.css";
-import List from "./List";
-import Lists from "./Lists";
-import ListForm from "./ListForm";
 import Todos from "./Todos";
 import TodoForm from "./TodoForm";
 import Container from "react-bootstrap/Container";
-import Jumbotron from "react-bootstrap/Jumbotron";
-import Button from "react-bootstrap/Button";
-import Toast from "react-bootstrap/Toast";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import Form from "react-bootstrap/Form";
-import FormControl from "react-bootstrap/FormControl";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
-
-// import { gql } from "apollo-boost";
+import NavTodo from "./NavTodo";
+import SidebarTodo from "./SidebarTodo";
 
 const FEED_QUERY = gql`
   {
-    todos {
+    lists {
       id
-      listId
-      name
+      title
     }
   }
 `;
-
-// client
-//   .query({
-//     query: gql`
-//       {
-//         todos {
-//           id
-//           listId
-//           name
-//         }
-//       }
-//     `,
-//   })
-//   .then((response) => console.log(response.data.feed));
-
-// export default gql`
-//   query GetAllTodos {
-//     todos {
-//       id
-//       listId
-//       name
-//     }
-//   }
-// `;
-
-console.log("HEEEY");
 
 let defaultListsState = {
   lists: [
@@ -81,15 +42,12 @@ let defaultTodosState = [
 ];
 
 function getValidId(lists) {
-  //console.log("in getid");
   let maxId = lists.length;
   lists.forEach((elem) => {
     if (elem.id >= maxId) {
       maxId = elem.id + 1;
     }
   });
-  //console.log("new id is: " + maxId);
-  //console.log(lists);
   return maxId;
 }
 
@@ -99,8 +57,6 @@ function App() {
   let currentTodos;
 
   const addList = (elem) => {
-    //console.log("from App. elem: ");
-    //console.log(elem);
     let newListsState = { ...listsState };
 
     getValidId(listsState.lists);
@@ -130,12 +86,9 @@ function App() {
   const selectList = (newListId) => {
     let newState = {
       ...listsState,
-      // currentList: listsState.lists[newListId],
       currentListId: newListId,
     };
     setListsState(newState);
-    console.log("selected list. New list is: ");
-    console.log(newState);
     currentTodos = listsState.lists.find((element) => {
       if (element.id == listsState.currentListId) {
         return element.todos;
@@ -146,7 +99,6 @@ function App() {
 
   const deleteList = (listId) => {
     let newState;
-    console.log("deleting list in App: " + listId);
     let updatedLists = listsState.lists.filter((elem) => {
       if (elem.id != listId) {
         return elem;
@@ -164,8 +116,6 @@ function App() {
       }
     });
     newState.lists = updatedLists;
-    console.log("new State after deleting list: ");
-    console.log(newState);
     setListsState(newState);
   };
 
@@ -199,72 +149,36 @@ function App() {
 
   return (
     <div>
-      <Navbar className="sticky-top" bg="light" expand="md">
-        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-          <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-success">Search</Button>
-          </Form>
-        </Navbar.Collapse>
-      </Navbar>
-
+      <NavTodo />
       <Container fluid>
         <Row>
-          <Nav
-            style={{ background: "pink" }}
-            id="sidebarMenu"
-            className="col-md-4 col-lg-2 d-md-block bg-light sidebar collapse"
-          >
-            <div style={{ background: "#eee" }} class="sidebar-sticky pt-3">
-              <ListForm onAddList={addList} />
-              <Lists
-                onChangeList={selectList}
-                onDeleteList={deleteList}
-                listsState={listsState}
-                currentListId={listsState.currentListId}
-              />
-            </div>
-          </Nav>
+          <Query query={FEED_QUERY}>
+            {({ loading, error, data }) => {
+              if (loading) return <div>Fetching</div>;
+              if (error) return <div>Error</div>;
+              console.log("gql data: ");
+              console.log(data.lists);
+              const listsToRender = data.lists;
+              return (
+                <div>
+                  <SidebarTodo
+                    addList={addList}
+                    selectList={selectList}
+                    deleteList={deleteList}
+                    listsState={listsState}
+                    currentListId={listsState.currentListId}
+                  />
+                  {listsToRender.map((list) => (
+                    <div>{list.title}</div>
+                  ))}
+                </div>
+              );
+            }}
+          </Query>
 
           <main className="col-md-8 ml-sm-auto col-lg-10 px-md-4">
             <Row className="justify-content-md-center text-center">
               <Col>
-                <div>Stuff goes here</div>
-                <Query query={FEED_QUERY}>
-                  {({ loading, error, data }) => {
-                    if (loading) return <div>Fetching</div>;
-                    if (error) return <div>Error</div>;
-                    console.log("gql data: ");
-                    console.log(data);
-                    //const linksToRender = data;
-                    return (
-                      <div>
-                        {" "}
-                        poop
-                        {/* {linksToRender.map((link) => (
-                          <div>{link.name}</div>
-                        ))} */}
-                      </div>
-                    );
-                  }}
-                </Query>
                 <TodoForm
                   onAddTodo={addTodo}
                   listId={listsState.currentListId}
