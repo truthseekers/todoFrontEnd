@@ -7,9 +7,34 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Query } from "react-apollo";
-import gql from "graphql-tag";
+//import gql from "graphql-tag";
 import NavTodo from "./NavTodo";
 import SidebarTodo from "./SidebarTodo";
+import Button from "react-bootstrap/Button";
+
+/////////////////////////////////
+
+import { useQuery, gql } from "@apollo/client";
+
+// const EXCHANGE_RATES = gql`
+//   query {
+//     lists {
+//       title
+//       id
+//     }
+//   }
+// `;
+
+// function ExchangeRates() {
+//   const { loading, error, data } = useQuery(EXCHANGE_RATES);
+
+//   if (loading) return <p>Loading...</p>;
+//   if (error) return <p>Error :(</p>;
+
+//   return <div>data is here soon</div>;
+// }
+
+/////////////////////////////////
 
 const FEED_QUERY = gql`
   {
@@ -179,6 +204,9 @@ function App() {
           <main className="col-md-8 ml-sm-auto col-lg-10 px-md-4">
             <Row className="justify-content-md-center text-center">
               <Col>
+                <p>Yeaaa? still working</p>
+                <Button>WHat the faa</Button>
+                {/* <ExchangeRates /> */}
                 <TodoForm
                   onAddTodo={addTodo}
                   listId={listsState.currentListId}

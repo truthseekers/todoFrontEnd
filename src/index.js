@@ -1,4 +1,5 @@
 import React from "react";
+import { render } from "react-dom";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
@@ -7,12 +8,39 @@ import App from "./App";
 // import { ApolloProvider } from "react-apollo";
 
 import { ApolloProvider } from "react-apollo";
-import { ApolloClient } from "apollo-client";
+//import { ApolloClient } from "apollo-client";
 import { createHttpLink } from "apollo-link-http";
-import { InMemoryCache } from "apollo-cache-inmemory";
+// import { InMemoryCache } from "apollo-cache-inmemory";
 
 import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.min.css";
+
+import { ApolloClient, InMemoryCache } from "@apollo/client";
+
+import { useQuery, gql } from "@apollo/client";
+
+// const client = new ApolloClient({
+//   uri: "http://localhost:4000",
+//   cache: new InMemoryCache(),
+// });
+
+// const EXCHANGE_RATES = gql`
+//   query {
+//     lists {
+//       title
+//       id
+//     }
+//   }
+// `;
+
+// function ExchangeRates() {
+//   const { loading, error, data } = useQuery(EXCHANGE_RATES);
+
+//   if (loading) return <p>Loading...</p>;
+//   if (error) return <p>Error :(</p>;
+
+//   return <div>Apaoolooo stuff.</div>;
+// }
 
 // Pass your prisma endpoint to uri
 // const client = new ApolloClient({
@@ -30,6 +58,8 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
+    {/* <div>I like poo</div> */}
+    {/* <ExchangeRates /> */}
     <App />
   </ApolloProvider>,
   document.getElementById("root")
