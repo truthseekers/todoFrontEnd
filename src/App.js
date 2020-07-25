@@ -12,29 +12,7 @@ import NavTodo from "./NavTodo";
 import SidebarTodo from "./SidebarTodo";
 import Button from "react-bootstrap/Button";
 
-/////////////////////////////////
-
 import { useQuery, gql } from "@apollo/client";
-
-// const EXCHANGE_RATES = gql`
-//   query {
-//     lists {
-//       title
-//       id
-//     }
-//   }
-// `;
-
-// function ExchangeRates() {
-//   const { loading, error, data } = useQuery(EXCHANGE_RATES);
-
-//   if (loading) return <p>Loading...</p>;
-//   if (error) return <p>Error :(</p>;
-
-//   return <div>data is here soon</div>;
-// }
-
-/////////////////////////////////
 
 const FEED_QUERY = gql`
   {
@@ -52,7 +30,7 @@ let defaultListsState = {
     { id: 2, name: "travel" },
     { id: 3, name: "business" },
   ],
-  currentListId: 0,
+  currentListId: 1,
 };
 
 let defaultTodosState = [
@@ -153,14 +131,6 @@ function App() {
     setTodosState(updatedTodos);
   };
 
-  const returnListName = () => {
-    // return props.listsState.lists.find(element => element.id == props.currentListId);
-    let result = listsState.lists.find(
-      (element) => element.id == listsState.currentListId
-    );
-    return result.name;
-  };
-
   const checkTodo = (updatedItem) => {
     let newState = todosState.map((elem) => {
       if (updatedItem === elem.id) {
@@ -181,8 +151,6 @@ function App() {
             {({ loading, error, data }) => {
               if (loading) return <div>Fetching</div>;
               if (error) return <div>Error</div>;
-              console.log("gql data: ");
-              console.log(data.lists);
               const listsToRender = data.lists;
               return (
                 <div>
@@ -204,14 +172,10 @@ function App() {
           <main className="col-md-8 ml-sm-auto col-lg-10 px-md-4">
             <Row className="justify-content-md-center text-center">
               <Col>
-                <p>Yeaaa? still working</p>
-                <Button>WHat the faa</Button>
-                {/* <ExchangeRates /> */}
                 <TodoForm
                   onAddTodo={addTodo}
                   listId={listsState.currentListId}
                 />
-                <h3>Todo Items For {returnListName()}:</h3>
                 <Todos
                   todos={todosState}
                   deleteTodo={deleteTodo}
