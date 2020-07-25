@@ -19,8 +19,8 @@ import Loader from "react-loader";
 // `;
 
 const LIST_TODOS = gql`
-  query {
-    listById(listId: 1) {
+  query getListTodos($listId: ID!) {
+    listById(listId: $listId) {
       id
       title
       todos {
@@ -37,7 +37,9 @@ function Todos(props) {
 
   console.log("props in todo ya");
   console.log(props);
-  const { data, loading, error } = useQuery(LIST_TODOS);
+  const { data, loading, error } = useQuery(LIST_TODOS, {
+    variables: { listId: 3 },
+  });
 
   if (loading) {
     return <Loader />;
