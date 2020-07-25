@@ -19,6 +19,15 @@ import { ApolloClient, InMemoryCache } from "@apollo/client";
 
 import { useQuery, gql } from "@apollo/client";
 
+const FEED_QUERY = gql`
+  {
+    lists {
+      id
+      title
+    }
+  }
+`;
+
 // const client = new ApolloClient({
 //   uri: "http://localhost:4000",
 //   cache: new InMemoryCache(),
