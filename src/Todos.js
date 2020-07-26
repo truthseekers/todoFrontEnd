@@ -53,7 +53,7 @@ function Todos(props) {
   return (
     <div>
       <h3>Todo Items For: {data.listById.title}</h3>
-      {rows}
+      {/* {rows} */}
     </div>
   );
 }

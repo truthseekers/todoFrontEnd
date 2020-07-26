@@ -37,7 +37,7 @@ function Lists(props) {
     <div>
       <h3>Current List: {returnListName()}</h3>
       <h3>Your Lists:</h3>
-      <ul>{rows}</ul>
+      {/* <ul>{rows}</ul> */}
     </div>
   );
 }

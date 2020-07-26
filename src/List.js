@@ -34,12 +34,10 @@ function List(props) {
   return (
     <div>
       <h3>Incomplete Todos</h3>
-      {incompleteRows}
+      {/* {incompleteRows} */}
 
       <h3>Completed Todos</h3>
-      <del>
-        <span>{completeRows}</span>
-      </del>
+      <del>{/* <span>{completeRows}</span> */}</del>
     </div>
   );
 }

@@ -12,9 +12,40 @@ const NEW_TODO = gql`
   }
 `;
 
+// const ALL_TODOS
+
 function TodoForm(props) {
   const [taskField, setTaskField] = useState("");
-  const [createTodo, newTodoMutation] = useMutation(NEW_TODO);
+  const [createTodo, newTodoMutation] = useMutation(NEW_TODO, {
+    update(cache, { data: { createTodo } }) {
+      console.log("looking at the todos cache yo");
+
+      const { todos } = cache.readQuery({
+        query: gql`
+          query getListTodos($listId: ID!) {
+            listById(listId: $listId) {
+              id
+              title
+              todos {
+                id
+                isCompleted
+                name
+              }
+            }
+          }
+        `,
+        variables: {
+          listId: props.listId,
+        },
+      });
+
+      console.log("we got the following info: ");
+      console.log(todos);
+      // cache.writeQuery({
+
+      // })
+    },
+  });
 
   console.log("list id in todo Form: ");
   console.log(props.listId);

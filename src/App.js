@@ -10,9 +10,9 @@ import { Query } from "react-apollo";
 //import gql from "graphql-tag";
 import NavTodo from "./NavTodo";
 import SidebarTodo from "./SidebarTodo";
-import Button from "react-bootstrap/Button";
+// import Button from "react-bootstrap/Button";
 
-import { useQuery, gql } from "@apollo/client";
+import { gql } from "@apollo/client";
 
 const FEED_QUERY = gql`
   {
@@ -155,9 +155,9 @@ function App() {
                     listsState={listsState}
                     currentListId={listsState.currentListId}
                   />
-                  {listsToRender.map((list) => (
+                  {/* {listsToRender.map((list) => (
                     <div>{list.title}</div>
-                  ))}
+                  ))} */}
                 </div>
               );
             }}
