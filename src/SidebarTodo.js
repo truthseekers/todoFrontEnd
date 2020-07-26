@@ -15,6 +15,15 @@ const LISTS = gql`
   }
 `;
 
+const NEW_LIST = gql`
+  mutation addNewList($newList: String!) {
+    newList(title: $newList) {
+      id
+      title
+    }
+  }
+`;
+
 const listRows = [];
 
 function SidebarTodo(props) {

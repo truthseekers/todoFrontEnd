@@ -30,7 +30,7 @@ let defaultListsState = {
     { id: 2, name: "travel" },
     { id: 3, name: "business" },
   ],
-  currentListId: 1,
+  currentListId: 2,
 };
 
 let defaultTodosState = [
@@ -92,12 +92,6 @@ function App() {
       currentListId: newListId,
     };
     setListsState(newState);
-    currentTodos = listsState.lists.find((element) => {
-      if (element.id == listsState.currentListId) {
-        return element.todos;
-      } else {
-      }
-    });
   };
 
   const deleteList = (listId) => {
