@@ -25,8 +25,8 @@ function Lists(props) {
   const returnListName = () => {
     //console.log("in returnListName");
     // return props.listsState.lists.find(element => element.id == props.currentListId);
-    console.log("props.currentListId");
-    console.log(props.currentListId);
+    // console.log("props.currentListId");
+    // console.log(props.currentListId);
     let result = props.listsState.lists.find(
       (element) => element.id == props.currentListId
     );

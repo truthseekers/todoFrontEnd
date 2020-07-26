@@ -21,8 +21,8 @@ const LIST_TODOS = gql`
 function Todos(props) {
   let rows = [];
 
-  console.log("props in todo ya");
-  console.log(props);
+  // console.log("props in todo ya");
+  // console.log(props);
   const { data, loading, error } = useQuery(LIST_TODOS, {
     variables: { listId: props.listId },
   });
@@ -35,8 +35,8 @@ function Todos(props) {
     return <p>error</p>;
   }
 
-  console.log("YOUR ITEMS HERE!!");
-  console.log(data.listById.title);
+  // console.log("YOUR ITEMS HERE!!");
+  // console.log(data.listById.title);
 
   data.listById.todos.map((elem) => {
     rows.push(

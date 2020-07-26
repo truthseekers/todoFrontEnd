@@ -25,8 +25,8 @@ function ListForm(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("added new list maaaaan");
-    console.log(taskField);
+    // console.log("added new list maaaaan");
+    // console.log(taskField);
 
     createList({
       variables: { newList: taskField },

@@ -55,8 +55,8 @@ function SidebarTodo(props) {
     return result.title;
   };
 
-  console.log("in sidebar data");
-  console.log(data.lists);
+  // console.log("in sidebar data");
+  // console.log(data.lists);
 
   return (
     <Nav
