@@ -25,20 +25,9 @@ let defaultListsState = {
   currentListId: 58,
 };
 
-let defaultTodosState = [
-  { id: 0, listId: 0, completed: false, task: "Salad" },
-  { id: 1, listId: 0, completed: false, task: "$6000 of Toilet Paper" },
-  { id: 2, listId: 0, completed: true, task: "Dog treats" },
-  { id: 3, listId: 1, completed: false, task: "Trim bushes" },
-  { id: 5, listId: 1, completed: false, task: "Buy plane ticket" },
-  { id: 4, listId: 2, completed: false, task: "Put on my socks" },
-  { id: 6, listId: 3, completed: true, task: "Call accountant" },
-  { id: 7, listId: 3, completed: false, task: "Fire Bob" },
-];
-
 function App() {
   const [listsState, setListsState] = useState(defaultListsState);
-  const [todosState, setTodosState] = useState(defaultTodosState);
+  const [todosState, setTodosState] = useState([]);
   const [deleteTodo] = useMutation(TODO_ITEM, {
     update(cache, { data: { deleteTodo } }) {
       const { listById } = cache.readQuery({
