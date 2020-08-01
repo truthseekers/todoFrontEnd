@@ -10,26 +10,13 @@ import NavTodo from "./NavTodo";
 import SidebarTodo from "./SidebarTodo";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
+import { LIST_TODOS } from "./queries";
 
 const TODO_ITEM = gql`
   mutation deleteTodoItem($todo: ID!) {
     deleteTodo(todoId: $todo) {
       id
       name
-    }
-  }
-`;
-
-const LIST_TODOS = gql`
-  query getListTodos($listId: ID!) {
-    listById(listId: $listId) {
-      id
-      title
-      todos {
-        id
-        isCompleted
-        name
-      }
     }
   }
 `;

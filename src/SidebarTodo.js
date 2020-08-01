@@ -3,48 +3,12 @@ import Nav from "react-bootstrap/Nav";
 import gql from "graphql-tag";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import Loader from "react-loader";
-import TestLists from "./TestLists";
-
-const LISTS = gql`
-  query allListsSidebar2 {
-    lists {
-      title
-      id
-    }
-  }
-`;
-
-const DELETE_LIST = gql`
-  mutation deletingList($listId: ID!) {
-    deleteList(listId: $listId) {
-      list {
-        id
-      }
-    }
-  }
-`;
-
-const NEW_LIST = gql`
-  mutation addNewList($newList: String!) {
-    newList(title: $newList) {
-      id
-      title
-    }
-  }
-`;
-
-const ALL_LISTS = gql`
-  query allLists {
-    lists {
-      title
-      id
-    }
-  }
-`;
+import Lists from "./Lists";
+import { ALL_LISTS, NEW_LIST, DELETE_LIST } from "./queries";
 
 function SidebarTodo(props) {
   const [taskField, setTaskField] = useState("");
-  const { data, loading, error } = useQuery(LISTS);
+  const { data, loading, error } = useQuery(ALL_LISTS);
 
   const [deleteList] = useMutation(DELETE_LIST, {
     update(cache, { data: { deleteList } }) {
@@ -69,7 +33,6 @@ function SidebarTodo(props) {
 
   const [createList] = useMutation(NEW_LIST, {
     update(cache, { data: { newList } }) {
-      // const { lists } = cache.readQuery({ query: ALL_LISTS });
       const thingOne = cache.readQuery({ query: ALL_LISTS });
 
       cache.writeQuery({
@@ -109,13 +72,6 @@ function SidebarTodo(props) {
     });
   };
 
-  // const getListName = () => {
-  //   let result = data.lists.find(
-  //     (element) => element.id == props.currentListId
-  //   );
-  //   return result.title;
-  // };
-
   if (loading) {
     return <Loader />;
   }
@@ -142,7 +98,7 @@ function SidebarTodo(props) {
           </label>
           <input type="submit" value="Submit" />
         </form>
-        <TestLists
+        <Lists
           onDeleteList={onDeleteList}
           selectList={props.selectList}
           lists={data.lists}

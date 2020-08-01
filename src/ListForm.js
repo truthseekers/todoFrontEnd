@@ -1,3 +1,5 @@
+/// THiS FILE DOEs NOTHING. Don't think I need it.
+
 import React, { useState } from "react";
 
 import gql from "graphql-tag";
@@ -85,7 +87,6 @@ function ListForm(props) {
     return <p>error</p>;
   }
 
-  console.log("Holy fucking shit people");
   console.log(sidebarObj);
   console.log(data);
 
