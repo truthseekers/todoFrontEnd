@@ -9,7 +9,7 @@ function Lists(props) {
       <ListRow
         key={elem.id.toString()}
         id={elem.id}
-        onDeleteList={props.deleteList}
+        onDeleteList={props.onDeleteList}
         name={elem.title}
         onSelect={props.selectList}
       />

@@ -103,20 +103,7 @@ function ListForm(props) {
 
   return (
     <div>
-      <h3>tmp lists in form:</h3>
-      <TestLists lists={data.lists} />
-      <form onSubmit={handleSubmit}>
-        <label>
-          <input
-            placeholder="Create a new List"
-            type="text"
-            value={taskField}
-            onChange={handleChange}
-            name="name"
-          />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <h3>.</h3>
     </div>
   );
 }

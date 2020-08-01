@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import gql from "graphql-tag";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import Loader from "react-loader";
 
 const NEW_TODO = gql`
@@ -11,8 +11,6 @@ const NEW_TODO = gql`
     }
   }
 `;
-
-// const ALL_TODOS
 
 function TodoForm(props) {
   const [taskField, setTaskField] = useState("");
@@ -38,12 +36,6 @@ function TodoForm(props) {
           listId: props.listId,
         },
       });
-
-      console.log("we got the following info: ");
-      console.log(todos);
-      // cache.writeQuery({
-
-      // })
     },
   });
 
@@ -55,11 +47,6 @@ function TodoForm(props) {
 
     createTodo({
       variables: { listId: props.listId, newTodo: taskField },
-    });
-
-    props.onAddTodo({
-      listId: props.listId,
-      todo: taskField,
     });
   };
 

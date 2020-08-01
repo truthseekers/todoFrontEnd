@@ -6,31 +6,38 @@ import TodoForm from "./TodoForm";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { Query } from "react-apollo";
-//import gql from "graphql-tag";
 import NavTodo from "./NavTodo";
 import SidebarTodo from "./SidebarTodo";
 // import Button from "react-bootstrap/Button";
+import gql from "graphql-tag";
+import { useQuery, useMutation } from "@apollo/react-hooks";
+import Loader from "react-loader";
 
-import { gql } from "@apollo/client";
+const TODO_ITEM = gql`
+  mutation deleteTodoItem($todo: ID!) {
+    deleteTodo(todoId: $todo) {
+      id
+      name
+    }
+  }
+`;
 
-const FEED_QUERY = gql`
-  {
-    lists {
+const LIST_TODOS = gql`
+  query getListTodos($listId: ID!) {
+    listById(listId: $listId) {
       id
       title
+      todos {
+        id
+        isCompleted
+        name
+      }
     }
   }
 `;
 
 let defaultListsState = {
-  lists: [
-    { id: 0, name: "shopping" },
-    { id: 1, name: "misc" },
-    { id: 2, name: "travel" },
-    { id: 3, name: "business" },
-  ],
-  currentListId: 2,
+  currentListId: 58,
 };
 
 let defaultTodosState = [
@@ -44,49 +51,47 @@ let defaultTodosState = [
   { id: 7, listId: 3, completed: false, task: "Fire Bob" },
 ];
 
-function getValidId(lists) {
-  let maxId = lists.length;
-  lists.forEach((elem) => {
-    if (elem.id >= maxId) {
-      maxId = elem.id + 1;
-    }
-  });
-  return maxId;
-}
-
 function App() {
   const [listsState, setListsState] = useState(defaultListsState);
   const [todosState, setTodosState] = useState(defaultTodosState);
-  let currentTodos;
+  const [deleteTodo, todoDeleteMutation] = useMutation(TODO_ITEM, {
+    update(cache, { data: { deleteTodo } }) {
+      const { listById } = cache.readQuery({
+        query: LIST_TODOS,
+        variables: {
+          listId: listsState.currentListId,
+        },
+      });
+      console.log("can I cache todos?");
+      console.log(listById);
+      console.log("what is this deleteTodo from the top of update?");
+      console.log(deleteTodo);
 
-  const addList = (elem) => {
-    let newListsState = { ...listsState };
+      let updatedTodos = listById.todos.filter((todo) => {
+        if (todo.id !== deleteTodo.id) {
+          return todo;
+        }
+      });
 
-    getValidId(listsState.lists);
+      let newListById = { ...listById };
+      newListById.todos = updatedTodos;
+      console.log("old list:");
+      console.log(listById);
+      console.log("new List: ");
+      console.log(newListById);
 
-    newListsState.lists[newListsState.lists.length] = {
-      id: getValidId(listsState.lists),
-      name: elem,
-      todos: [],
-    };
-    setListsState(newListsState);
-  };
-
-  const addTodo = (elem) => {
-    let newState = [
-      ...todosState,
-      {
-        id: getValidId(todosState),
-        listId: elem.listId,
-        completed: false,
-        task: elem.todo,
-      },
-    ];
-
-    setTodosState(newState);
-  };
+      cache.writeQuery({
+        query: LIST_TODOS,
+        data: {
+          listById: newListById,
+        },
+      });
+    },
+  });
 
   const selectList = (newListId) => {
+    console.log("newListId: in (selectList");
+    console.log(newListId);
     let newState = {
       ...listsState,
       currentListId: newListId,
@@ -94,35 +99,18 @@ function App() {
     setListsState(newState);
   };
 
-  const deleteList = (listId) => {
-    let newState;
-    let updatedLists = listsState.lists.filter((elem) => {
-      if (elem.id != listId) {
-        return elem;
-      }
-      if (listId == listsState.currentListId) {
-        newState = {
-          ...listsState,
-          currentListId:
-            listsState.lists[0].id == listId
-              ? listsState.lists[1].id
-              : listsState.lists[0].id,
-        };
-      } else {
-        newState = { ...listsState };
-      }
+  const onDeleteTodo = (todoId) => {
+    console.log("deleting todo from App.js: " + todoId);
+    deleteTodo({
+      variables: { todo: todoId },
     });
-    newState.lists = updatedLists;
-    setListsState(newState);
-  };
 
-  const deleteTodo = (todoId) => {
-    let updatedTodos = todosState.filter((elem) => {
-      if (elem.id !== todoId) {
-        return elem;
-      }
-    });
-    setTodosState(updatedTodos);
+    // let updatedTodos = todosState.filter((elem) => {
+    //   if (elem.id !== todoId) {
+    //     return elem;
+    //   }
+    // });
+    // setTodosState(updatedTodos);
   };
 
   const checkTodo = (updatedItem) => {
@@ -141,38 +129,19 @@ function App() {
       <NavTodo />
       <Container fluid>
         <Row>
-          <Query query={FEED_QUERY}>
-            {({ loading, error, data }) => {
-              if (loading) return <div>Fetching</div>;
-              if (error) return <div>Error</div>;
-              const listsToRender = data.lists;
-              return (
-                <div>
-                  <SidebarTodo
-                    addList={addList}
-                    selectList={selectList}
-                    deleteList={deleteList}
-                    listsState={listsState}
-                    currentListId={listsState.currentListId}
-                  />
-                  {/* {listsToRender.map((list) => (
-                    <div>{list.title}</div>
-                  ))} */}
-                </div>
-              );
-            }}
-          </Query>
+          <SidebarTodo
+            selectList={selectList}
+            listsState={listsState}
+            currentListId={listsState.currentListId}
+          />
 
           <main className="col-md-8 ml-sm-auto col-lg-10 px-md-4">
             <Row className="justify-content-md-center text-center">
               <Col>
-                <TodoForm
-                  onAddTodo={addTodo}
-                  listId={listsState.currentListId}
-                />
+                <TodoForm listId={listsState.currentListId} />
                 <Todos
                   todos={todosState}
-                  deleteTodo={deleteTodo}
+                  deleteTodo={onDeleteTodo}
                   checkTodo={checkTodo}
                   listId={listsState.currentListId}
                 />

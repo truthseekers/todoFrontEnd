@@ -35,8 +35,8 @@ function Lists(props) {
 
   return (
     <div>
-      <h3>Current List: {returnListName()}</h3>
-      <h3>Your Lists:</h3>
+      {/* <h3>Current List: {returnListName()}</h3> */}
+      <h3>.</h3>
       {/* <ul>{rows}</ul> */}
     </div>
   );

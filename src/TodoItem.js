@@ -19,10 +19,11 @@ function TodoItem(props) {
   const [deleteTodo, todoDeleteMutation] = useMutation(TODO_ITEM);
 
   const deleteTodoItem = () => {
-    // props.deleteTodo(props.id);
-    deleteTodo({
-      variables: { todo: props.id },
-    });
+    // console.log("delete");
+    // deleteTodo({
+    //   variables: { todo: props.id },
+    // });
+    props.deleteTodo(props.id);
   };
 
   const handleChange = () => {
