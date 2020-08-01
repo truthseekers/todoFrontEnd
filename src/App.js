@@ -8,10 +8,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import NavTodo from "./NavTodo";
 import SidebarTodo from "./SidebarTodo";
-// import Button from "react-bootstrap/Button";
 import gql from "graphql-tag";
-import { useQuery, useMutation } from "@apollo/react-hooks";
-import Loader from "react-loader";
+import { useMutation } from "@apollo/react-hooks";
 
 const TODO_ITEM = gql`
   mutation deleteTodoItem($todo: ID!) {
@@ -54,7 +52,7 @@ let defaultTodosState = [
 function App() {
   const [listsState, setListsState] = useState(defaultListsState);
   const [todosState, setTodosState] = useState(defaultTodosState);
-  const [deleteTodo, todoDeleteMutation] = useMutation(TODO_ITEM, {
+  const [deleteTodo] = useMutation(TODO_ITEM, {
     update(cache, { data: { deleteTodo } }) {
       const { listById } = cache.readQuery({
         query: LIST_TODOS,
@@ -62,10 +60,6 @@ function App() {
           listId: listsState.currentListId,
         },
       });
-      console.log("can I cache todos?");
-      console.log(listById);
-      console.log("what is this deleteTodo from the top of update?");
-      console.log(deleteTodo);
 
       let updatedTodos = listById.todos.filter((todo) => {
         if (todo.id !== deleteTodo.id) {
@@ -75,10 +69,6 @@ function App() {
 
       let newListById = { ...listById };
       newListById.todos = updatedTodos;
-      console.log("old list:");
-      console.log(listById);
-      console.log("new List: ");
-      console.log(newListById);
 
       cache.writeQuery({
         query: LIST_TODOS,
@@ -90,8 +80,6 @@ function App() {
   });
 
   const selectList = (newListId) => {
-    console.log("newListId: in (selectList");
-    console.log(newListId);
     let newState = {
       ...listsState,
       currentListId: newListId,
@@ -100,7 +88,6 @@ function App() {
   };
 
   const onDeleteTodo = (todoId) => {
-    console.log("deleting todo from App.js: " + todoId);
     deleteTodo({
       variables: { todo: todoId },
     });

@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import Nav from "react-bootstrap/Nav";
-import ListForm from "./ListForm";
 import gql from "graphql-tag";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import Loader from "react-loader";
-import ListRow from "./ListRow";
 import TestLists from "./TestLists";
 
 const LISTS = gql`
@@ -48,7 +46,7 @@ function SidebarTodo(props) {
   const [taskField, setTaskField] = useState("");
   const { data, loading, error } = useQuery(LISTS);
 
-  const [deleteList, deleteListMutation2] = useMutation(DELETE_LIST, {
+  const [deleteList] = useMutation(DELETE_LIST, {
     update(cache, { data: { deleteList } }) {
       const { lists } = cache.readQuery({ query: ALL_LISTS });
 
@@ -69,7 +67,7 @@ function SidebarTodo(props) {
     },
   });
 
-  const [createList, newListMutation] = useMutation(NEW_LIST, {
+  const [createList] = useMutation(NEW_LIST, {
     update(cache, { data: { newList } }) {
       // const { lists } = cache.readQuery({ query: ALL_LISTS });
       const thingOne = cache.readQuery({ query: ALL_LISTS });
@@ -111,12 +109,12 @@ function SidebarTodo(props) {
     });
   };
 
-  const getListName = () => {
-    let result = data.lists.find(
-      (element) => element.id == props.currentListId
-    );
-    return result.title;
-  };
+  // const getListName = () => {
+  //   let result = data.lists.find(
+  //     (element) => element.id == props.currentListId
+  //   );
+  //   return result.title;
+  // };
 
   if (loading) {
     return <Loader />;

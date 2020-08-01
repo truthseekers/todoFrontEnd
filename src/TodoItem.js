@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import { TrashFill } from "react-bootstrap-icons";
-import gql from "graphql-tag";
-import { useQuery, useMutation } from "@apollo/react-hooks";
-import Loader from "react-loader";
+// import gql from "graphql-tag";
+// import { useMutation } from "@apollo/react-hooks";
+// import Loader from "react-loader";
 
-const TODO_ITEM = gql`
-  mutation deleteTodoItem($todo: ID!) {
-    deleteTodo(todoId: $todo) {
-      id
-      name
-    }
-  }
-`;
+// const TODO_ITEM = gql`
+//   mutation deleteTodoItem($todo: ID!) {
+//     deleteTodo(todoId: $todo) {
+//       id
+//       name
+//     }
+//   }
+// `;
 
 function TodoItem(props) {
   const [taskField, setTaskField] = useState(false);
 
-  const [deleteTodo, todoDeleteMutation] = useMutation(TODO_ITEM);
+  // const [deleteTodo, todoDeleteMutation] = useMutation(TODO_ITEM);
 
   const deleteTodoItem = () => {
     // console.log("delete");
@@ -27,7 +27,7 @@ function TodoItem(props) {
   };
 
   const handleChange = () => {
-    setTaskField(taskField == true ? false : true);
+    setTaskField(taskField === true ? false : true);
     props.checkTodo(props.id);
   };
 
