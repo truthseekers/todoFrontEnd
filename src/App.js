@@ -26,17 +26,41 @@ function App() {
   const [deleteTodo] = useMutation(DELETE_TODO_ITEM, {
     update(cache, { data: { deleteTodo } }) {
       const { todos } = cache.readQuery({ query: ALL_TODOS });
-
+      const thingThree = cache.readQuery({
+        query: LIST_TODOS,
+        variables: { listId: listsState.currentListId },
+      });
       let updatedTodos = todos.filter((elem) => {
         if (elem.id !== deleteTodo.id) {
           return elem;
         }
       });
 
+      let updatedListTodos = thingThree.listById.todos.filter((elem) => {
+        if (elem.id !== deleteTodo.id) {
+          return elem;
+        }
+      });
+
+      let newListById = {
+        ...thingThree.listById,
+      };
+      newListById.todos = updatedListTodos;
+
+      console.log("thingThree in deletion:");
+      console.log(newListById);
+
       cache.writeQuery({
         query: ALL_TODOS,
         data: {
           todos: updatedTodos,
+        },
+      });
+      cache.writeQuery({
+        query: LIST_TODOS,
+        variables: { listId: listsState.currentListId },
+        data: {
+          listById: newListById,
         },
       });
     },
@@ -45,16 +69,22 @@ function App() {
   const [createTodo] = useMutation(NEW_TODO, {
     update(cache, { data: { createTodo } }) {
       const thingOne = cache.readQuery({ query: ALL_TODOS });
-      console.log("now we update in here braaahh thingOne");
-      console.log(thingOne);
-
-      console.log("newTodo from mutation: ");
-      console.log(createTodo);
+      const thingThree = cache.readQuery({
+        query: LIST_TODOS,
+        variables: { listId: listsState.currentListId },
+      });
 
       cache.writeQuery({
         query: ALL_TODOS,
         data: {
           todos: [createTodo, ...thingOne.todos],
+        },
+      });
+      cache.writeQuery({
+        query: LIST_TODOS,
+        variables: { listId: listsState.currentListId },
+        data: {
+          listById: [createTodo, ...thingThree.listById.todos],
         },
       });
     },
@@ -134,7 +164,6 @@ function App() {
                     <input type="submit" value="Submit" />
                   </form>
                 </div>
-                {/* <TodoForm listId={listsState.currentListId} /> */}
                 <p>CurrentList ID: {listsState.currentListId}</p>
                 <Todos
                   todos={data.todos}
