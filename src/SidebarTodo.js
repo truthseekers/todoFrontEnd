@@ -33,8 +33,10 @@ function SidebarTodo(props) {
 
   const [createList] = useMutation(NEW_LIST, {
     update(cache, { data: { newList } }) {
+      // newList **** Check it!
       const thingOne = cache.readQuery({ query: ALL_LISTS });
-
+      console.log("data from mutation newList:");
+      console.log(newList);
       cache.writeQuery({
         query: ALL_LISTS,
         data: {

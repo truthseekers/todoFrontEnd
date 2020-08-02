@@ -1,18 +1,11 @@
 import React, { useState } from "react";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
-
-const NEW_TODO = gql`
-  mutation createNewTodo($newTodo: String!, $listId: ID!) {
-    createTodo(name: $newTodo, listId: $listId) {
-      id
-      name
-    }
-  }
-`;
+import { NEW_TODO } from "./queries";
 
 function TodoForm(props) {
   const [taskField, setTaskField] = useState("");
+
   const [createTodo] = useMutation(NEW_TODO, {
     update(cache, { data: { createTodo } }) {
       console.log("looking at the todos cache yo");

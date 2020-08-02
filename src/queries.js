@@ -14,6 +14,16 @@ const LIST_TODOS = gql`
   }
 `;
 
+const ALL_TODOS = gql`
+  query getAllTodos {
+    todos {
+      name
+      id
+      __typename
+    }
+  }
+`;
+
 const ALL_LISTS = gql`
   query allLists {
     lists {
@@ -32,6 +42,15 @@ const NEW_LIST = gql`
   }
 `;
 
+const NEW_TODO = gql`
+  mutation createNewTodo($newTodo: String!, $listId: ID!) {
+    createTodo(name: $newTodo, listId: $listId) {
+      id
+      name
+    }
+  }
+`;
+
 const DELETE_LIST = gql`
   mutation deletingList($listId: ID!) {
     deleteList(listId: $listId) {
@@ -42,4 +61,4 @@ const DELETE_LIST = gql`
   }
 `;
 
-export { LIST_TODOS, NEW_LIST, ALL_LISTS, DELETE_LIST }; // don't I need to add ALL_LISTS here to be able to import it?
+export { LIST_TODOS, NEW_LIST, NEW_TODO, ALL_LISTS, DELETE_LIST, ALL_TODOS }; // don't I need to add ALL_LISTS here to be able to import it?

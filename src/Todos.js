@@ -3,6 +3,7 @@ import TodoItem from "./TodoItem";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import Loader from "react-loader";
+import { ALL_TODOS } from "./queries";
 
 const LIST_TODOS = gql`
   query getListTodos($listId: ID!) {
@@ -21,19 +22,22 @@ const LIST_TODOS = gql`
 function Todos(props) {
   let rows = [];
 
-  const { data, loading, error } = useQuery(LIST_TODOS, {
-    variables: { listId: props.listId },
-  });
+  // const { data, loading, error } = useQuery(ALL_TODOS); //, {
+  // variables: { listId: props.listId },
+  // });
 
-  if (loading) {
-    return <Loader />;
-  }
+  // if (loading) {
+  //   return <Loader />;
+  // }
 
-  if (error) {
-    return <p>error</p>;
-  }
+  // if (error) {
+  //   return <p>error</p>;
+  // }
 
-  data.listById.todos.map((elem) => {
+  // console.log("data data!");
+  // console.log(data.todos);
+  props.todos.map((elem) => {
+    // data.listById.todos.map((elem) => {
     rows.push(
       <TodoItem
         key={elem.id.toString()}
@@ -49,7 +53,8 @@ function Todos(props) {
 
   return (
     <div>
-      <h3>Todo Items For: {data.listById.title}</h3>
+      {/* <h3>Todo Items For: {data.listById.title}</h3> */}
+      <p>Items here yo</p>
       {rows}
     </div>
   );

@@ -9,8 +9,9 @@ import Col from "react-bootstrap/Col";
 import NavTodo from "./NavTodo";
 import SidebarTodo from "./SidebarTodo";
 import gql from "graphql-tag";
-import { useMutation } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import { LIST_TODOS } from "./queries";
+import { NEW_TODO, ALL_LISTS, ALL_TODOS } from "./queries";
 
 const TODO_ITEM = gql`
   mutation deleteTodoItem($todo: ID!) {
@@ -26,30 +27,47 @@ let defaultListsState = {
 };
 
 function App() {
+  const { data, loading, error } = useQuery(ALL_TODOS);
   const [listsState, setListsState] = useState(defaultListsState);
   const [todosState, setTodosState] = useState([]);
+  const [taskField, setTaskField] = useState("");
   const [deleteTodo] = useMutation(TODO_ITEM, {
-    update(cache, { data: { deleteTodo } }) {
-      const { listById } = cache.readQuery({
-        query: LIST_TODOS,
-        variables: {
-          listId: listsState.currentListId,
-        },
-      });
+    //update(cache, { data: { deleteTodo } }) {
+    // const { listById } = cache.readQuery({
+    //   query: LIST_TODOS,
+    //   variables: {
+    //     listId: listsState.currentListId,
+    //   },
+    // });
+    // let updatedTodos = listById.todos.filter((todo) => {
+    //   if (todo.id !== deleteTodo.id) {
+    //     return todo;
+    //   }
+    // });
+    // let newListById = { ...listById };
+    // newListById.todos = updatedTodos;
+    // cache.writeQuery({
+    //   query: LIST_TODOS,
+    //   data: {
+    //     listById: newListById,
+    //   },
+    // });
+    //},
+  });
 
-      let updatedTodos = listById.todos.filter((todo) => {
-        if (todo.id !== deleteTodo.id) {
-          return todo;
-        }
-      });
+  const [createTodo] = useMutation(NEW_TODO, {
+    update(cache, { data: { createTodo } }) {
+      const thingOne = cache.readQuery({ query: ALL_TODOS });
+      console.log("now we update in here braaahh thingOne");
+      console.log(thingOne);
 
-      let newListById = { ...listById };
-      newListById.todos = updatedTodos;
+      console.log("newTodo from mutation: ");
+      console.log(createTodo);
 
       cache.writeQuery({
-        query: LIST_TODOS,
+        query: ALL_TODOS,
         data: {
-          listById: newListById,
+          todos: [createTodo, ...thingOne.todos],
         },
       });
     },
@@ -87,6 +105,27 @@ function App() {
     setTodosState(newState);
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    createTodo({
+      variables: { listId: listsState.currentListId, newTodo: taskField },
+    });
+    setTaskField("");
+  };
+
+  const handleChange = (event) => {
+    setTaskField(event.target.value);
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <p>error</p>;
+  }
+
   return (
     <div>
       <NavTodo />
@@ -101,9 +140,24 @@ function App() {
           <main className="col-md-8 ml-sm-auto col-lg-10 px-md-4">
             <Row className="justify-content-md-center text-center">
               <Col>
-                <TodoForm listId={listsState.currentListId} />
+                <div>
+                  <form onSubmit={handleSubmit}>
+                    <label>
+                      <input
+                        type="text"
+                        placeholder="Add a Todo"
+                        value={taskField}
+                        onChange={handleChange}
+                        name="name"
+                      />
+                    </label>
+                    <input type="submit" value="Submit" />
+                  </form>
+                </div>
+                {/* <TodoForm listId={listsState.currentListId} /> */}
+                <p>CurrentList ID: {listsState.currentListId}</p>
                 <Todos
-                  todos={todosState}
+                  todos={data.todos}
                   deleteTodo={onDeleteTodo}
                   checkTodo={checkTodo}
                   listId={listsState.currentListId}
