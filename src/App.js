@@ -11,16 +11,8 @@ import SidebarTodo from "./SidebarTodo";
 import gql from "graphql-tag";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { LIST_TODOS } from "./queries";
-import { NEW_TODO, ALL_LISTS, ALL_TODOS } from "./queries";
-
-const DELETE_TODO_ITEM = gql`
-  mutation deleteTodoItem($todo: ID!) {
-    deleteTodo(todoId: $todo) {
-      id
-      name
-    }
-  }
-`;
+import { NEW_TODO, ALL_LISTS, ALL_TODOS, DELETE_TODO_ITEM } from "./queries";
+import CurrentListContainer from "./CurrentListContainer";
 
 let defaultListsState = {
   currentListId: 58,
@@ -35,14 +27,9 @@ function App() {
     update(cache, { data: { deleteTodo } }) {
       const { todos } = cache.readQuery({ query: ALL_TODOS });
 
-      console.log("todos being deleted: deleteTodo: ");
-      console.log(deleteTodo);
       let updatedTodos = todos.filter((elem) => {
         if (elem.id !== deleteTodo.id) {
-          console.log("keeping id: ", elem.id);
           return elem;
-        } else {
-          console.log("removing id: ", elem.id);
         }
       });
 
@@ -52,26 +39,6 @@ function App() {
           todos: updatedTodos,
         },
       });
-
-      // const { listById } = cache.readQuery({
-      //   query: LIST_TODOS,
-      //   variables: {
-      //     listId: listsState.currentListId,
-      //   },
-      // });
-      // let updatedTodos = listById.todos.filter((todo) => {
-      //   if (todo.id !== deleteTodo.id) {
-      //     return todo;
-      //   }
-      // });
-      // let newListById = { ...listById };
-      // newListById.todos = updatedTodos;
-      // cache.writeQuery({
-      //   query: LIST_TODOS,
-      //   data: {
-      //     listById: newListById,
-      //   },
-      // });
     },
   });
 
@@ -105,13 +72,6 @@ function App() {
     deleteTodo({
       variables: { todo: todoId },
     });
-
-    // let updatedTodos = todosState.filter((elem) => {
-    //   if (elem.id !== todoId) {
-    //     return elem;
-    //   }
-    // });
-    // setTodosState(updatedTodos);
   };
 
   const checkTodo = (updatedItem) => {
@@ -182,6 +142,7 @@ function App() {
                   checkTodo={checkTodo}
                   listId={listsState.currentListId}
                 />
+                <CurrentListContainer listId={listsState.currentListId} />
               </Col>
             </Row>
           </main>
