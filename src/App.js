@@ -13,7 +13,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import { LIST_TODOS } from "./queries";
 import { NEW_TODO, ALL_LISTS, ALL_TODOS } from "./queries";
 
-const TODO_ITEM = gql`
+const DELETE_TODO_ITEM = gql`
   mutation deleteTodoItem($todo: ID!) {
     deleteTodo(todoId: $todo) {
       id
@@ -31,28 +31,48 @@ function App() {
   const [listsState, setListsState] = useState(defaultListsState);
   const [todosState, setTodosState] = useState([]);
   const [taskField, setTaskField] = useState("");
-  const [deleteTodo] = useMutation(TODO_ITEM, {
-    //update(cache, { data: { deleteTodo } }) {
-    // const { listById } = cache.readQuery({
-    //   query: LIST_TODOS,
-    //   variables: {
-    //     listId: listsState.currentListId,
-    //   },
-    // });
-    // let updatedTodos = listById.todos.filter((todo) => {
-    //   if (todo.id !== deleteTodo.id) {
-    //     return todo;
-    //   }
-    // });
-    // let newListById = { ...listById };
-    // newListById.todos = updatedTodos;
-    // cache.writeQuery({
-    //   query: LIST_TODOS,
-    //   data: {
-    //     listById: newListById,
-    //   },
-    // });
-    //},
+  const [deleteTodo] = useMutation(DELETE_TODO_ITEM, {
+    update(cache, { data: { deleteTodo } }) {
+      const { todos } = cache.readQuery({ query: ALL_TODOS });
+
+      console.log("todos being deleted: deleteTodo: ");
+      console.log(deleteTodo);
+      let updatedTodos = todos.filter((elem) => {
+        if (elem.id !== deleteTodo.id) {
+          console.log("keeping id: ", elem.id);
+          return elem;
+        } else {
+          console.log("removing id: ", elem.id);
+        }
+      });
+
+      cache.writeQuery({
+        query: ALL_TODOS,
+        data: {
+          todos: updatedTodos,
+        },
+      });
+
+      // const { listById } = cache.readQuery({
+      //   query: LIST_TODOS,
+      //   variables: {
+      //     listId: listsState.currentListId,
+      //   },
+      // });
+      // let updatedTodos = listById.todos.filter((todo) => {
+      //   if (todo.id !== deleteTodo.id) {
+      //     return todo;
+      //   }
+      // });
+      // let newListById = { ...listById };
+      // newListById.todos = updatedTodos;
+      // cache.writeQuery({
+      //   query: LIST_TODOS,
+      //   data: {
+      //     listById: newListById,
+      //   },
+      // });
+    },
   });
 
   const [createTodo] = useMutation(NEW_TODO, {
