@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Nav from "react-bootstrap/Nav";
-import gql from "graphql-tag";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import Loader from "react-loader";
 import Lists from "./Lists";
@@ -33,10 +32,8 @@ function SidebarTodo(props) {
 
   const [createList] = useMutation(NEW_LIST, {
     update(cache, { data: { newList } }) {
-      // newList **** Check it!
       const thingOne = cache.readQuery({ query: ALL_LISTS });
-      console.log("data from mutation newList:");
-      console.log(newList);
+
       cache.writeQuery({
         query: ALL_LISTS,
         data: {
@@ -45,14 +42,6 @@ function SidebarTodo(props) {
       });
     },
   });
-
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    return <p>error</p>;
-  }
 
   const handleChange = (event) => {
     setTaskField(event.target.value);
