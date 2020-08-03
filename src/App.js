@@ -23,72 +23,6 @@ function App() {
   const [listsState, setListsState] = useState(defaultListsState);
   const [todosState, setTodosState] = useState([]);
   const [taskField, setTaskField] = useState("");
-  const [deleteTodo] = useMutation(DELETE_TODO_ITEM, {
-    update(cache, { data: { deleteTodo } }) {
-      const { todos } = cache.readQuery({ query: ALL_TODOS });
-      const thingThree = cache.readQuery({
-        query: LIST_TODOS,
-        variables: { listId: listsState.currentListId },
-      });
-      let updatedTodos = todos.filter((elem) => {
-        if (elem.id !== deleteTodo.id) {
-          return elem;
-        }
-      });
-
-      let updatedListTodos = thingThree.listById.todos.filter((elem) => {
-        if (elem.id !== deleteTodo.id) {
-          return elem;
-        }
-      });
-
-      let newListById = {
-        ...thingThree.listById,
-      };
-      newListById.todos = updatedListTodos;
-
-      console.log("thingThree in deletion:");
-      console.log(newListById);
-
-      cache.writeQuery({
-        query: ALL_TODOS,
-        data: {
-          todos: updatedTodos,
-        },
-      });
-      cache.writeQuery({
-        query: LIST_TODOS,
-        variables: { listId: listsState.currentListId },
-        data: {
-          listById: newListById,
-        },
-      });
-    },
-  });
-
-  const [createTodo] = useMutation(NEW_TODO, {
-    update(cache, { data: { createTodo } }) {
-      const thingOne = cache.readQuery({ query: ALL_TODOS });
-      const thingThree = cache.readQuery({
-        query: LIST_TODOS,
-        variables: { listId: listsState.currentListId },
-      });
-
-      cache.writeQuery({
-        query: ALL_TODOS,
-        data: {
-          todos: [createTodo, ...thingOne.todos],
-        },
-      });
-      cache.writeQuery({
-        query: LIST_TODOS,
-        variables: { listId: listsState.currentListId },
-        data: {
-          listById: [createTodo, ...thingThree.listById.todos],
-        },
-      });
-    },
-  });
 
   const selectList = (newListId) => {
     let newState = {
@@ -96,12 +30,6 @@ function App() {
       currentListId: newListId,
     };
     setListsState(newState);
-  };
-
-  const onDeleteTodo = (todoId) => {
-    deleteTodo({
-      variables: { todo: todoId },
-    });
   };
 
   const checkTodo = (updatedItem) => {
@@ -113,15 +41,6 @@ function App() {
       }
     });
     setTodosState(newState);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    createTodo({
-      variables: { listId: listsState.currentListId, newTodo: taskField },
-    });
-    setTaskField("");
   };
 
   const handleChange = (event) => {
@@ -150,27 +69,6 @@ function App() {
           <main className="col-md-8 ml-sm-auto col-lg-10 px-md-4">
             <Row className="justify-content-md-center text-center">
               <Col>
-                <div>
-                  <form onSubmit={handleSubmit}>
-                    <label>
-                      <input
-                        type="text"
-                        placeholder="Add a Todo"
-                        value={taskField}
-                        onChange={handleChange}
-                        name="name"
-                      />
-                    </label>
-                    <input type="submit" value="Submit" />
-                  </form>
-                </div>
-                <p>CurrentList ID: {listsState.currentListId}</p>
-                <Todos
-                  todos={data.todos}
-                  deleteTodo={onDeleteTodo}
-                  checkTodo={checkTodo}
-                  listId={listsState.currentListId}
-                />
                 <CurrentListContainer listId={listsState.currentListId} />
               </Col>
             </Row>
