@@ -6,8 +6,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import NavTodo from "./NavTodo";
 import SidebarTodo from "./SidebarTodo";
-import { useQuery } from "@apollo/react-hooks";
-import { ALL_TODOS } from "./queries";
 import CurrentListContainer from "./CurrentListContainer";
 
 let defaultListsState = {
@@ -15,7 +13,6 @@ let defaultListsState = {
 };
 
 function App() {
-  const { data } = useQuery(ALL_TODOS); // This line will not go away without bugs even though it's not being used anywhere...
   const [listsState, setListsState] = useState(defaultListsState);
   const [todosState, setTodosState] = useState([]);
 
