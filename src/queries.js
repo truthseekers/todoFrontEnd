@@ -33,6 +33,14 @@ const ALL_LISTS = gql`
   }
 `;
 
+const GET_LIST_IDS = gql`
+  query getDefaultList {
+    lists {
+      id
+    }
+  }
+`;
+
 const DELETE_TODO_ITEM = gql`
   mutation deleteTodoItem($todo: ID!) {
     deleteTodo(todoId: $todo) {
@@ -78,4 +86,5 @@ export {
   DELETE_LIST,
   DELETE_TODO_ITEM,
   ALL_TODOS,
+  GET_LIST_IDS,
 }; // don't I need to add ALL_LISTS here to be able to import it?

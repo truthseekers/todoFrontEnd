@@ -61,6 +61,10 @@ function SidebarTodo(props) {
     deleteList({
       variables: { listId: listId },
     });
+
+    let newLists = [...data.lists];
+    console.log("lists after the deletion: ");
+    console.log(newLists);
   };
 
   if (loading) {

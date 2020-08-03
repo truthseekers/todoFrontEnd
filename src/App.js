@@ -6,15 +6,28 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import NavTodo from "./NavTodo";
 import SidebarTodo from "./SidebarTodo";
+import { useQuery } from "@apollo/react-hooks";
 import CurrentListContainer from "./CurrentListContainer";
+import { GET_LIST_IDS } from "./queries";
 
 let defaultListsState = {
   currentListId: 58,
 };
 
 function App() {
+  const { data, loading, error } = useQuery(GET_LIST_IDS);
+
   const [listsState, setListsState] = useState(defaultListsState);
+
   const [todosState, setTodosState] = useState([]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error</div>;
+  }
 
   const selectList = (newListId) => {
     let newState = {
@@ -34,6 +47,9 @@ function App() {
     });
     setTodosState(newState);
   };
+
+  console.log("list IDS");
+  console.log(data.lists[0].id);
 
   return (
     <div>

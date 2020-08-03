@@ -92,9 +92,11 @@ function CurrentListContainer(props) {
     return <p>error</p>;
   }
 
+  console.log("data from query");
+  console.log(data);
+
   return (
     <div>
-      <div style={{ fontWeight: "bold" }}>CurrentListContainer here:</div>
       <form onSubmit={handleSubmit}>
         <label>
           <input
@@ -107,6 +109,9 @@ function CurrentListContainer(props) {
         </label>
         <input type="submit" value="Submit" />
       </form>
+      <div style={{ fontWeight: "bold" }}>
+        Current List: {data.listById.title}
+      </div>
       <Todos
         todos={data.listById.todos}
         deleteTodo={onDeleteTodo}
