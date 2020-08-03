@@ -1,17 +1,13 @@
 import React, { useState } from "react";
 import "./dashboard.css";
 import "./App.css";
-import Todos from "./Todos";
-import TodoForm from "./TodoForm";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import NavTodo from "./NavTodo";
 import SidebarTodo from "./SidebarTodo";
-import gql from "graphql-tag";
-import { useQuery, useMutation } from "@apollo/react-hooks";
-import { LIST_TODOS } from "./queries";
-import { NEW_TODO, ALL_LISTS, ALL_TODOS, DELETE_TODO_ITEM } from "./queries";
+import { useQuery } from "@apollo/react-hooks";
+import { ALL_TODOS } from "./queries";
 import CurrentListContainer from "./CurrentListContainer";
 
 let defaultListsState = {
@@ -19,10 +15,9 @@ let defaultListsState = {
 };
 
 function App() {
-  const { data, loading, error } = useQuery(ALL_TODOS);
+  const { data } = useQuery(ALL_TODOS); // This line will not go away without bugs even though it's not being used anywhere...
   const [listsState, setListsState] = useState(defaultListsState);
   const [todosState, setTodosState] = useState([]);
-  const [taskField, setTaskField] = useState("");
 
   const selectList = (newListId) => {
     let newState = {
@@ -42,18 +37,6 @@ function App() {
     });
     setTodosState(newState);
   };
-
-  const handleChange = (event) => {
-    setTaskField(event.target.value);
-  };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <p>error</p>;
-  }
 
   return (
     <div>
