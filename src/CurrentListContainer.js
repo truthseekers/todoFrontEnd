@@ -11,31 +11,28 @@ function CurrentListContainer(props) {
   });
 
   const [deleteTodo] = useMutation(DELETE_TODO_ITEM, {
-    update(cache, { data: { deleteTodo } }) {
-      const thingThree = cache.readQuery({
-        query: LIST_TODOS,
-        variables: { listId: props.listId },
-      });
-
-      let updatedListTodos = thingThree.listById.todos.filter((elem) => {
-        if (elem.id !== deleteTodo.id) {
-          return elem;
-        }
-      });
-
-      let newListById = {
-        ...thingThree.listById,
-      };
-      newListById.todos = updatedListTodos;
-
-      cache.writeQuery({
-        query: LIST_TODOS,
-        variables: { listId: props.listId },
-        data: {
-          listById: newListById,
-        },
-      });
-    },
+    // update(cache, { data: { deleteTodo } }) {
+    // const thingThree = cache.readQuery({
+    //   query: LIST_TODOS,
+    //   variables: { listId: props.listId },
+    // });
+    // let updatedListTodos = thingThree.listById.todos.filter((elem) => {
+    //   if (elem.id !== deleteTodo.id) {
+    //     return elem;
+    //   }
+    // });
+    // let newListById = {
+    //   ...thingThree.listById,
+    // };
+    // newListById.todos = updatedListTodos;
+    // cache.writeQuery({
+    //   query: LIST_TODOS,
+    //   variables: { listId: props.listId },
+    //   data: {
+    //     listById: newListById,
+    //   },
+    // });
+    // },
   });
 
   const [createTodo] = useMutation(NEW_TODO, {
@@ -88,36 +85,52 @@ function CurrentListContainer(props) {
     return <div>Loading...</div>;
   }
 
-  if (error) {
-    return <p>error</p>;
+  console.log("Props.isListEmpty");
+  console.log(props.isListEmpty);
+
+  if (error && !props.isListEmpty) {
+    return <p>error: No list Selected!</p>;
   }
 
-  console.log("data from query");
-  console.log(data);
+  let renderTodos;
+  if (props.isListEmpty) {
+    renderTodos = <p>No List Selected!</p>;
+  } else {
+    if (data) {
+    } else {
+    }
+    renderTodos = (
+      <div>
+        <form onSubmit={handleSubmit}>
+          <label>
+            <input
+              type="text"
+              placeholder="Add a Todo"
+              value={taskField}
+              onChange={handleChange}
+              name="name"
+            />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+        <div style={{ fontWeight: "bold" }}>
+          {data.listById ? `Current List: ${data.listById.title}` : ""}
+        </div>
+        {/* {renderTodos} */}
+        <Todos
+          todos={data.listById.todos}
+          deleteTodo={onDeleteTodo}
+          checkTodo={checkTodo}
+          listId={props.listId}
+        />
+      </div>
+    );
+  }
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <label>
-          <input
-            type="text"
-            placeholder="Add a Todo"
-            value={taskField}
-            onChange={handleChange}
-            name="name"
-          />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-      <div style={{ fontWeight: "bold" }}>
-        Current List: {data.listById.title}
-      </div>
-      <Todos
-        todos={data.listById.todos}
-        deleteTodo={onDeleteTodo}
-        checkTodo={checkTodo}
-        listId={props.listId}
-      />
+      <div style={{ fontWeight: "bold" }}></div>
+      {renderTodos}
     </div>
   );
 }

@@ -45,8 +45,6 @@ function ListForm(props) {
       // const { lists } = cache.readQuery({ query: ALL_LISTS });
       const thingOne = cache.readQuery({ query: ALL_LISTS });
       const thingTwo = cache.readQuery({ query: LISTS_SIDEBAR });
-      console.log("SOMETHING sidebar first now");
-      console.log(thingTwo);
 
       cache.writeQuery({
         query: LISTS_SIDEBAR,
@@ -79,16 +77,12 @@ function ListForm(props) {
   };
 
   if (loading || newListMutation.loading || sidebarObj.loading2) {
-    console.log("loading newList mutation area");
     return <Loader />;
   }
 
   if (error || newListMutation.error || sidebarObj.error2) {
     return <p>error</p>;
   }
-
-  console.log(sidebarObj);
-  console.log(data);
 
   data.lists.map((elem) => {
     listRows.push(

@@ -11,22 +11,33 @@ function SidebarTodo(props) {
 
   const [deleteList] = useMutation(DELETE_LIST, {
     update(cache, { data: { deleteList } }) {
-      const { lists } = cache.readQuery({ query: ALL_LISTS });
-
-      console.log("process of deleting List: deleteList is...");
-      console.log(deleteList.list.id);
+      const { lists } = cache.readQuery({ query: ALL_LISTS }); // all lists IN THE CACHE
       let updatedLists = lists.filter((elem) => {
         if (elem.id !== deleteList.list.id) {
           return elem;
         }
       });
-
+      if (updatedLists.length == 0) {
+        props.selectList("");
+      } else {
+        props.selectList(updatedLists[0].id);
+      }
+      //props.selectList(updatedLists[0].id ? updatedLists[0].id : "");
+      // // if (updatedLists[0].id) {
+      // //   props.selectList(updatedLists[0].id);
+      // // }
       cache.writeQuery({
         query: ALL_LISTS,
         data: {
           lists: updatedLists,
         },
       });
+      // console.log("just deleted a list. deleteList: ");
+      // console.log(deleteList);
+      // console.log("all Lists: ");
+      // console.log(lists);
+      // console.log("updatedLists: ");
+      // console.log(updatedLists);
     },
   });
 
@@ -56,15 +67,11 @@ function SidebarTodo(props) {
   };
 
   const onDeleteList = (listId) => {
-    console.log("deleting list from sidebarTodo: " + listId);
-
     deleteList({
       variables: { listId: listId },
     });
-
-    let newLists = [...data.lists];
-    console.log("lists after the deletion: ");
-    console.log(newLists);
+    //let newLists = [...data.lists];
+    // console.log("IN ONDELETELIST. Deleting: ", listId);
   };
 
   if (loading) {
@@ -75,15 +82,18 @@ function SidebarTodo(props) {
     return <p>error</p>;
   }
 
-  // if (!props.listsState) {
-  //   console.log("No list has been selected! current list is: ");
-  //   console.log(props.listsState);
-  //   console.log(data.lists[0].id);
-  //   props.selectList(data.lists[0].id);
-  // } else {
-  //   console.log("list is here: ", props.listsState);
-  //   console.log(data);
-  // }
+  let renderLists;
+  if (data.lists.length > 0) {
+    renderLists = (
+      <Lists
+        onDeleteList={onDeleteList}
+        selectList={props.selectList}
+        lists={data.lists}
+      />
+    );
+  } else {
+    renderLists = <p>You have no lists! Create some!</p>;
+  }
 
   return (
     <Nav
@@ -103,11 +113,12 @@ function SidebarTodo(props) {
           </label>
           <input type="submit" value="Submit" />
         </form>
-        <Lists
+        {renderLists}
+        {/* <Lists
           onDeleteList={onDeleteList}
           selectList={props.selectList}
           lists={data.lists}
-        />
+        /> */}
       </div>
     </Nav>
   );

@@ -8,7 +8,7 @@ function TodoForm(props) {
 
   const [createTodo] = useMutation(NEW_TODO, {
     update(cache, { data: { createTodo } }) {
-      console.log("looking at the todos cache yo");
+      // console.log("looking at the todos cache yo");
 
       const { todos } = cache.readQuery({
         query: gql`
@@ -31,8 +31,8 @@ function TodoForm(props) {
     },
   });
 
-  console.log("list id in todo Form: ");
-  console.log(props.listId);
+  // console.log("list id in todo Form: ");
+  // console.log(props.listId);
 
   const handleSubmit = (event) => {
     event.preventDefault();

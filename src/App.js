@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./dashboard.css";
 import "./App.css";
 import Container from "react-bootstrap/Container";
@@ -10,23 +10,12 @@ import { useQuery } from "@apollo/react-hooks";
 import CurrentListContainer from "./CurrentListContainer";
 import { GET_LIST_IDS } from "./queries";
 
-let defaultListsState = {
-  currentListId: 58,
-};
-
 function App() {
   const { data, loading, error } = useQuery(GET_LIST_IDS);
 
-  // const [listsState, setListsState] = useState(defaultListsState);
   const [listsState, setListsState] = useState("");
-
+  const [isListEmpty, setIsListEmpty] = useState(false);
   const [todosState, setTodosState] = useState([]);
-
-  // useEffect(() => {
-  // setListsState()
-  // console.log("in useEffect");
-  // setListsState(data.lists[0].id);
-  // });
 
   if (loading) {
     return <div>Loading...</div>;
@@ -35,22 +24,27 @@ function App() {
   if (error) {
     return <div>Error</div>;
   }
-  // setListsState(data.lists[0].id);
 
-  if (!listsState) {
-    console.log("setting listsState: ");
-    console.log(data.lists[0].id);
-    setListsState({ currentListId: data.lists[0].id });
-  } else {
-    console.log("Fuck me");
+  // data always exists past this point since its after loading conditional
+  // If a list exists then set state to first list. Need !listsState otherwise render infinite loop
+  if (!listsState && data.lists.length > 0) {
+    setListsState(data.lists[0].id);
   }
 
+  if (data.lists.length == 0 && !isListEmpty) {
+    console.log("list is empty yall!");
+    setIsListEmpty(true);
+  } else if (data.lists.length !== 0 && isListEmpty) {
+    console.log("list is NOt empty");
+    setIsListEmpty(false);
+  }
+
+  // const checkEmptyList = () => {
+
+  // }
+
   const selectList = (newListId) => {
-    let newState = {
-      ...listsState,
-      currentListId: newListId,
-    };
-    setListsState(newState);
+    setListsState(newListId);
   };
 
   const checkTodo = (updatedItem) => {
@@ -64,15 +58,7 @@ function App() {
     setTodosState(newState);
   };
 
-  // if (data && !listsState) {
-  //   console.log("Data faucking exists");
-  //   setListsState(data.lists[0].id);
-  // } else {
-  //   console.log("NO DATA. piee of shit");
-  // }
-  // console.log("list IDS");
-  // console.log(data.lists[0].id);
-  // console.log("UGH!@");
+  //  console.log("at bottom of app.js. app.js state: ", listsState);
 
   return (
     <div>
@@ -82,13 +68,16 @@ function App() {
           <SidebarTodo
             selectList={selectList}
             listsState={listsState}
-            currentListId={listsState.currentListId}
+            currentListId={listsState}
           />
 
           <main className="col-md-8 ml-sm-auto col-lg-10 px-md-4">
             <Row className="justify-content-md-center text-center">
               <Col>
-                <CurrentListContainer listId={listsState.currentListId} />
+                <CurrentListContainer
+                  isListEmpty={isListEmpty}
+                  listId={listsState}
+                />
               </Col>
             </Row>
           </main>
