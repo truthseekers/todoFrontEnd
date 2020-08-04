@@ -13,7 +13,7 @@ import { GET_LIST_IDS } from "./queries";
 function App() {
   const { data, loading, error } = useQuery(GET_LIST_IDS);
 
-  const [listsState, setListsState] = useState("");
+  const [currentListId, setCurrentListId] = useState("");
   const [isListEmpty, setIsListEmpty] = useState(false);
   const [todosState, setTodosState] = useState([]);
 
@@ -26,9 +26,9 @@ function App() {
   }
 
   // data always exists past this point since its after loading conditional
-  // If a list exists then set state to first list. Need !listsState otherwise render infinite loop
-  if (!listsState && data.lists.length > 0) {
-    setListsState(data.lists[0].id);
+  // If a list exists then set state to first list. Need !currentListId otherwise render infinite loop
+  if (!currentListId && data.lists.length > 0) {
+    setCurrentListId(data.lists[0].id);
   }
 
   if (data.lists.length == 0 && !isListEmpty) {
@@ -38,7 +38,7 @@ function App() {
   }
 
   const selectList = (newListId) => {
-    setListsState(newListId);
+    setCurrentListId(newListId);
   };
 
   const checkTodo = (updatedItem) => {
@@ -52,7 +52,7 @@ function App() {
     setTodosState(newState);
   };
 
-  console.log("at bottom of app.js. app.js state: ", listsState);
+  console.log("at bottom of app.js. app.js state: ", currentListId);
 
   return (
     <div>
@@ -61,8 +61,8 @@ function App() {
         <Row>
           <SidebarTodo
             selectList={selectList}
-            listsState={listsState}
-            currentListId={listsState}
+            listsState={currentListId}
+            currentListId={currentListId}
           />
 
           <main className="col-md-8 ml-sm-auto col-lg-10 px-md-4">
@@ -70,7 +70,7 @@ function App() {
               <Col>
                 <CurrentListContainer
                   isListEmpty={isListEmpty}
-                  listId={listsState}
+                  listId={currentListId}
                 />
               </Col>
             </Row>
