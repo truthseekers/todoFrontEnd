@@ -37,6 +37,14 @@ function App() {
   }
   // setListsState(data.lists[0].id);
 
+  if (!listsState) {
+    console.log("setting listsState: ");
+    console.log(data.lists[0].id);
+    setListsState({ currentListId: data.lists[0].id });
+  } else {
+    console.log("Fuck me");
+  }
+
   const selectList = (newListId) => {
     let newState = {
       ...listsState,

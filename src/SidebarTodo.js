@@ -75,15 +75,15 @@ function SidebarTodo(props) {
     return <p>error</p>;
   }
 
-  if (!props.listsState) {
-    console.log("No list has been selected! current list is: ");
-    console.log(props.listsState);
-    console.log(data.lists[0].id);
-    props.selectList(data.lists[0].id);
-  } else {
-    console.log("list is here: ", props.listsState);
-    console.log(data);
-  }
+  // if (!props.listsState) {
+  //   console.log("No list has been selected! current list is: ");
+  //   console.log(props.listsState);
+  //   console.log(data.lists[0].id);
+  //   props.selectList(data.lists[0].id);
+  // } else {
+  //   console.log("list is here: ", props.listsState);
+  //   console.log(data);
+  // }
 
   return (
     <Nav
