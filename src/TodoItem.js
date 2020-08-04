@@ -19,7 +19,6 @@ function TodoItem(props) {
   // const [deleteTodo, todoDeleteMutation] = useMutation(TODO_ITEM);
 
   const deleteTodoItem = () => {
-    // console.log("delete");
     // deleteTodo({
     //   variables: { todo: props.id },
     // });

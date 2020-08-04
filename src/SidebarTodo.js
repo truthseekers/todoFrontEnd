@@ -32,12 +32,6 @@ function SidebarTodo(props) {
           lists: updatedLists,
         },
       });
-      // console.log("just deleted a list. deleteList: ");
-      // console.log(deleteList);
-      // console.log("all Lists: ");
-      // console.log(lists);
-      // console.log("updatedLists: ");
-      // console.log(updatedLists);
     },
   });
 
@@ -70,8 +64,6 @@ function SidebarTodo(props) {
     deleteList({
       variables: { listId: listId },
     });
-    //let newLists = [...data.lists];
-    // console.log("IN ONDELETELIST. Deleting: ", listId);
   };
 
   if (loading) {

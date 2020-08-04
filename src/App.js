@@ -32,16 +32,10 @@ function App() {
   }
 
   if (data.lists.length == 0 && !isListEmpty) {
-    console.log("list is empty yall!");
     setIsListEmpty(true);
   } else if (data.lists.length !== 0 && isListEmpty) {
-    console.log("list is NOt empty");
     setIsListEmpty(false);
   }
-
-  // const checkEmptyList = () => {
-
-  // }
 
   const selectList = (newListId) => {
     setListsState(newListId);
@@ -58,7 +52,7 @@ function App() {
     setTodosState(newState);
   };
 
-  //  console.log("at bottom of app.js. app.js state: ", listsState);
+  console.log("at bottom of app.js. app.js state: ", listsState);
 
   return (
     <div>

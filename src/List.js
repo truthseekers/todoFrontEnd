@@ -4,8 +4,6 @@ import TodoItem from "./TodoItem";
 function List(props) {
   let completeRows = [];
   let incompleteRows = [];
-  // console.log("props in list ya");
-  // console.log(props);
 
   props.todos.map((elem) => {
     if (elem.completed) {
