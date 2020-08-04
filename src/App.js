@@ -59,11 +59,7 @@ function App() {
       <NavTodo />
       <Container fluid>
         <Row>
-          <SidebarTodo
-            selectList={selectList}
-            listsState={currentListId}
-            currentListId={currentListId}
-          />
+          <SidebarTodo selectList={selectList} currentListId={currentListId} />
 
           <main className="col-md-8 ml-sm-auto col-lg-10 px-md-4">
             <Row className="justify-content-md-center text-center">
