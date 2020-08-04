@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./dashboard.css";
 import "./App.css";
 import Container from "react-bootstrap/Container";
@@ -17,9 +17,16 @@ let defaultListsState = {
 function App() {
   const { data, loading, error } = useQuery(GET_LIST_IDS);
 
-  const [listsState, setListsState] = useState(defaultListsState);
+  // const [listsState, setListsState] = useState(defaultListsState);
+  const [listsState, setListsState] = useState("");
 
   const [todosState, setTodosState] = useState([]);
+
+  // useEffect(() => {
+  // setListsState()
+  // console.log("in useEffect");
+  // setListsState(data.lists[0].id);
+  // });
 
   if (loading) {
     return <div>Loading...</div>;
@@ -28,6 +35,7 @@ function App() {
   if (error) {
     return <div>Error</div>;
   }
+  // setListsState(data.lists[0].id);
 
   const selectList = (newListId) => {
     let newState = {
@@ -48,8 +56,15 @@ function App() {
     setTodosState(newState);
   };
 
-  console.log("list IDS");
-  console.log(data.lists[0].id);
+  // if (data && !listsState) {
+  //   console.log("Data faucking exists");
+  //   setListsState(data.lists[0].id);
+  // } else {
+  //   console.log("NO DATA. piee of shit");
+  // }
+  // console.log("list IDS");
+  // console.log(data.lists[0].id);
+  // console.log("UGH!@");
 
   return (
     <div>
