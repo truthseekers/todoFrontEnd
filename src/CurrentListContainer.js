@@ -85,52 +85,39 @@ function CurrentListContainer(props) {
     return <div>Loading...</div>;
   }
 
-  console.log("Props.isListEmpty");
-  console.log(props.isListEmpty);
-
   if (error && !props.isListEmpty) {
-    return <p>error: No list Selected!</p>;
-  }
-
-  let renderTodos;
-  if (props.isListEmpty) {
-    renderTodos = <p>No List Selected!</p>;
-  } else {
-    if (data) {
-    } else {
-    }
-    renderTodos = (
-      <div>
-        <form onSubmit={handleSubmit}>
-          <label>
-            <input
-              type="text"
-              placeholder="Add a Todo"
-              value={taskField}
-              onChange={handleChange}
-              name="name"
-            />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-        <div style={{ fontWeight: "bold" }}>
-          {data.listById ? `Current List: ${data.listById.title}` : ""}
-        </div>
-        {/* {renderTodos} */}
-        <Todos
-          todos={data.listById.todos}
-          deleteTodo={onDeleteTodo}
-          checkTodo={checkTodo}
-          listId={props.listId}
-        />
-      </div>
-    );
+    return <p>error</p>;
   }
 
   return (
     <div>
-      <div style={{ fontWeight: "bold" }}></div>
-      {renderTodos}
+      {props.isListEmpty ? (
+        <p>No List Selected!</p>
+      ) : (
+        <div>
+          <form onSubmit={handleSubmit}>
+            <label>
+              <input
+                type="text"
+                placeholder="Add a Todo"
+                value={taskField}
+                onChange={handleChange}
+                name="name"
+              />
+            </label>
+            <input type="submit" value="Submit" />
+          </form>
+          <div style={{ fontWeight: "bold" }}>
+            Current List: {data.listById.title}
+          </div>
+          <Todos
+            todos={data.listById.todos}
+            deleteTodo={onDeleteTodo}
+            checkTodo={checkTodo}
+            listId={props.listId}
+          />
+        </div>
+      )}
     </div>
   );
 }

@@ -22,10 +22,6 @@ function SidebarTodo(props) {
       } else {
         props.selectList(updatedLists[0].id);
       }
-      //props.selectList(updatedLists[0].id ? updatedLists[0].id : "");
-      // // if (updatedLists[0].id) {
-      // //   props.selectList(updatedLists[0].id);
-      // // }
       cache.writeQuery({
         query: ALL_LISTS,
         data: {
@@ -38,13 +34,15 @@ function SidebarTodo(props) {
   const [createList] = useMutation(NEW_LIST, {
     update(cache, { data: { newList } }) {
       const thingOne = cache.readQuery({ query: ALL_LISTS });
-
+      console.log("newList info: ");
+      console.log(newList);
       cache.writeQuery({
         query: ALL_LISTS,
         data: {
           lists: [newList, ...thingOne.lists],
         },
       });
+      props.selectList(newList.id);
     },
   });
 
