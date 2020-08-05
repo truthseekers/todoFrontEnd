@@ -11,28 +11,29 @@ function CurrentListContainer(props) {
   });
 
   const [deleteTodo] = useMutation(DELETE_TODO_ITEM, {
-    // update(cache, { data: { deleteTodo } }) {
-    // const thingThree = cache.readQuery({
-    //   query: LIST_TODOS,
-    //   variables: { listId: props.listId },
-    // });
-    // let updatedListTodos = thingThree.listById.todos.filter((elem) => {
-    //   if (elem.id !== deleteTodo.id) {
-    //     return elem;
-    //   }
-    // });
-    // let newListById = {
-    //   ...thingThree.listById,
-    // };
-    // newListById.todos = updatedListTodos;
-    // cache.writeQuery({
-    //   query: LIST_TODOS,
-    //   variables: { listId: props.listId },
-    //   data: {
-    //     listById: newListById,
-    //   },
-    // });
-    // },
+    update(cache, { data: { deleteTodo } }) {
+      console.log("deleting todo");
+      const thingThree = cache.readQuery({
+        query: LIST_TODOS,
+        variables: { listId: props.listId },
+      });
+      let updatedListTodos = thingThree.listById.todos.filter((elem) => {
+        if (elem.id !== deleteTodo.id) {
+          return elem;
+        }
+      });
+      let newListById = {
+        ...thingThree.listById,
+      };
+      newListById.todos = updatedListTodos;
+      cache.writeQuery({
+        query: LIST_TODOS,
+        variables: { listId: props.listId },
+        data: {
+          listById: newListById,
+        },
+      });
+    },
   });
 
   const [createTodo] = useMutation(NEW_TODO, {
