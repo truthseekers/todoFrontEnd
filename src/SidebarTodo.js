@@ -11,15 +11,13 @@ function SidebarTodo(props) {
 
   const [deleteList] = useMutation(DELETE_LIST, {
     update(cache, { data: { deleteList } }) {
-      const { lists } = cache.readQuery({ query: ALL_LISTS }); // all lists IN THE CACHE
+      const { lists } = cache.readQuery({ query: ALL_LISTS });
       let updatedLists = lists.filter((elem) => {
         if (elem.id !== deleteList.list.id) {
           return elem;
         }
       });
-      if (updatedLists.length == 0) {
-        props.selectList("");
-      } else {
+      if (updatedLists.length != 0) {
         props.selectList(updatedLists[0].id);
       }
       cache.writeQuery({
@@ -33,13 +31,11 @@ function SidebarTodo(props) {
 
   const [createList] = useMutation(NEW_LIST, {
     update(cache, { data: { newList } }) {
-      const thingOne = cache.readQuery({ query: ALL_LISTS });
-      console.log("newList info: ");
-      console.log(newList);
+      const { lists } = cache.readQuery({ query: ALL_LISTS });
       cache.writeQuery({
         query: ALL_LISTS,
         data: {
-          lists: [newList, ...thingOne.lists],
+          lists: [newList, ...lists],
         },
       });
       props.selectList(newList.id);
@@ -104,11 +100,6 @@ function SidebarTodo(props) {
           <input type="submit" value="Submit" />
         </form>
         {renderLists}
-        {/* <Lists
-          onDeleteList={onDeleteList}
-          selectList={props.selectList}
-          lists={data.lists}
-        /> */}
       </div>
     </Nav>
   );
