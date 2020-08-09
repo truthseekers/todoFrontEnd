@@ -31,7 +31,7 @@ function App() {
     setCurrentListId(data.lists[0].id);
   }
 
-  if (data.lists.length == 0 && !isListEmpty) {
+  if (data.lists.length === 0 && !isListEmpty) {
     setIsListEmpty(true);
   } else if (data.lists.length !== 0 && isListEmpty) {
     setIsListEmpty(false);
@@ -51,8 +51,6 @@ function App() {
     });
     setTodosState(newState);
   };
-
-  console.log("at bottom of app.js. app.js state: ", currentListId);
 
   return (
     <div>

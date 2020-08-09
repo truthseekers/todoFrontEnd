@@ -18,9 +18,6 @@ function Todos(props) {
     return 0;
   });
 
-  console.log("props.todos");
-  console.log(props.todos);
-
   return (
     <div>
       {props.todos.length == 0 ? (

@@ -17,7 +17,7 @@ function SidebarTodo(props) {
           return elem;
         }
       });
-      if (updatedLists.length != 0) {
+      if (updatedLists.length !== 0) {
         props.selectList(updatedLists[0].id);
       }
       cache.writeQuery({
