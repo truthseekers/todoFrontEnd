@@ -3,7 +3,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-
+// import { Router, Link } from "@reach/router";
+import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
+import Login from "./Login";
+import Signup from "./Signup";
 // import ApolloClient from "apollo-boost";
 // import { ApolloProvider } from "react-apollo";
 
@@ -25,10 +28,26 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+const Dashboard = () => (
+  <div>
+    <nav>I am the dashboard</nav>
+    {/* <div>
+      <Route path="/dashboard" component={Dashboard} />
+    </div> */}
+  </div>
+);
+
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
+  <BrowserRouter>
+    <ApolloProvider client={client}>
+      <Switch>
+        <Route path="/login" component={Login} />
+        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/signup" component={Signup} />
+        <Route path="/" component={App} />
+      </Switch>
+    </ApolloProvider>
+  </BrowserRouter>,
   document.getElementById("root")
 );
 
