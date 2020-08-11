@@ -1,24 +1,26 @@
 import React from "react";
-// import { render } from "react-dom";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Link, Route, Switch } from "react-router-dom"; // they only use browserrouter
 import Login from "./Login";
 import Signup from "./Signup";
 import { AUTH_TOKEN } from "./constants";
-import { ApolloProvider } from "react-apollo";
-import { setContext } from "apollo-link-context";
+import { ApolloProvider } from "react-apollo"; // same
+import { setContext } from "apollo-link-context"; // same
 
-import { createHttpLink } from "apollo-link-http";
+import { createHttpLink } from "apollo-link-http"; // same
 
 import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { ApolloClient, InMemoryCache } from "@apollo/client";
-import { WebSocketLink } from "apollo-link-ws";
-import { split } from "apollo-link";
-import { getMainDefinition } from "apollo-utilities";
+import { ApolloClient, InMemoryCache } from "@apollo/client"; // "apollo-client" in original. // apollo-cache-memory in original
+import { WebSocketLink } from "apollo-link-ws"; // same
+import { split } from "apollo-link"; // same
+import { getMainDefinition } from "apollo-utilities"; // same
+import { createBrowserHistory } from "history";
+import AuthContext from "./AuthContext";
+// let history = createdBrowserHistory();
 
 const httpLink = createHttpLink({
   uri: "http://localhost:4000",

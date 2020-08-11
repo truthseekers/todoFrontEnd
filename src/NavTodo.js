@@ -7,11 +7,13 @@ import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { AUTH_TOKEN } from "./constants";
+import { withRouter } from "react-router";
 
-function NavTodo() {
+function NavTodo(props) {
   const authToken = localStorage.getItem(AUTH_TOKEN);
-
-  console.log("authToken: ", authToken);
+  console.log("props for navtodo: ");
+  console.log(props);
+  //  console.log("authToken: ", authToken);
   return (
     <Navbar className="sticky-top" bg="light" expand="md">
       <Link to="/">
@@ -21,7 +23,7 @@ function NavTodo() {
         <div
           onClick={() => {
             localStorage.removeItem(AUTH_TOKEN);
-            // this.props.history.push(`/`);
+            props.history.push(`/`);
           }}
         >
           <Button variant="outline-success">Logout</Button>
@@ -39,4 +41,4 @@ function NavTodo() {
   );
 }
 
-export default NavTodo;
+export default withRouter(NavTodo);
