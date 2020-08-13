@@ -1,76 +1,70 @@
-import React, { useState } from "react";
-import "./dashboard.css";
-import "./App.css";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import NavTodo from "./NavTodo";
-import SidebarTodo from "./SidebarTodo";
-import { useQuery } from "@apollo/react-hooks";
-import CurrentListContainer from "./CurrentListContainer";
-import { GET_LIST_IDS } from "./queries";
+import React, { useState, useContext } from "react";
+import AppContainer from "./AppContainer";
+import { BrowserRouter, Link, Route, Switch } from "react-router-dom"; // they only use browserrouter
+import Login from "./Login";
+import Signup from "./Signup";
+import Dashboard from "./Dashboard";
+import { AUTH_TOKEN } from "./constants";
+import { ME } from "./queries";
+import { useQuery } from "react-apollo";
+import authContext from "./AuthContext";
 
 function App() {
-  const { data, loading, error } = useQuery(GET_LIST_IDS);
+  const authToken = localStorage.getItem(AUTH_TOKEN);
+  const [loggedInUser, setLoggedInUser] = useState(authToken ? true : false);
+  const meQuery = useQuery(ME);
 
-  const [currentListId, setCurrentListId] = useState("");
-  const [isListEmpty, setIsListEmpty] = useState(false);
-  const [todosState, setTodosState] = useState([]);
+  if (authToken) {
+    console.log("auth token exists on app.js");
+  } else {
+    console.log("no auth token in app.js");
+  }
 
-  if (loading) {
+  const updateLoggedInUser = (arg) => {
+    console.log("changing logged In userstate ");
+    setLoggedInUser(arg);
+  };
+
+  if (meQuery.loading) {
     return <div>Loading...</div>;
   }
 
-  if (error) {
-    return <div>Error</div>;
+  if (meQuery.data) {
+    console.log("user data is: ");
+    console.log(meQuery.data);
+    // console.log(meQuery.data.me.name);
+    // setLoggedInUser(true);
   }
-
-  // data always exists past this point since its after loading conditional
-  // If a list exists then set state to first list. Need !currentListId otherwise render infinite loop
-  if (!currentListId && data.lists.length > 0) {
-    setCurrentListId(data.lists[0].id);
-  }
-
-  if (data.lists.length === 0 && !isListEmpty) {
-    setIsListEmpty(true);
-  } else if (data.lists.length !== 0 && isListEmpty) {
-    setIsListEmpty(false);
-  }
-
-  const selectList = (newListId) => {
-    setCurrentListId(newListId);
-  };
-
-  const checkTodo = (updatedItem) => {
-    let newState = todosState.map((elem) => {
-      if (updatedItem === elem.id) {
-        return { ...elem, completed: !elem.completed };
-      } else {
-        return elem;
-      }
-    });
-    setTodosState(newState);
-  };
 
   return (
     <div>
-      <NavTodo />
-      <Container fluid>
-        <Row>
-          <SidebarTodo selectList={selectList} currentListId={currentListId} />
-
-          <main className="col-md-8 ml-sm-auto col-lg-10 px-md-4">
-            <Row className="justify-content-md-center text-center">
-              <Col>
-                <CurrentListContainer
-                  isListEmpty={isListEmpty}
-                  listId={currentListId}
-                />
-              </Col>
-            </Row>
-          </main>
-        </Row>
-      </Container>
+      <Switch>
+        <Route
+          path="/login"
+          render={(props) => (
+            <Login
+              {...props}
+              loggedInUser={loggedInUser}
+              setLoggedInUser={updateLoggedInUser}
+            />
+          )}
+        />
+        {/* <Route path="/login" component={Login} /> */}
+        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/signup" component={Signup} />
+        {/* <Route path="/" component={AppContainer} /> */}
+        <Route
+          path="/"
+          render={(props) => (
+            <AppContainer
+              {...props}
+              userData={meQuery.data}
+              loggedInUser={loggedInUser}
+              setLoggedInUser={updateLoggedInUser}
+            />
+          )}
+        />
+      </Switch>
     </div>
   );
 }

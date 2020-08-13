@@ -22,27 +22,51 @@ const LOGIN_MUTATION = gql`
 `;
 
 class Login extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handleUpdate = this.handleUpdate.bind(this);
+  }
   state = {
     login: true,
     email: "",
     password: "",
     name: "",
+    testField: "",
   };
 
+  handleUpdate(event) {
+    console.log("clicked the btn!");
+    this.props.setLoggedInUser("poop");
+  }
+
   render() {
-    const { login, email, password, name } = this.state;
+    const { login, email, password, name, testField } = this.state;
     console.log(login ? "LOGIN_MUTATION" : "SIGNUP_MUTATION");
     return (
       <div>
         <h4 className="mv3">{login ? "Login" : "Sign Up"}</h4>
         <div className="flex flex-column">
+          <input
+            value={testField}
+            onChange={(e) => this.setState({ testField: e.target.value })}
+            type="text"
+            placeholder="Test field"
+          />
+
+          <div className="pointer mr2 button" onClick={this.handleUpdate}>
+            <button>Update test state</button>
+          </div>
+
           {!login && (
-            <input
-              value={name}
-              onChange={(e) => this.setState({ name: e.target.value })}
-              type="text"
-              placeholder="Your name"
-            />
+            <div>
+              <input
+                value={name}
+                onChange={(e) => this.setState({ name: e.target.value })}
+                type="text"
+                placeholder="Your name"
+              />
+            </div>
           )}
           <input
             value={email}
@@ -82,9 +106,11 @@ class Login extends Component {
   }
 
   _confirm = async (data) => {
-    console.log("inside _confirm");
+    console.log("inside _confirm. data: ");
+    console.log(data);
     const { token } = this.state.login ? data.login : data.signup;
     this._saveUserData(token);
+    this.props.setLoggedInUser("poop");
     this.props.history.push(`/`);
   };
 
@@ -92,4 +118,7 @@ class Login extends Component {
     localStorage.setItem(AUTH_TOKEN, token);
   };
 }
+
+//export { Login, authContext2};
+
 export default Login;

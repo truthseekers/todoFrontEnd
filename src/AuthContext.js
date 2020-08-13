@@ -1,5 +1,7 @@
 import React from "react";
 
-const AuthContext = React.createContext("light");
+const authContext = React.createContext({ user: "Nobody" });
 
-export default AuthContext;
+console.log("Bro context!");
+
+export default authContext;

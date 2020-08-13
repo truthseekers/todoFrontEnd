@@ -69,15 +69,33 @@ const Dashboard = () => (
   </div>
 );
 
+// console.log("Fudge muffins: client Object: ");
+// console.log(authLink);
+
+const themes = {
+  light: {
+    foreground: "#000000",
+    background: "#eeeeee",
+  },
+  dark: {
+    foreground: "#ffffff",
+    background: "#222222",
+  },
+  msg: "Why are people so bad at tutorials?",
+};
+
 ReactDOM.render(
   <BrowserRouter>
     <ApolloProvider client={client}>
-      <Switch>
-        <Route path="/login" component={Login} />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/" component={App} />
-      </Switch>
+      {/* <AuthContext.Provider value={themes}> */}
+      <App />
+      {/* <Switch>
+          <Route path="/login" component={Login} />
+          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/" component={App} />
+        </Switch> */}
+      {/* </AuthContext.Provider> */}
     </ApolloProvider>
   </BrowserRouter>,
   document.getElementById("root")

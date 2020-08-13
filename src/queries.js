@@ -50,6 +50,15 @@ const DELETE_TODO_ITEM = gql`
   }
 `;
 
+const ME = gql`
+  query {
+    me {
+      id
+      name
+    }
+  }
+`;
+
 const NEW_LIST = gql`
   mutation addNewList($newList: String!) {
     newList(title: $newList) {
@@ -80,6 +89,7 @@ const DELETE_LIST = gql`
 
 export {
   LIST_TODOS,
+  ME,
   NEW_LIST,
   NEW_TODO,
   ALL_LISTS,

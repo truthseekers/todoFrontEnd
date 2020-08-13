@@ -11,9 +11,12 @@ import { withRouter } from "react-router";
 
 function NavTodo(props) {
   const authToken = localStorage.getItem(AUTH_TOKEN);
-  console.log("props for navtodo: ");
-  console.log(props);
-  //  console.log("authToken: ", authToken);
+
+  const updateLoggedInStatus = () => {
+    console.log("updated logged in status...");
+    props.setLoggedInUser(false);
+  };
+
   return (
     <Navbar className="sticky-top" bg="light" expand="md">
       <Link to="/">
@@ -23,6 +26,8 @@ function NavTodo(props) {
         <div
           onClick={() => {
             localStorage.removeItem(AUTH_TOKEN);
+            // props.setLoggedInUser(false);
+            updateLoggedInStatus();
             props.history.push(`/`);
           }}
         >
@@ -36,6 +41,10 @@ function NavTodo(props) {
       <Link to="/signup">
         <Button variant="outline-success">Sign Up</Button>
       </Link>
+      <Link to="/dashboard">
+        <Button variant="outline-success">Dashboard</Button>
+      </Link>
+      <span>Welcome {props.userName}</span>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
     </Navbar>
   );
