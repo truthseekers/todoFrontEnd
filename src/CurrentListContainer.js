@@ -54,6 +54,7 @@ function CurrentListContainer(props) {
   });
 
   const onDeleteTodo = (todoId) => {
+    console.log("delete message front end");
     deleteTodo({
       variables: { todo: todoId },
     });

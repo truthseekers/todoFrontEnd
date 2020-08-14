@@ -3,6 +3,9 @@ import { TrashFill } from "react-bootstrap-icons";
 // import gql from "graphql-tag";
 // import { useMutation } from "@apollo/react-hooks";
 // import Loader from "react-loader";
+import gql from "graphql-tag";
+import { useMutation } from "@apollo/react-hooks";
+import { UPDATE_TODO_ITEM } from "./queries";
 
 // const TODO_ITEM = gql`
 //   mutation deleteTodoItem($todo: ID!) {
@@ -16,9 +19,19 @@ import { TrashFill } from "react-bootstrap-icons";
 function TodoItem(props) {
   const [taskField, setTaskField] = useState(false);
 
+  const [updateTodo] = useMutation(UPDATE_TODO_ITEM, {
+    variables: {
+      todo: props.id,
+      isCompleted: !props.completed,
+    },
+  });
+
+  console.log("props in TodoItem: ");
+  console.log(props);
   // const [deleteTodo, todoDeleteMutation] = useMutation(TODO_ITEM);
 
   const deleteTodoItem = () => {
+    console.log("deleting???");
     // deleteTodo({
     //   variables: { todo: props.id },
     // });
@@ -26,8 +39,10 @@ function TodoItem(props) {
   };
 
   const handleChange = () => {
-    setTaskField(taskField === true ? false : true);
-    props.checkTodo(props.id);
+    console.log("clicked Checkbox");
+    updateTodo();
+    // setTaskField(taskField === true ? false : true);
+    // props.checkTodo(props.id);
   };
 
   return (

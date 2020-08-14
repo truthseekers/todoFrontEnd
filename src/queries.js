@@ -50,6 +50,16 @@ const DELETE_TODO_ITEM = gql`
   }
 `;
 
+const UPDATE_TODO_ITEM = gql`
+  mutation updateTodo($todo: ID!, $isCompleted: Boolean!) {
+    updateTodo(todoId: $todo, isCompleted: $isCompleted) {
+      id
+      name
+      isCompleted
+    }
+  }
+`;
+
 const ME = gql`
   query {
     me {
@@ -96,5 +106,6 @@ export {
   DELETE_LIST,
   DELETE_TODO_ITEM,
   ALL_TODOS,
+  UPDATE_TODO_ITEM,
   GET_LIST_IDS,
 }; // don't I need to add ALL_LISTS here to be able to import it?
