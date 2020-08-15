@@ -28,22 +28,35 @@ function Login(props) {
   const [testField, setTestField] = useState("");
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
+  const [errors, setErrors] = useState([]);
   const [doLogin, loginObj] = useMutation(LOGIN_MUTATION, {
     onCompleted(data) {
       console.log("uhh.. completed login?");
       console.log(data);
       _confirm(data);
     },
+    onError(data) {
+      console.log("You got the following error: ");
+      console.log(data.graphQLErrors);
+      setErrors(data.graphQLErrors);
+      // console.log(data);
+    },
   });
 
-  const handleUpdate = (event) => {
-    console.log("clicked the btn!");
-    //props.setLoggedInUser("poop");
-  };
+  const [doSignup, signupObj] = useMutation(SIGNUP_MUTATION, {
+    onCompleted(data) {
+      console.log("completed SIGNUP");
+      console.log(data);
+      _confirm(data);
+    },
+    onError(data) {
+      console.log("Following signup error: ");
+      console.log(data.graphQLErrors);
+      setErrors([{ message: "Something went wrong. Please try again" }]);
+    },
+  });
 
   const _confirm = async (data) => {
-    //console.log("inside _confirm. data: ");
-    //console.log(data);
     const { token } = login ? data.login : data.signup;
     // const { token } = this.state.login ? data.login : data.signup;
     _saveUserData(token);
@@ -60,24 +73,25 @@ function Login(props) {
 
   const handleLogin = () => {
     console.log("clicked login!");
-    doLogin({ variables: { email, password, name: userName } });
+    if (login) {
+      doLogin({ variables: { email, password, name: userName } });
+    } else {
+      doSignup({ variables: { email, password, name: userName } });
+    }
   };
+
+  let errorsList = [];
+  if (errors) {
+    errorsList = errors.map((error) => <li>{error.message}</li>);
+  }
+
+  console.log("the errorsList: ");
+  console.log(errorsList);
 
   return (
     <div>
       <h4 className="mv3">{login.login ? "Login" : "Sign Up"}</h4>
       <div className="flex flex-column">
-        <input
-          value={testField}
-          onChange={(e) => setTestField(e.target.value)}
-          type="text"
-          placeholder="Test field"
-        />
-
-        <div className="pointer mr2 button" onClick={handleUpdate}>
-          <button>Update test state</button>
-        </div>
-
         {!login && (
           <div>
             <input
@@ -107,10 +121,11 @@ function Login(props) {
           <button>{login ? "login" : "create account"}</button>
         </div>
         {/* <div className="pointer button" onClick={() => setLogin(!login)}> */}
-        <div className="pointer button">
+        <div className="pointer button" onClick={() => setLogin(!login)}>
           {login ? "need to create an account?" : "already have an account?"}
         </div>
       </div>
+      error list: {errorsList}
     </div>
   );
 }
