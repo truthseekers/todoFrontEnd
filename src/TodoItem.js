@@ -45,6 +45,9 @@ function TodoItem(props) {
     // props.checkTodo(props.id);
   };
 
+  //console.log("props in TodoItem?");
+  //console.log(props);
+
   return (
     <div>
       <input
@@ -52,7 +55,8 @@ function TodoItem(props) {
         checked={props.completed}
         onChange={handleChange}
       />
-      {props.task} - <TrashFill onClick={deleteTodoItem} />
+      {props.task} (By: {props.postedBy}) -{" "}
+      <TrashFill onClick={deleteTodoItem} />
     </div>
   );
 }

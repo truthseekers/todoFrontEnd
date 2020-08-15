@@ -13,6 +13,7 @@ import { GET_LIST_IDS, ME } from "./queries";
 import Me from "./Me";
 import { Query } from "react-apollo";
 import authContext from "./AuthContext";
+import MeQueryHack from "./MeQueryHack";
 
 function AppContainer(props) {
   // const theme = useContext();
@@ -68,12 +69,18 @@ function AppContainer(props) {
     <div>
       <NavTodo
         userName={props.userName}
+        // userData={props.userData}
         setLoggedInUser={props.setLoggedInUser}
         // setLoggedInUser={props.loggedInUser}
       />
       <Container fluid>
+        <MeQueryHack loggedInUser={props.loggedInUser} />
         <Row>
-          <SidebarTodo selectList={selectList} currentListId={currentListId} />
+          <SidebarTodo
+            selectList={selectList}
+            userData={props.userData}
+            currentListId={currentListId}
+          />
 
           <main className="col-md-8 ml-sm-auto col-lg-10 px-md-4">
             <Row className="justify-content-md-center text-center">

@@ -72,7 +72,7 @@ function ListForm(props) {
     event.preventDefault();
 
     createList({
-      variables: { newList: taskField },
+      variables: { newList: taskField, userId: 3 },
     });
   };
 

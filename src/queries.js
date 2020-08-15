@@ -5,10 +5,18 @@ const LIST_TODOS = gql`
     listById(listId: $listId) {
       id
       title
+      postedBy {
+        id
+        name
+      }
       todos {
         id
         isCompleted
         name
+        postedBy {
+          name
+          id
+        }
       }
     }
   }
@@ -29,6 +37,10 @@ const ALL_LISTS = gql`
     lists {
       title
       id
+      postedBy {
+        name
+        id
+      }
     }
   }
 `;
@@ -61,7 +73,7 @@ const UPDATE_TODO_ITEM = gql`
 `;
 
 const ME = gql`
-  query {
+  query meQuery {
     me {
       id
       name
@@ -70,8 +82,8 @@ const ME = gql`
 `;
 
 const NEW_LIST = gql`
-  mutation addNewList($newList: String!) {
-    newList(title: $newList) {
+  mutation addNewList($title: String!, $userId: ID!) {
+    newList(title: $title, userId: $userId) {
       id
       title
     }

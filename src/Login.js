@@ -31,13 +31,13 @@ function Login(props) {
   const [errors, setErrors] = useState([]);
   const [doLogin, loginObj] = useMutation(LOGIN_MUTATION, {
     onCompleted(data) {
-      console.log("uhh.. completed login?");
-      console.log(data);
+      //console.log("uhh.. completed login?");
+      //console.log(data);
       _confirm(data);
     },
     onError(data) {
-      console.log("You got the following error: ");
-      console.log(data.graphQLErrors);
+      //console.log("You got the following error: ");
+      //console.log(data.graphQLErrors);
       setErrors(data.graphQLErrors);
       // console.log(data);
     },
@@ -45,19 +45,20 @@ function Login(props) {
 
   const [doSignup, signupObj] = useMutation(SIGNUP_MUTATION, {
     onCompleted(data) {
-      console.log("completed SIGNUP");
-      console.log(data);
+      //console.log("completed SIGNUP");
+      //console.log(data);
       _confirm(data);
     },
     onError(data) {
-      console.log("Following signup error: ");
-      console.log(data.graphQLErrors);
+      //console.log("Following signup error: ");
+      //console.log(data.graphQLErrors);
       setErrors([{ message: "Something went wrong. Please try again" }]);
     },
   });
 
   const _confirm = async (data) => {
     const { token } = login ? data.login : data.signup;
+    //console.log("in confirm in Login.js.");
     // const { token } = this.state.login ? data.login : data.signup;
     _saveUserData(token);
     // this.props.setLoggedInUser("poop");
@@ -72,7 +73,7 @@ function Login(props) {
   // }
 
   const handleLogin = () => {
-    console.log("clicked login!");
+    //console.log("clicked login!");
     if (login) {
       doLogin({ variables: { email, password, name: userName } });
     } else {
@@ -85,8 +86,8 @@ function Login(props) {
     errorsList = errors.map((error) => <li>{error.message}</li>);
   }
 
-  console.log("the errorsList: ");
-  console.log(errorsList);
+  //console.log("the errorsList: ");
+  //console.log(errorsList);
 
   return (
     <div>

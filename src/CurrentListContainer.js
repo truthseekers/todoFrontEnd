@@ -91,6 +91,9 @@ function CurrentListContainer(props) {
     return <p>error</p>;
   }
 
+  //console.log("data list owner: ");
+  //console.log(data);
+
   return (
     <div>
       {props.isListEmpty ? (
@@ -110,7 +113,8 @@ function CurrentListContainer(props) {
             <input type="submit" value="Submit" />
           </form>
           <div style={{ fontWeight: "bold" }}>
-            Current List: {data.listById.title}
+            Current List: {data.listById.title} (List Owner:{" "}
+            {data.listById.postedBy.name} )
           </div>
           <Todos
             todos={data.listById.todos}

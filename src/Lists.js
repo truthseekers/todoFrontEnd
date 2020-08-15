@@ -12,6 +12,7 @@ function Lists(props) {
         onDeleteList={props.onDeleteList}
         name={elem.title}
         onSelect={props.selectList}
+        postedBy={props.postedBy}
       />
     );
   });

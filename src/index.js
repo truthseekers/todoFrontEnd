@@ -26,6 +26,8 @@ const httpLink = createHttpLink({
   uri: "http://localhost:4000",
 });
 
+//console.log("In INDEX");
+
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem(AUTH_TOKEN);
   return {

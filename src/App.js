@@ -14,8 +14,10 @@ function App() {
   const [loggedInUser, setLoggedInUser] = useState(authToken ? true : false);
   const meQuery = useQuery(ME);
 
+  console.log(authToken);
   if (authToken) {
     //console.log("auth token exists on app.js");
+    // console.log(authToken);
   } else {
     //console.log("no auth token in app.js");
   }
@@ -24,6 +26,9 @@ function App() {
     //console.log("changing logged In userstate ");
     setLoggedInUser(arg);
   };
+
+  //console.log("loggedInUser: ");
+  //console.log(loggedInUser);
 
   if (meQuery.loading) {
     return <div>Loading...</div>;
@@ -34,6 +39,9 @@ function App() {
     //console.log(meQuery.data);
     // console.log(meQuery.data.me.name);
     // setLoggedInUser(true);
+  } else {
+    //console.log("no user data! see: ");
+    //console.log(meQuery.data);
   }
 
   return (
@@ -49,10 +57,8 @@ function App() {
             />
           )}
         />
-        {/* <Route path="/login" component={Login} /> */}
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/signup" component={Signup} />
-        {/* <Route path="/" component={AppContainer} /> */}
         <Route
           path="/"
           render={(props) => (

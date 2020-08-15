@@ -4,10 +4,12 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import Loader from "react-loader";
 import Lists from "./Lists";
 import { ALL_LISTS, NEW_LIST, DELETE_LIST } from "./queries";
+import { AUTH_TOKEN } from "./constants";
 
 function SidebarTodo(props) {
   const [taskField, setTaskField] = useState("");
   const { data, loading, error } = useQuery(ALL_LISTS);
+  const authToken = localStorage.getItem(AUTH_TOKEN);
 
   const [deleteList] = useMutation(DELETE_LIST, {
     update(cache, { data: { deleteList } }) {
@@ -29,6 +31,9 @@ function SidebarTodo(props) {
     },
   });
 
+  //console.log("props in sidebarTodo: ");
+  //console.log(props.userData.me.id);
+
   const [createList] = useMutation(NEW_LIST, {
     update(cache, { data: { newList } }) {
       const { lists } = cache.readQuery({ query: ALL_LISTS });
@@ -48,9 +53,9 @@ function SidebarTodo(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    //console.log("creating newLilst now!");
     createList({
-      variables: { newList: taskField },
+      variables: { title: taskField, userId: props.userData.me.id },
     });
   };
 
@@ -75,6 +80,7 @@ function SidebarTodo(props) {
         onDeleteList={onDeleteList}
         selectList={props.selectList}
         lists={data.lists}
+        postedBy={data.postedBy}
       />
     );
   } else {
@@ -87,18 +93,25 @@ function SidebarTodo(props) {
       className="col-md-4 col-lg-2 d-md-block bg-light sidebar collapse"
     >
       <div style={{ background: "#eee" }} className="sidebar-sticky pt-3">
-        <form onSubmit={handleSubmit}>
-          <label>
-            <input
-              placeholder="Create a new wow List"
-              type="text"
-              value={taskField}
-              onChange={handleChange}
-              name="name"
-            />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
+        {authToken ? (
+          <div>
+            ya
+            <form onSubmit={handleSubmit}>
+              <label>
+                <input
+                  placeholder="Create a new wow List"
+                  type="text"
+                  value={taskField}
+                  onChange={handleChange}
+                  name="name"
+                />
+              </label>
+              <input type="submit" value="Submit" />
+            </form>
+          </div>
+        ) : (
+          <div>Log in / Sign up to create a todo list!</div>
+        )}
         {renderLists}
       </div>
     </Nav>

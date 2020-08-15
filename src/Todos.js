@@ -5,8 +5,8 @@ import { useMutation } from "@apollo/react-hooks";
 import { UPDATE_TODO_ITEM } from "./queries";
 
 function Todos(props) {
-  let rows = [];
-
+  let incompleteRows = [];
+  let completedTodos = [];
   const [updateTodo] = useMutation(UPDATE_TODO_ITEM, {
     variables: {
       todoId: props.id,
@@ -39,16 +39,32 @@ function Todos(props) {
   };
 
   props.todos.map((elem) => {
-    rows.push(
-      <TodoItem
-        key={elem.id.toString()}
-        id={elem.id}
-        deleteTodo={props.deleteTodo}
-        // checkTodo={checkTodo}
-        completed={elem.isCompleted}
-        task={elem.name}
-      />
-    );
+    //console.log("elem...: ");
+    //console.log(elem.postedBy.name);
+    if (elem.isCompleted) {
+      completedTodos.push(
+        <TodoItem
+          key={elem.id.toString()}
+          id={elem.id}
+          deleteTodo={props.deleteTodo}
+          completed={elem.isCompleted}
+          task={elem.name}
+          postedBy={elem.postedBy.name}
+        />
+      );
+    } else {
+      incompleteRows.push(
+        <TodoItem
+          key={elem.id.toString()}
+          id={elem.id}
+          deleteTodo={props.deleteTodo}
+          // checkTodo={checkTodo}
+          completed={elem.isCompleted}
+          postedBy={elem.postedBy.name}
+          task={elem.name}
+        />
+      );
+    }
     return 0;
   });
 
@@ -57,8 +73,10 @@ function Todos(props) {
       {props.todos.length == 0 ? (
         <div>No Todos in this list!</div>
       ) : (
-        <div>{rows}</div>
+        <div>{incompleteRows}</div>
       )}
+      <h3>Completed Todos: </h3>
+      <span style={{ textDecoration: "line-through" }}>{completedTodos}</span>
     </div>
   );
 }
