@@ -15,13 +15,13 @@ function App() {
   const meQuery = useQuery(ME);
 
   if (authToken) {
-    console.log("auth token exists on app.js");
+    //console.log("auth token exists on app.js");
   } else {
-    console.log("no auth token in app.js");
+    //console.log("no auth token in app.js");
   }
 
   const updateLoggedInUser = (arg) => {
-    console.log("changing logged In userstate ");
+    //console.log("changing logged In userstate ");
     setLoggedInUser(arg);
   };
 
@@ -30,8 +30,8 @@ function App() {
   }
 
   if (meQuery.data) {
-    console.log("user data is: ");
-    console.log(meQuery.data);
+    //console.log("user data is: ");
+    //console.log(meQuery.data);
     // console.log(meQuery.data.me.name);
     // setLoggedInUser(true);
   }

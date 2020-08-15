@@ -12,7 +12,7 @@ function CurrentListContainer(props) {
 
   const [deleteTodo] = useMutation(DELETE_TODO_ITEM, {
     update(cache, { data: { deleteTodo } }) {
-      console.log("deleting todo");
+      //console.log("deleting todo");
       const thingThree = cache.readQuery({
         query: LIST_TODOS,
         variables: { listId: props.listId },
@@ -54,7 +54,7 @@ function CurrentListContainer(props) {
   });
 
   const onDeleteTodo = (todoId) => {
-    console.log("delete message front end");
+    //console.log("delete message front end");
     deleteTodo({
       variables: { todo: todoId },
     });

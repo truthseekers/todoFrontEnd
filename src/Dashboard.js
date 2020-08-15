@@ -6,9 +6,9 @@ function Dashboard(props) {
   const authToken = localStorage.getItem(AUTH_TOKEN);
 
   if (authToken) {
-    console.log("someone is logged in!");
+    //console.log("someone is logged in!");
   } else {
-    console.log("Nobody logged in yo!");
+    //console.log("Nobody logged in yo!");
   }
 
   return (

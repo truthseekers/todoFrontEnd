@@ -34,7 +34,7 @@ function Todos(props) {
   // },
 
   const checkTodo = () => {
-    console.log("checked the todo item!");
+    //console.log("checked the todo item!");
     //updateTodo();
   };
 

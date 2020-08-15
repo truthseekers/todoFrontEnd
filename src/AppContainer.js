@@ -27,7 +27,7 @@ function AppContainer(props) {
   }
 
   if (error) {
-    console.log("THERE WAS N ERROR!");
+    //console.log("THERE WAS N ERROR!");
     return <div>Error</div>;
   }
 
@@ -61,8 +61,8 @@ function AppContainer(props) {
     setTodosState(newState);
   };
 
-  console.log("PROPS MAAN");
-  console.log(props);
+  // console.log("PROPS MAAN");
+  // console.log(props);
 
   return (
     <div>
