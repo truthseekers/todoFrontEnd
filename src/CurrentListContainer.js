@@ -113,8 +113,13 @@ function CurrentListContainer(props) {
             <input type="submit" value="Submit" />
           </form>
           <div style={{ fontWeight: "bold" }}>
-            Current List: {data.listById.title} (List Owner:{" "}
-            {data.listById.postedBy.name} )
+            <h3>
+              Current List: {data.listById.title}{" "}
+              <small>
+                (Owner:
+                {data.listById.postedBy.name} )
+              </small>
+            </h3>
           </div>
           <Todos
             loggedInUser={props.loggedInUser}

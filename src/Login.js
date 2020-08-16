@@ -72,7 +72,12 @@ function Login(props) {
     onError(data) {
       //console.log("Following signup error: ");
       //console.log(data.graphQLErrors);
-      setErrors([{ message: "Something went wrong. Please try again" }]);
+      setErrors([
+        {
+          message:
+            "Email may already be in use. Something went wrong. Please try again",
+        },
+      ]);
     },
   });
 
@@ -111,11 +116,22 @@ function Login(props) {
 
   return (
     <div>
-      <h4 className="mv3">{login.login ? "Login" : "Sign Up"}</h4>
-      <div className="flex flex-column">
+      <NavTodo
+        userName={props.userName}
+        // userData={props.userData}
+        setLoggedInUser={props.setLoggedInUser}
+        loggedInUser={props.loggedInUser}
+      />
+      <h3 style={{ color: "orange" }}>
+        Note: This is a demo app on a DEMO server. Please use fake
+        email/passwords like "hello@123.com" and "pass"
+      </h3>
+      <h4 className="mv3">{login ? "Login" : "Sign Up"}</h4>
+      <div style={{ marginBottom: "20px" }} className="flex flex-column">
         {!login && (
           <div>
             <input
+              style={{ margin: "10px" }}
               value={login.userName}
               onChange={(e) => setUserName(e.target.value)}
               type="text"
@@ -124,29 +140,36 @@ function Login(props) {
           </div>
         )}
         <input
+          style={{ margin: "10px" }}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           type="text"
-          placeholder="Your email address"
+          placeholder="a fake email address"
         />
         <input
+          style={{ margin: "10px" }}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           type="password"
-          placeholder="Choose a safe password"
+          placeholder="fake password"
         />
       </div>
-      <h3>yo man</h3>
       <div className="flex mt3">
-        <div className="pointer mr2 button" onClick={handleLogin}>
-          <button>{login ? "login" : "create account"}</button>
-        </div>
+        <span
+          style={{ margin: "20px" }}
+          className="pointer mr2 button"
+          onClick={handleLogin}
+        >
+          <button>{login ? "login" : "Sign Up!"}</button>
+        </span>
         {/* <div className="pointer button" onClick={() => setLogin(!login)}> */}
-        <div className="pointer button" onClick={() => setLogin(!login)}>
-          {login ? "need to create an account?" : "already have an account?"}
-        </div>
+        <span className="pointer button" onClick={() => setLogin(!login)}>
+          <button>
+            {login ? "Create an account?" : "already have an account?"}
+          </button>
+        </span>
       </div>
-      error list: {errorsList}
+      {errorsList.length > 0 && <span>error list: {errorsList}</span>}
     </div>
   );
 }

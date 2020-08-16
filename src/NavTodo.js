@@ -17,6 +17,26 @@ function NavTodo(props) {
     props.setLoggedInUser(false);
   };
 
+  console.log("props.loggedInUser in NavTodo.js");
+  console.log(props.loggedInUser);
+
+  // let renderLists;
+  // if (data.lists.length > 0) {
+  //   //console.log("data.postedBy");
+  //   //console.log(data);
+  //   renderLists = (
+  //     <Lists
+  //       loggedInUser={props.loggedInUser}
+  //       onDeleteList={onDeleteList}
+  //       selectList={props.selectList}
+  //       lists={data.lists}
+  //       postedBy={data.postedBy}
+  //     />
+  //   );
+  // } else {
+  //   renderLists = <p>You have no lists! Create some!</p>;
+  // }
+
   return (
     <Navbar className="sticky-top" bg="light" expand="md">
       <Link to="/">
@@ -40,14 +60,14 @@ function NavTodo(props) {
         </div>
       ) : (
         <Link to="/login">
-          <Button variant="outline-success">Login</Button>
+          <Button variant="outline-success">Login/Signup</Button>
         </Link>
       )}
-      <Link to="/signup">
-        <Button variant="outline-success">Sign Up</Button>
-      </Link>
-      <span>Welcome {props.userName}</span>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      {props.loggedInUser.name && (
+        <span style={{ marginLeft: "20px" }}>
+          Welcome {props.loggedInUser.name}
+        </span>
+      )}
     </Navbar>
   );
 }

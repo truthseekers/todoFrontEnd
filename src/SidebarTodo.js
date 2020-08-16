@@ -11,25 +11,25 @@ function SidebarTodo(props) {
   const { data, loading, error } = useQuery(ALL_LISTS);
   const authToken = localStorage.getItem(AUTH_TOKEN);
 
-  const [deleteList] = useMutation(DELETE_LIST, {
-    update(cache, { data: { deleteList } }) {
-      const { lists } = cache.readQuery({ query: ALL_LISTS });
-      let updatedLists = lists.filter((elem) => {
-        if (elem.id !== deleteList.list.id) {
-          return elem;
-        }
-      });
-      if (updatedLists.length !== 0) {
-        props.selectList(updatedLists[0].id);
-      }
-      cache.writeQuery({
-        query: ALL_LISTS,
-        data: {
-          lists: updatedLists,
-        },
-      });
-    },
-  });
+  // const [deleteList] = useMutation(DELETE_LIST, {
+  //   update(cache, { data: { deleteList } }) {
+  //     const { lists } = cache.readQuery({ query: ALL_LISTS });
+  //     let updatedLists = lists.filter((elem) => {
+  //       if (elem.id !== deleteList.list.id) {
+  //         return elem;
+  //       }
+  //     });
+  //     if (updatedLists.length !== 0) {
+  //       props.selectList(updatedLists[0].id);
+  //     }
+  //     cache.writeQuery({
+  //       query: ALL_LISTS,
+  //       data: {
+  //         lists: updatedLists,
+  //       },
+  //     });
+  //   },
+  // });
 
   //console.log("props in sidebarTodo: ");
   //console.log(props.userData.me.id);
@@ -59,11 +59,11 @@ function SidebarTodo(props) {
     });
   };
 
-  const onDeleteList = (listId) => {
-    deleteList({
-      variables: { listId: listId },
-    });
-  };
+  // const onDeleteList = (listId) => {
+  //   deleteList({
+  //     variables: { listId: listId },
+  //   });
+  // };
 
   if (loading) {
     return <Loader />;
@@ -80,7 +80,7 @@ function SidebarTodo(props) {
     renderLists = (
       <Lists
         loggedInUser={props.loggedInUser}
-        onDeleteList={onDeleteList}
+        deleteList={props.deleteList}
         selectList={props.selectList}
         lists={data.lists}
         postedBy={data.postedBy}
@@ -98,11 +98,10 @@ function SidebarTodo(props) {
       <div style={{ background: "#eee" }} className="sidebar-sticky pt-3">
         {authToken ? (
           <div>
-            ya
             <form onSubmit={handleSubmit}>
               <label>
                 <input
-                  placeholder="Create a new wow List"
+                  placeholder="Create a new List"
                   type="text"
                   value={taskField}
                   onChange={handleChange}

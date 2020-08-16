@@ -6,22 +6,44 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import NavTodo from "./NavTodo";
 import SidebarTodo from "./SidebarTodo";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import CurrentListContainer from "./CurrentListContainer";
-import { GET_LIST_IDS, ME } from "./queries";
+import { GET_LIST_IDS, ME, DELETE_LIST, ALL_LISTS } from "./queries";
 // import AuthContext from "./AuthContext";
 import Me from "./Me";
 import { Query } from "react-apollo";
 import authContext from "./AuthContext";
 import MeQueryHack from "./MeQueryHack";
+import Lists from "./Lists";
 
 function AppContainer(props) {
   // const theme = useContext();
   const { data, loading, error } = useQuery(GET_LIST_IDS);
+  const allLists = useQuery(ALL_LISTS);
   const meQuery = useQuery(ME);
   const [currentListId, setCurrentListId] = useState("");
   const [isListEmpty, setIsListEmpty] = useState(false);
   const [todosState, setTodosState] = useState([]);
+
+  const [deleteList] = useMutation(DELETE_LIST, {
+    update(cache, { data: { deleteList } }) {
+      const { lists } = cache.readQuery({ query: ALL_LISTS });
+      let updatedLists = lists.filter((elem) => {
+        if (elem.id !== deleteList.list.id) {
+          return elem;
+        }
+      });
+      if (updatedLists.length !== 0) {
+        selectList(updatedLists[0].id);
+      }
+      cache.writeQuery({
+        query: ALL_LISTS,
+        data: {
+          lists: updatedLists,
+        },
+      });
+    },
+  });
 
   if (loading) {
     return <div>Loading...</div>;
@@ -62,8 +84,34 @@ function AppContainer(props) {
     setTodosState(newState);
   };
 
-  // console.log("PROPS MAAN");
-  // console.log(props.loggedInUser);
+  const onDeleteList = (listId) => {
+    console.log("Deleted list using appContainer area");
+    deleteList({
+      variables: { listId: listId },
+    });
+  };
+
+  console.log("PROPS MAAN");
+  console.log(props.loggedInUser);
+
+  let renderLists;
+  if (data.lists.length > 0) {
+    //console.log("data.postedBy");
+    //console.log(data);
+    console.log("ALL LISTS. LISTS!!!!!! *************");
+    console.log(allLists.data.lists);
+    renderLists = (
+      <Lists
+        loggedInUser={props.loggedInUser}
+        onDeleteList={onDeleteList}
+        selectList={selectList}
+        lists={allLists.data.lists}
+        postedBy={allLists.postedBy}
+      />
+    );
+  } else {
+    renderLists = <p>You have no lists! Create some!</p>;
+  }
 
   return (
     <div>
@@ -71,7 +119,7 @@ function AppContainer(props) {
         userName={props.userName}
         // userData={props.userData}
         setLoggedInUser={props.setLoggedInUser}
-        // setLoggedInUser={props.loggedInUser}
+        loggedInUser={props.loggedInUser}
       />
       <Container fluid>
         {/* <MeQueryHack loggedInUser={props.loggedInUser} /> */}
@@ -81,6 +129,7 @@ function AppContainer(props) {
             userData={props.userData}
             currentListId={currentListId}
             loggedInUser={props.loggedInUser}
+            deleteList={onDeleteList}
           />
 
           <main className="col-md-8 ml-sm-auto col-lg-10 px-md-4">
@@ -91,15 +140,23 @@ function AppContainer(props) {
                   isListEmpty={isListEmpty}
                   listId={currentListId}
                 />
+                {/* <SidebarTodo
+                  selectList={selectList}
+                  userData={props.userData}
+                  currentListId={currentListId}
+                  loggedInUser={props.loggedInUser}
+                /> */}
+                <h3>hello?</h3>
+                {renderLists}
+                {/* <Lists
+                  loggedInUser={props.loggedInUser}
+                  onDeleteList={onDeleteList}
+                  // selectList={props.selectList}
+                  lists={allLists.lists}
+                  postedBy={allLists.postedBy}
+                /> */}
               </Col>
             </Row>
-            <div>
-              Calm r tits{" "}
-              {props.userData && props.loggedInUser
-                ? props.loggedInUser.name
-                : "nobody here"}
-              <Me />
-            </div>
             {/* <authContext.Consumer>
               {(value) => <div>poo value {value} </div>}
             </authContext.Consumer> */}

@@ -5,16 +5,16 @@ import Login from "./Login";
 import Signup from "./Signup";
 import Dashboard from "./Dashboard";
 import { AUTH_TOKEN } from "./constants";
-import { ME } from "./queries";
-import { useQuery } from "react-apollo";
+import { ME, ALL_LISTS, DELETE_LIST } from "./queries";
+import { useQuery, useMutation } from "react-apollo";
 import authContext from "./AuthContext";
+import Lists from "./Lists";
 
 function App() {
   const authToken = localStorage.getItem(AUTH_TOKEN);
 
-  // const [loggedInUser, setLoggedInUser] = useState(authToken ? true : false);
-  // const [meQueryState, setMeQueryState] = useState(ME);
   const meQuery = useQuery(ME);
+  const listsQuery = useQuery(ALL_LISTS);
 
   let defaultLoggedInUser = "";
   if (authToken && meQuery.data) {
@@ -35,6 +35,30 @@ function App() {
     name: localStorage.getItem("userName"),
     email: "jaja@ya.com",
   });
+  const [deleteList] = useMutation(DELETE_LIST, {
+    update(cache, { data: { deleteList } }) {
+      const { lists } = cache.readQuery({ query: ALL_LISTS });
+      let updatedLists = lists.filter((elem) => {
+        if (elem.id !== deleteList.list.id) {
+          return elem;
+        }
+      });
+      if (updatedLists.length !== 0) {
+        selectList(updatedLists[0].id);
+      }
+      cache.writeQuery({
+        query: ALL_LISTS,
+        data: {
+          lists: updatedLists,
+        },
+      });
+    },
+  });
+  const [currentListId, setCurrentListId] = useState("");
+
+  const selectList = (newListId) => {
+    setCurrentListId(newListId);
+  };
 
   console.log("user localstorage info: ");
   console.log(localStorage.getItem("userName"));
@@ -67,7 +91,7 @@ function App() {
   //console.log("loggedInUser: ");
   //console.log(loggedInUser);
 
-  if (meQuery.loading) {
+  if (meQuery.loading || listsQuery.loading) {
     return <div>Loading...</div>;
   }
 
@@ -79,6 +103,35 @@ function App() {
   } else {
     //console.log("no user data! see: ");
     //console.log(meQuery.data);
+  }
+
+  const onDeleteList = (listId) => {
+    deleteList({
+      variables: { listId: listId },
+    });
+  };
+
+  if (!currentListId && listsQuery.data.lists.length > 0) {
+    setCurrentListId(listsQuery.data.lists[0].id);
+  }
+
+  console.log("ListsQuery ya");
+  console.log(listsQuery.data.lists);
+  let renderLists;
+  if (listsQuery.data.lists.length > 0) {
+    //console.log("data.postedBy");
+    //console.log(data);
+    renderLists = (
+      <Lists
+        loggedInUser={loggedInUser}
+        onDeleteList={onDeleteList}
+        selectList={selectList}
+        lists={listsQuery.data.lists}
+        postedBy={listsQuery.data.postedBy}
+      />
+    );
+  } else {
+    renderLists = <p>You have no lists! Create some!</p>;
   }
 
   return (
