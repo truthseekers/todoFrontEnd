@@ -10,6 +10,11 @@ const SIGNUP_MUTATION = gql`
   mutation SignupMutation($email: String!, $password: String!, $name: String!) {
     signup(email: $email, password: $password, name: $name) {
       token
+      user {
+        id
+        name
+        email
+      }
     }
   }
 `;
@@ -57,8 +62,11 @@ function Login(props) {
 
   const [doSignup, signupObj] = useMutation(SIGNUP_MUTATION, {
     onCompleted(data) {
-      //console.log("completed SIGNUP");
-      //console.log(data);
+      console.log("completed SIGNUP");
+      console.log(data);
+      localStorage.setItem("userName", data.signup.user.name);
+      localStorage.setItem("userId", data.signup.user.id);
+      props.setLoggedInUser(data.signup.user);
       _confirm(data);
     },
     onError(data) {

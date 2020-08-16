@@ -20,7 +20,9 @@ function NavTodo(props) {
   return (
     <Navbar className="sticky-top" bg="light" expand="md">
       <Link to="/">
-        <Navbar.Brand>Super Todo List</Navbar.Brand>
+        <Navbar style={{ fontWeight: "bold", color: "black" }}>
+          Super Todo List
+        </Navbar>
       </Link>
       {authToken ? (
         <div
@@ -43,9 +45,6 @@ function NavTodo(props) {
       )}
       <Link to="/signup">
         <Button variant="outline-success">Sign Up</Button>
-      </Link>
-      <Link to="/dashboard">
-        <Button variant="outline-success">Dashboard</Button>
       </Link>
       <span>Welcome {props.userName}</span>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
