@@ -30,6 +30,8 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem(AUTH_TOKEN);
+  // console.log("in authLink?");
+  // console.log(token);
   return {
     headers: {
       ...headers,
@@ -59,6 +61,7 @@ const link = split(
 
 const client = new ApolloClient({
   link,
+  fuckoff: "jesus christ",
   cache: new InMemoryCache(),
 });
 

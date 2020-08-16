@@ -63,7 +63,7 @@ function AppContainer(props) {
   };
 
   // console.log("PROPS MAAN");
-  // console.log(props);
+  // console.log(props.loggedInUser);
 
   return (
     <div>
@@ -74,7 +74,7 @@ function AppContainer(props) {
         // setLoggedInUser={props.loggedInUser}
       />
       <Container fluid>
-        <MeQueryHack loggedInUser={props.loggedInUser} />
+        {/* <MeQueryHack loggedInUser={props.loggedInUser} /> */}
         <Row>
           <SidebarTodo
             selectList={selectList}
@@ -94,7 +94,7 @@ function AppContainer(props) {
             <div>
               Calm r tits{" "}
               {props.userData && props.loggedInUser
-                ? props.userData.me.name
+                ? props.loggedInUser.name
                 : "nobody here"}
               <Me />
             </div>

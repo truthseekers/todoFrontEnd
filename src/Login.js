@@ -18,6 +18,11 @@ const LOGIN_MUTATION = gql`
   mutation LoginMutation($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       token
+      user {
+        id
+        name
+        email
+      }
     }
   }
 `;
@@ -33,6 +38,13 @@ function Login(props) {
     onCompleted(data) {
       //console.log("uhh.. completed login?");
       //console.log(data);
+      props.setLoggedInUser(data.login.user);
+      //console.log("data.login.user in login.js");
+      //console.log(data.login.user);
+      localStorage.setItem("userName", data.login.user.name);
+      localStorage.setItem("userId", data.login.user.id);
+
+      //console.log(localStorage.getItem("user"));
       _confirm(data);
     },
     onError(data) {
@@ -63,7 +75,7 @@ function Login(props) {
     _saveUserData(token);
     // this.props.setLoggedInUser("poop");
     props.history.push(`/`);
-    props.setLoggedInUser(true);
+    //props.setLoggedInUser(true);
     // setLogin(true);
   };
 

@@ -11,10 +11,41 @@ import authContext from "./AuthContext";
 
 function App() {
   const authToken = localStorage.getItem(AUTH_TOKEN);
-  const [loggedInUser, setLoggedInUser] = useState(authToken ? true : false);
+
+  // const [loggedInUser, setLoggedInUser] = useState(authToken ? true : false);
+  // const [meQueryState, setMeQueryState] = useState(ME);
   const meQuery = useQuery(ME);
 
-  console.log(authToken);
+  let defaultLoggedInUser = "";
+  if (authToken && meQuery.data) {
+    // console.log("setting loggedInUser to:::::: ");
+    // console.log(meQuery.data.me);
+    defaultLoggedInUser = {
+      id: localStorage.getItem("userId"),
+      name: localStorage.getItem("userName"),
+      email: "jajaja@ya.com",
+    };
+    //console.log(defaultLoggedInUser);
+  }
+
+  //console.log("right before setting loggedInUser: ");
+  //console.log(defaultLoggedInUser);
+  const [loggedInUser, setLoggedInUser] = useState({
+    id: localStorage.getItem("userId"),
+    name: localStorage.getItem("userName"),
+    email: "jaja@ya.com",
+  });
+
+  console.log("user localstorage info: ");
+  console.log(localStorage.getItem("userName"));
+  console.log(localStorage.getItem("userId"));
+  console.log(localStorage.getItem(AUTH_TOKEN));
+  console.log("loggedInUser: ");
+  console.log(loggedInUser);
+  //console.log("AFTER... ");
+  //console.log(loggedInUser);
+
+  //console.log(authToken);
   if (authToken) {
     //console.log("auth token exists on app.js");
     // console.log(authToken);
@@ -24,9 +55,15 @@ function App() {
 
   const updateLoggedInUser = (arg) => {
     //console.log("changing logged In userstate ");
+    //setMeQueryState(ME);
     setLoggedInUser(arg);
   };
 
+  //console.log(authToken);
+  //console.log("meQuery: ");
+  //console.log(meQuery);
+  //console.log("loggedInUser: ");
+  //console.log(loggedInUser);
   //console.log("loggedInUser: ");
   //console.log(loggedInUser);
 

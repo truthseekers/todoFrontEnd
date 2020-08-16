@@ -10,14 +10,14 @@ function MeQueryHack(props) {
   const meQuery = useQuery(ME);
 
   //   console.log("MEQUERY HACK");
-  console.log("meQuery before loading: ");
-  console.log(meQuery.data);
+  //console.log("meQuery before loading: ");
+  //console.log(meQuery.data);
   if (meQuery.loading) {
     return <div>Loading...</div>;
   }
 
-  console.log("meQuery data AFTEr loading:");
-  console.log(meQuery.data);
+  //console.log("meQuery data AFTEr loading:");
+  //console.log(meQuery.data);
 
   //   if (meQuery.data) {
   //     // console.log("IN THE HACKKKK ", props.loggedInUser);
