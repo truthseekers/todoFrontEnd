@@ -5,14 +5,17 @@ function Lists(props) {
   let rows = [];
 
   props.lists.map((elem) => {
+    console.log("ELEME in LISSTS");
+    console.log(elem);
     rows.push(
       <ListRow
+        loggedInUser={props.loggedInUser}
         key={elem.id.toString()}
         id={elem.id}
         onDeleteList={props.onDeleteList}
         name={elem.title}
         onSelect={props.selectList}
-        postedBy={props.postedBy}
+        postedBy={elem.postedBy}
       />
     );
   });

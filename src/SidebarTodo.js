@@ -75,8 +75,11 @@ function SidebarTodo(props) {
 
   let renderLists;
   if (data.lists.length > 0) {
+    console.log("data.postedBy");
+    console.log(data);
     renderLists = (
       <Lists
+        loggedInUser={props.loggedInUser}
         onDeleteList={onDeleteList}
         selectList={props.selectList}
         lists={data.lists}

@@ -55,8 +55,12 @@ function TodoItem(props) {
         checked={props.completed}
         onChange={handleChange}
       />
-      {props.task} (By: {props.postedBy}) -{" "}
-      <TrashFill onClick={deleteTodoItem} />
+      {props.task} (By: {props.postedBy.name})
+      {props.postedBy.id == props.loggedInUser.id && (
+        <span>
+          - <TrashFill onClick={deleteTodoItem} />
+        </span>
+      )}
     </div>
   );
 }

@@ -117,6 +117,7 @@ function CurrentListContainer(props) {
             {data.listById.postedBy.name} )
           </div>
           <Todos
+            loggedInUser={props.loggedInUser}
             todos={data.listById.todos}
             deleteTodo={onDeleteTodo}
             checkTodo={checkTodo}

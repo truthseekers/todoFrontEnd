@@ -42,25 +42,29 @@ function Todos(props) {
     //console.log("elem...: ");
     //console.log(elem.postedBy.name);
     if (elem.isCompleted) {
+      //console.log("elem.postedBy:");
+      //console.log(elem.postedBy);
       completedTodos.push(
         <TodoItem
+          loggedInUser={props.loggedInUser}
           key={elem.id.toString()}
           id={elem.id}
           deleteTodo={props.deleteTodo}
           completed={elem.isCompleted}
           task={elem.name}
-          postedBy={elem.postedBy.name}
+          postedBy={elem.postedBy}
         />
       );
     } else {
       incompleteRows.push(
         <TodoItem
+          loggedInUser={props.loggedInUser}
           key={elem.id.toString()}
           id={elem.id}
           deleteTodo={props.deleteTodo}
           // checkTodo={checkTodo}
           completed={elem.isCompleted}
-          postedBy={elem.postedBy.name}
+          postedBy={elem.postedBy}
           task={elem.name}
         />
       );

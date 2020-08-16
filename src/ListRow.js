@@ -10,10 +10,17 @@ function ListRow(props) {
     props.onDeleteList(props.id);
   };
 
+  console.log(props.loggedInUser);
+  console.log(props.postedBy);
+
   return (
     <li className="list-row">
-      <span onClick={handleListChange}>{props.name}</span> -{" "}
-      <TrashFill onClick={deleteRow} />
+      <span onClick={handleListChange}>{props.name}</span>
+      {props.loggedInUser.id == props.postedBy.id && (
+        <span>
+          - <TrashFill onClick={deleteRow} />
+        </span>
+      )}
     </li>
   );
 }

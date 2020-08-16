@@ -80,12 +80,14 @@ function AppContainer(props) {
             selectList={selectList}
             userData={props.userData}
             currentListId={currentListId}
+            loggedInUser={props.loggedInUser}
           />
 
           <main className="col-md-8 ml-sm-auto col-lg-10 px-md-4">
             <Row className="justify-content-md-center text-center">
               <Col>
                 <CurrentListContainer
+                  loggedInUser={props.loggedInUser}
                   isListEmpty={isListEmpty}
                   listId={currentListId}
                 />
