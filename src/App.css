@@ -45,3 +45,13 @@ body {
     transform: rotate(360deg);
   }
 }
+
+.lists-mobile {
+  display: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .lists-mobile {
+    display: block;
+  }
+}

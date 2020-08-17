@@ -124,7 +124,7 @@ function Login(props) {
       />
       <h3 style={{ color: "orange" }}>
         Note: This is a demo app on a DEMO server. Please use fake
-        email/passwords like "hello@123.com" and "pass"
+        email/passwords. Example - "hello@123.com" and "pass"
       </h3>
       <h4 className="mv3">{login ? "Login" : "Sign Up"}</h4>
       <div style={{ marginBottom: "20px" }} className="flex flex-column">

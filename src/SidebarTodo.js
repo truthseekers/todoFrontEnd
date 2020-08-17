@@ -80,7 +80,7 @@ function SidebarTodo(props) {
     renderLists = (
       <Lists
         loggedInUser={props.loggedInUser}
-        deleteList={props.deleteList}
+        onDeleteList={props.deleteList}
         selectList={props.selectList}
         lists={data.lists}
         postedBy={data.postedBy}
