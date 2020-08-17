@@ -23,7 +23,8 @@ import AuthContext from "./AuthContext";
 // let history = createdBrowserHistory();
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:4000",
+  // uri: "http://localhost:4000",
+  uri: "https://graphqlsupertodo.herokuapp.com/",
 });
 
 //console.log("In INDEX");
@@ -41,7 +42,8 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:4000`,
+  // uri: `ws://localhost:4000`,
+  uri: `ws://graphqlsupertodo.herokuapp.com/`,
   options: {
     reconnect: true,
     connectionParams: {
