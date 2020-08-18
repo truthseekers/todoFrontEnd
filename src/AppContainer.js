@@ -149,7 +149,9 @@ function AppContainer(props) {
             </form>
           </div>
         ) : (
-          <div>Log in / Sign up to create a todo list!</div>
+          <div style={{ fontWeight: "bold", margin: "25px", color: "orange" }}>
+            Log in / Sign up to create a todo list!
+          </div>
         )}
         <Lists
           loggedInUser={props.loggedInUser}
@@ -198,7 +200,7 @@ function AppContainer(props) {
                   <Collapse in={open}>
                     <div id="mobile-lists">{renderLists}</div>
                   </Collapse>
-                </div>
+                </div>{" "}
                 <CurrentListContainer
                   loggedInUser={props.loggedInUser}
                   isListEmpty={isListEmpty}
@@ -210,7 +212,6 @@ function AppContainer(props) {
                   currentListId={currentListId}
                   loggedInUser={props.loggedInUser}
                 /> */}
-
                 {/* <Lists
                   loggedInUser={props.loggedInUser}
                   onDeleteList={onDeleteList}

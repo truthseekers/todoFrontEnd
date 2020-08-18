@@ -94,24 +94,35 @@ function CurrentListContainer(props) {
   //console.log("data list owner: ");
   //console.log(data);
 
+  console.log("props.loggedInUser");
+  console.log(props.loggedInUser);
+
   return (
     <div>
       {props.isListEmpty ? (
         <p>No List Selected!</p>
       ) : (
         <div>
-          <form onSubmit={handleSubmit}>
-            <label>
-              <input
-                type="text"
-                placeholder="Add a Todo"
-                value={taskField}
-                onChange={handleChange}
-                name="name"
-              />
-            </label>
-            <input type="submit" value="Submit" />
-          </form>
+          {!props.loggedInUser.id ? (
+            <div
+              style={{ fontWeight: "bold", margin: "25px", color: "orange" }}
+            >
+              Log in to add todos!.
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              <label>
+                <input
+                  type="text"
+                  placeholder="Add a Todo"
+                  value={taskField}
+                  onChange={handleChange}
+                  name="name"
+                />
+              </label>
+              <input type="submit" value="Submit" />
+            </form>
+          )}
           <div style={{ fontWeight: "bold" }}>
             <h3>
               Current List: {data.listById.title}{" "}
