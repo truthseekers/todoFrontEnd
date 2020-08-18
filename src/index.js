@@ -43,7 +43,7 @@ const authLink = setContext((_, { headers }) => {
 
 const wsLink = new WebSocketLink({
   // uri: `ws://localhost:4000`,
-  uri: `ws://graphqlsupertodo.herokuapp.com/`,
+  uri: `wss://graphqlsupertodo.herokuapp.com/`,
   options: {
     reconnect: true,
     connectionParams: {
