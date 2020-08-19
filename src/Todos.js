@@ -79,7 +79,7 @@ function Todos(props) {
       ) : (
         <div>{incompleteRows}</div>
       )}
-      <h3>Completed Todos: </h3>
+      <h3 style={{ marginTop: "30px" }}>Completed Todos: </h3>
       <span style={{ textDecoration: "line-through" }}>{completedTodos}</span>
     </div>
   );

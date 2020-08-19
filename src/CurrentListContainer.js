@@ -105,7 +105,7 @@ function CurrentListContainer(props) {
         <div>
           {!props.loggedInUser.id ? (
             <div
-              style={{ fontWeight: "bold", margin: "25px", color: "orange" }}
+              style={{ fontWeight: "bold", margin: "25px", color: "#28a745" }}
             >
               Log in to add todos!.
             </div>

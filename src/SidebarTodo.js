@@ -112,7 +112,7 @@ function SidebarTodo(props) {
             </form>
           </div>
         ) : (
-          <div style={{ fontWeight: "bold", color: "orange" }}>
+          <div style={{ fontWeight: "bold", color: "#28a745" }}>
             Log in / Sign up to create a todo list!
           </div>
         )}

@@ -49,7 +49,7 @@ function TodoItem(props) {
   //console.log(props);
 
   return (
-    <div>
+    <div style={{ fontSize: "20px" }}>
       <input
         type="checkbox"
         checked={props.completed}
