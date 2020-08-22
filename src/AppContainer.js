@@ -9,14 +9,12 @@ import SidebarTodo from "./SidebarTodo";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import CurrentListContainer from "./CurrentListContainer";
 import { GET_LIST_IDS, DELETE_LIST, ALL_LISTS, NEW_LIST } from "./queries";
-// import AuthContext from "./AuthContext";
 import Lists from "./Lists";
 import { AUTH_TOKEN } from "./constants";
 import Collapse from "react-bootstrap/Collapse";
 import Button from "react-bootstrap/Button";
 
 function AppContainer(props) {
-  // const theme = useContext();
   const { data, loading, error } = useQuery(GET_LIST_IDS);
   const allLists = useQuery(ALL_LISTS);
   const [currentListId, setCurrentListId] = useState("");
@@ -139,12 +137,10 @@ function AppContainer(props) {
     <div>
       <NavTodo
         userName={props.userName}
-        // userData={props.userData}
         setLoggedInUser={props.setLoggedInUser}
         loggedInUser={props.loggedInUser}
       />
       <Container fluid>
-        {/* <MeQueryHack loggedInUser={props.loggedInUser} /> */}
         <Row>
           <SidebarTodo
             selectList={selectList}

@@ -1,19 +1,7 @@
 import React from "react";
 import { TrashFill } from "react-bootstrap-icons";
-// import gql from "graphql-tag";
-// import { useMutation } from "@apollo/react-hooks";
-// import Loader from "react-loader";
 import { useMutation } from "@apollo/react-hooks";
 import { UPDATE_TODO_ITEM } from "./queries";
-
-// const TODO_ITEM = gql`
-//   mutation deleteTodoItem($todo: ID!) {
-//     deleteTodo(todoId: $todo) {
-//       id
-//       name
-//     }
-//   }
-// `;
 
 function TodoItem(props) {
   const [updateTodo] = useMutation(UPDATE_TODO_ITEM, {
@@ -23,12 +11,7 @@ function TodoItem(props) {
     },
   });
 
-  // const [deleteTodo, todoDeleteMutation] = useMutation(TODO_ITEM);
-
   const deleteTodoItem = () => {
-    // deleteTodo({
-    //   variables: { todo: props.id },
-    // });
     props.deleteTodo(props.id);
   };
 

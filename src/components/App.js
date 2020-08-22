@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AppContainer from "../AppContainer";
-import { Route, Switch } from "react-router-dom"; // they only use browserrouter
+import { Route, Switch } from "react-router-dom";
 import Login from "../Login";
 import Signup from "../Signup";
 import Dashboard from "../Dashboard";
@@ -59,17 +59,11 @@ function App() {
   }
 
   const updateLoggedInUser = (arg) => {
-    //setMeQueryState(ME);
     setLoggedInUser(arg);
   };
 
   if (meQuery.loading || listsQuery.loading) {
     return <div>Loading...</div>;
-  }
-
-  if (meQuery.data) {
-    // setLoggedInUser(true);
-  } else {
   }
 
   const onDeleteList = (listId) => {
