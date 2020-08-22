@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import "./dashboard.css";
 import "./App.css";
 import Container from "react-bootstrap/Container";
@@ -8,26 +8,19 @@ import NavTodo from "./NavTodo";
 import SidebarTodo from "./SidebarTodo";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import CurrentListContainer from "./CurrentListContainer";
-import { GET_LIST_IDS, ME, DELETE_LIST, ALL_LISTS, NEW_LIST } from "./queries";
+import { GET_LIST_IDS, DELETE_LIST, ALL_LISTS, NEW_LIST } from "./queries";
 // import AuthContext from "./AuthContext";
-import Me from "./Me";
-import { Query } from "react-apollo";
-import authContext from "./AuthContext";
-import MeQueryHack from "./MeQueryHack";
 import Lists from "./Lists";
 import { AUTH_TOKEN } from "./constants";
 import Collapse from "react-bootstrap/Collapse";
-import { separateOperations } from "graphql";
 import Button from "react-bootstrap/Button";
 
 function AppContainer(props) {
   // const theme = useContext();
   const { data, loading, error } = useQuery(GET_LIST_IDS);
   const allLists = useQuery(ALL_LISTS);
-  const meQuery = useQuery(ME);
   const [currentListId, setCurrentListId] = useState("");
   const [isListEmpty, setIsListEmpty] = useState(false);
-  const [todosState, setTodosState] = useState([]);
   const authToken = localStorage.getItem(AUTH_TOKEN);
   const [taskField, setTaskField] = useState("");
   const [open, setOpen] = useState(false);
