@@ -3,7 +3,7 @@ import Nav from "react-bootstrap/Nav";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import Loader from "react-loader";
 import Lists from "./Lists";
-import { ALL_LISTS, NEW_LIST, DELETE_LIST } from "./queries";
+import { ALL_LISTS, NEW_LIST } from "./queries";
 import { AUTH_TOKEN } from "./constants";
 
 function SidebarTodo(props) {

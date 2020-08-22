@@ -2,9 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { BrowserRouter, Link, Route, Switch } from "react-router-dom"; // they only use browserrouter
-import Login from "./Login";
-import Signup from "./Signup";
+import { BrowserRouter } from "react-router-dom"; // they only use browserrouter
 import { AUTH_TOKEN } from "./constants";
 import { ApolloProvider } from "react-apollo"; // same
 import { setContext } from "apollo-link-context"; // same
@@ -18,8 +16,6 @@ import { ApolloClient, InMemoryCache } from "@apollo/client"; // "apollo-client"
 import { WebSocketLink } from "apollo-link-ws"; // same
 import { split } from "apollo-link"; // same
 import { getMainDefinition } from "apollo-utilities"; // same
-import { createBrowserHistory } from "history";
-import AuthContext from "./AuthContext";
 // let history = createdBrowserHistory();
 
 const httpLink = createHttpLink({
@@ -61,27 +57,6 @@ const client = new ApolloClient({
   link,
   cache: new InMemoryCache(),
 });
-
-const Dashboard = () => (
-  <div>
-    <nav>I am the dashboard</nav>
-    {/* <div>
-      <Route path="/dashboard" component={Dashboard} />
-    </div> */}
-  </div>
-);
-
-const themes = {
-  light: {
-    foreground: "#000000",
-    background: "#eeeeee",
-  },
-  dark: {
-    foreground: "#ffffff",
-    background: "#222222",
-  },
-  msg: "Why are people so bad at tutorials?",
-};
 
 ReactDOM.render(
   <BrowserRouter>
