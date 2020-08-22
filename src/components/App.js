@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import AppContainer from "../AppContainer";
 import { Route, Switch } from "react-router-dom";
 import Login from "../Login";
-import Signup from "../Signup";
 import Dashboard from "../Dashboard";
 import { AUTH_TOKEN } from "../constants";
 import { ME, ALL_LISTS, DELETE_LIST } from "../queries";
@@ -105,7 +104,6 @@ function App() {
           )}
         />
         <Route path="/dashboard" component={Dashboard} />
-        <Route path="/signup" component={Signup} />
         <Route
           path="/"
           render={(props) => (

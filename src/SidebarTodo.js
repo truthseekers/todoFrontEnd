@@ -11,26 +11,6 @@ function SidebarTodo(props) {
   const { data, loading, error } = useQuery(ALL_LISTS);
   const authToken = localStorage.getItem(AUTH_TOKEN);
 
-  // const [deleteList] = useMutation(DELETE_LIST, {
-  //   update(cache, { data: { deleteList } }) {
-  //     const { lists } = cache.readQuery({ query: ALL_LISTS });
-  //     let updatedLists = lists.filter((elem) => {
-  //       if (elem.id !== deleteList.list.id) {
-  //         return elem;
-  //       }
-  //     });
-  //     if (updatedLists.length !== 0) {
-  //       props.selectList(updatedLists[0].id);
-  //     }
-  //     cache.writeQuery({
-  //       query: ALL_LISTS,
-  //       data: {
-  //         lists: updatedLists,
-  //       },
-  //     });
-  //   },
-  // });
-
   const [createList] = useMutation(NEW_LIST, {
     update(cache, { data: { newList } }) {
       const { lists } = cache.readQuery({ query: ALL_LISTS });
@@ -54,12 +34,6 @@ function SidebarTodo(props) {
       variables: { title: taskField, userId: props.userData.me.id },
     });
   };
-
-  // const onDeleteList = (listId) => {
-  //   deleteList({
-  //     variables: { listId: listId },
-  //   });
-  // };
 
   if (loading) {
     return <Loader />;

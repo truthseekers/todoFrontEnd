@@ -12,21 +12,6 @@ function NavTodo(props) {
     props.setLoggedInUser(false);
   };
 
-  // let renderLists;
-  // if (data.lists.length > 0) {
-  //   renderLists = (
-  //     <Lists
-  //       loggedInUser={props.loggedInUser}
-  //       onDeleteList={onDeleteList}
-  //       selectList={props.selectList}
-  //       lists={data.lists}
-  //       postedBy={data.postedBy}
-  //     />
-  //   );
-  // } else {
-  //   renderLists = <p>You have no lists! Create some!</p>;
-  // }
-
   return (
     <Navbar className="sticky-top" bg="light" expand="md">
       <Link to="/">
@@ -40,7 +25,6 @@ function NavTodo(props) {
             localStorage.removeItem(AUTH_TOKEN);
             localStorage.removeItem("userName");
             localStorage.removeItem("userId");
-            // props.setLoggedInUser(false);
             props.history.push(`/`);
             updateLoggedInStatus();
           }}
