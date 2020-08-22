@@ -49,7 +49,7 @@ function Login(props) {
     },
   });
 
-  const [doSignup, signupObj] = useMutation(SIGNUP_MUTATION, {
+  const [doSignup] = useMutation(SIGNUP_MUTATION, {
     onCompleted(data) {
       localStorage.setItem("userName", data.signup.user.name);
       localStorage.setItem("userId", data.signup.user.id);

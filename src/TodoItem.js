@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { TrashFill } from "react-bootstrap-icons";
 // import gql from "graphql-tag";
 // import { useMutation } from "@apollo/react-hooks";
 // import Loader from "react-loader";
-import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
 import { UPDATE_TODO_ITEM } from "./queries";
 
@@ -17,8 +16,6 @@ import { UPDATE_TODO_ITEM } from "./queries";
 // `;
 
 function TodoItem(props) {
-  const [taskField, setTaskField] = useState(false);
-
   const [updateTodo] = useMutation(UPDATE_TODO_ITEM, {
     variables: {
       todo: props.id,
@@ -47,7 +44,7 @@ function TodoItem(props) {
         onChange={handleChange}
       />
       {props.task} (By: {props.postedBy.name})
-      {props.postedBy.id == props.loggedInUser.id && (
+      {props.postedBy.id === props.loggedInUser.id && (
         <span>
           - <TrashFill onClick={deleteTodoItem} />
         </span>
