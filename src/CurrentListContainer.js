@@ -12,7 +12,6 @@ function CurrentListContainer(props) {
 
   const [deleteTodo] = useMutation(DELETE_TODO_ITEM, {
     update(cache, { data: { deleteTodo } }) {
-      //console.log("deleting todo");
       const thingThree = cache.readQuery({
         query: LIST_TODOS,
         variables: { listId: props.listId },
@@ -54,7 +53,6 @@ function CurrentListContainer(props) {
   });
 
   const onDeleteTodo = (todoId) => {
-    //console.log("delete message front end");
     deleteTodo({
       variables: { todo: todoId },
     });
@@ -90,12 +88,6 @@ function CurrentListContainer(props) {
   if (error && !props.isListEmpty) {
     return <p>error</p>;
   }
-
-  //console.log("data list owner: ");
-  //console.log(data);
-
-  console.log("props.loggedInUser");
-  console.log(props.loggedInUser);
 
   return (
     <div>

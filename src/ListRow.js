@@ -10,9 +10,6 @@ function ListRow(props) {
     props.onDeleteList(props.id);
   };
 
-  /// /console.log(props.loggedInUser);
-  //console.log(props.postedBy);
-
   return (
     <li className="list-row">
       <span style={{ cursor: "pointer" }} onClick={handleListChange}>

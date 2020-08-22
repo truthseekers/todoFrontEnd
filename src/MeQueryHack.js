@@ -9,24 +9,13 @@ import { useQuery } from "react-apollo";
 function MeQueryHack(props) {
   const meQuery = useQuery(ME);
 
-  //   console.log("MEQUERY HACK");
-  //console.log("meQuery before loading: ");
-  //console.log(meQuery.data);
   if (meQuery.loading) {
     return <div>Loading...</div>;
   }
 
-  //console.log("meQuery data AFTEr loading:");
-  //console.log(meQuery.data);
-
   //   if (meQuery.data) {
-  //     // console.log("IN THE HACKKKK ", props.loggedInUser);
-  //     // console.log(meQuery.data);
-  //     // console.log(meQuery.data.me.name);
   //     // setLoggedInUser(true);
   //   } else {
-  //     // console.log("no user data! see: ");
-  //     // console.log(meQuery.data);
   //   }
 
   return <div></div>;

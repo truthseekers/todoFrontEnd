@@ -5,8 +5,6 @@ function Lists(props) {
   let rows = [];
 
   props.lists.map((elem) => {
-    //console.log("ELEME in LISSTS");
-    //console.log(elem);
     rows.push(
       <ListRow
         loggedInUser={props.loggedInUser}

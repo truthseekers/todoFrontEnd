@@ -26,12 +26,9 @@ function TodoItem(props) {
     },
   });
 
-  //console.log("props in TodoItem: ");
-  //console.log(props);
   // const [deleteTodo, todoDeleteMutation] = useMutation(TODO_ITEM);
 
   const deleteTodoItem = () => {
-    // console.log("deleting???");
     // deleteTodo({
     //   variables: { todo: props.id },
     // });
@@ -39,14 +36,10 @@ function TodoItem(props) {
   };
 
   const handleChange = () => {
-    //console.log("clicked Checkbox");
     updateTodo();
     // setTaskField(taskField === true ? false : true);
     // props.checkTodo(props.id);
   };
-
-  //console.log("props in TodoItem?");
-  //console.log(props);
 
   return (
     <div style={{ fontSize: "20px" }}>

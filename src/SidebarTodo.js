@@ -31,9 +31,6 @@ function SidebarTodo(props) {
   //   },
   // });
 
-  //console.log("props in sidebarTodo: ");
-  //console.log(props.userData.me.id);
-
   const [createList] = useMutation(NEW_LIST, {
     update(cache, { data: { newList } }) {
       const { lists } = cache.readQuery({ query: ALL_LISTS });
@@ -53,7 +50,6 @@ function SidebarTodo(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    //console.log("creating newLilst now!");
     createList({
       variables: { title: taskField, userId: props.userData.me.id },
     });
@@ -75,8 +71,6 @@ function SidebarTodo(props) {
 
   let renderLists;
   if (data.lists.length > 0) {
-    //console.log("data.postedBy");
-    //console.log(data);
     renderLists = (
       <Lists
         loggedInUser={props.loggedInUser}

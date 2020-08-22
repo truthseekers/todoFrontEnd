@@ -13,17 +13,11 @@ function NavTodo(props) {
   const authToken = localStorage.getItem(AUTH_TOKEN);
 
   const updateLoggedInStatus = () => {
-    //console.log("updated logged in status...");
     props.setLoggedInUser(false);
   };
 
-  console.log("props.loggedInUser in NavTodo.js");
-  console.log(props.loggedInUser);
-
   // let renderLists;
   // if (data.lists.length > 0) {
-  //   //console.log("data.postedBy");
-  //   //console.log(data);
   //   renderLists = (
   //     <Lists
   //       loggedInUser={props.loggedInUser}
@@ -53,7 +47,6 @@ function NavTodo(props) {
             // props.setLoggedInUser(false);
             props.history.push(`/`);
             updateLoggedInStatus();
-            // console.log("just changed logged in status to logout");
           }}
         >
           <Button variant="outline-success">Logout</Button>

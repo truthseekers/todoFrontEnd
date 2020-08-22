@@ -23,16 +23,12 @@ import AuthContext from "./AuthContext";
 // let history = createdBrowserHistory();
 
 const httpLink = createHttpLink({
-  // uri: "http://localhost:4000",
-  uri: "https://graphqlsupertodo.herokuapp.com/",
+  uri: "http://localhost:4000",
+  // uri: "https://graphqlsupertodo.herokuapp.com/",
 });
-
-//console.log("In INDEX");
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem(AUTH_TOKEN);
-  // console.log("in authLink?");
-  // console.log(token);
   return {
     headers: {
       ...headers,
@@ -42,8 +38,8 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const wsLink = new WebSocketLink({
-  // uri: `ws://localhost:4000`,
-  uri: `wss://graphqlsupertodo.herokuapp.com/`,
+  uri: `ws://localhost:4000`,
+  // uri: `wss://graphqlsupertodo.herokuapp.com/`,
   options: {
     reconnect: true,
     connectionParams: {
@@ -63,7 +59,6 @@ const link = split(
 
 const client = new ApolloClient({
   link,
-  fuckoff: "jesus christ",
   cache: new InMemoryCache(),
 });
 
@@ -75,9 +70,6 @@ const Dashboard = () => (
     </div> */}
   </div>
 );
-
-// console.log("Fudge muffins: client Object: ");
-// console.log(authLink);
 
 const themes = {
   light: {

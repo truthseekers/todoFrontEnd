@@ -18,18 +18,13 @@ function App() {
 
   let defaultLoggedInUser = "";
   if (authToken && meQuery.data) {
-    // console.log("setting loggedInUser to:::::: ");
-    // console.log(meQuery.data.me);
     defaultLoggedInUser = {
       id: localStorage.getItem("userId"),
       name: localStorage.getItem("userName"),
       email: "jajaja@ya.com",
     };
-    //console.log(defaultLoggedInUser);
   }
 
-  //console.log("right before setting loggedInUser: ");
-  //console.log(defaultLoggedInUser);
   const [loggedInUser, setLoggedInUser] = useState({
     id: localStorage.getItem("userId"),
     name: localStorage.getItem("userName"),
@@ -60,49 +55,22 @@ function App() {
     setCurrentListId(newListId);
   };
 
-  console.log("user localstorage info: ");
-  console.log(localStorage.getItem("userName"));
-  console.log(localStorage.getItem("userId"));
-  console.log(localStorage.getItem(AUTH_TOKEN));
-  console.log("loggedInUser: ");
-  console.log(loggedInUser);
-  //console.log("AFTER... ");
-  //console.log(loggedInUser);
-
-  //console.log(authToken);
   if (authToken) {
-    //console.log("auth token exists on app.js");
-    // console.log(authToken);
   } else {
-    //console.log("no auth token in app.js");
   }
 
   const updateLoggedInUser = (arg) => {
-    //console.log("changing logged In userstate ");
     //setMeQueryState(ME);
     setLoggedInUser(arg);
   };
-
-  //console.log(authToken);
-  //console.log("meQuery: ");
-  //console.log(meQuery);
-  //console.log("loggedInUser: ");
-  //console.log(loggedInUser);
-  //console.log("loggedInUser: ");
-  //console.log(loggedInUser);
 
   if (meQuery.loading || listsQuery.loading) {
     return <div>Loading...</div>;
   }
 
   if (meQuery.data) {
-    //console.log("user data is: ");
-    //console.log(meQuery.data);
-    // console.log(meQuery.data.me.name);
     // setLoggedInUser(true);
   } else {
-    //console.log("no user data! see: ");
-    //console.log(meQuery.data);
   }
 
   const onDeleteList = (listId) => {
@@ -115,12 +83,8 @@ function App() {
     setCurrentListId(listsQuery.data.lists[0].id);
   }
 
-  console.log("ListsQuery ya");
-  console.log(listsQuery.data.lists);
   let renderLists;
   if (listsQuery.data.lists.length > 0) {
-    //console.log("data.postedBy");
-    //console.log(data);
     renderLists = (
       <Lists
         loggedInUser={loggedInUser}

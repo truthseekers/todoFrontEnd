@@ -12,9 +12,6 @@ function Me() {
     return <div>Loading...</div>;
   }
 
-  //console.log("data from the Me: ");
-  //console.log(data);
-
   return <div>This is the me object</div>;
 }
 

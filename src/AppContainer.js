@@ -66,7 +66,6 @@ function AppContainer(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    //console.log("creating newLilst now!");
     createList({
       variables: { title: taskField, userId: props.userData.me.id },
     });
@@ -81,12 +80,8 @@ function AppContainer(props) {
   }
 
   if (error) {
-    //console.log("THERE WAS N ERROR!");
     return <div>Error</div>;
   }
-
-  //  console.log("the user data most likely done wrong: ");
-  // console.log(meQuery.data);
 
   // data always exists past this point since its after loading conditional
   // If a list exists then set state to first list. Need !currentListId otherwise render infinite loop
@@ -116,21 +111,13 @@ function AppContainer(props) {
   };
 
   const onDeleteList = (listId) => {
-    console.log("Deleted list using appContainer area");
     deleteList({
       variables: { listId: listId },
     });
   };
 
-  console.log("PROPS MAAN");
-  console.log(props.loggedInUser);
-
   let renderLists;
   if (data.lists.length > 0) {
-    //console.log("data.postedBy");
-    //console.log(data);
-    console.log("ALL LISTS. LISTS!!!!!! *************");
-    console.log(allLists.data.lists);
     renderLists = (
       <div>
         {authToken ? (

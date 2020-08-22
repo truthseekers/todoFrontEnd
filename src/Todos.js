@@ -34,16 +34,11 @@ function Todos(props) {
   // },
 
   const checkTodo = () => {
-    //console.log("checked the todo item!");
     //updateTodo();
   };
 
   props.todos.map((elem) => {
-    //console.log("elem...: ");
-    //console.log(elem.postedBy.name);
     if (elem.isCompleted) {
-      //console.log("elem.postedBy:");
-      //console.log(elem.postedBy);
       completedTodos.push(
         <TodoItem
           loggedInUser={props.loggedInUser}

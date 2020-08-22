@@ -41,37 +41,25 @@ function Login(props) {
   const [errors, setErrors] = useState([]);
   const [doLogin, loginObj] = useMutation(LOGIN_MUTATION, {
     onCompleted(data) {
-      //console.log("uhh.. completed login?");
-      //console.log(data);
       props.setLoggedInUser(data.login.user);
-      //console.log("data.login.user in login.js");
-      //console.log(data.login.user);
       localStorage.setItem("userName", data.login.user.name);
       localStorage.setItem("userId", data.login.user.id);
 
-      //console.log(localStorage.getItem("user"));
       _confirm(data);
     },
     onError(data) {
-      //console.log("You got the following error: ");
-      //console.log(data.graphQLErrors);
       setErrors(data.graphQLErrors);
-      // console.log(data);
     },
   });
 
   const [doSignup, signupObj] = useMutation(SIGNUP_MUTATION, {
     onCompleted(data) {
-      console.log("completed SIGNUP");
-      console.log(data);
       localStorage.setItem("userName", data.signup.user.name);
       localStorage.setItem("userId", data.signup.user.id);
       props.setLoggedInUser(data.signup.user);
       _confirm(data);
     },
     onError(data) {
-      //console.log("Following signup error: ");
-      //console.log(data.graphQLErrors);
       setErrors([
         {
           message:
@@ -83,7 +71,6 @@ function Login(props) {
 
   const _confirm = async (data) => {
     const { token } = login ? data.login : data.signup;
-    //console.log("in confirm in Login.js.");
     // const { token } = this.state.login ? data.login : data.signup;
     _saveUserData(token);
     // this.props.setLoggedInUser("poop");
@@ -98,7 +85,6 @@ function Login(props) {
   // }
 
   const handleLogin = () => {
-    //console.log("clicked login!");
     if (login) {
       doLogin({ variables: { email, password, name: userName } });
     } else {
@@ -110,9 +96,6 @@ function Login(props) {
   if (errors) {
     errorsList = errors.map((error) => <li>{error.message}</li>);
   }
-
-  //console.log("the errorsList: ");
-  //console.log(errorsList);
 
   return (
     <div>
@@ -189,13 +172,11 @@ function Login(props) {
 //   // };
 
 //   // handleUpdate(event) {
-//   //console.log("clicked the btn!");
 //   // this.props.setLoggedInUser("poop");
 //   // }
 
 //   render() {
 //     const { login, email, password, name, testField } = this.state;
-//     //console.log(login ? "LOGIN_MUTATION" : "SIGNUP_MUTATION");
 //     return (
 //       <div>
 //         {/* <h4 className="mv3">{login ? "Login" : "Sign Up"}</h4> */}
@@ -240,7 +221,6 @@ function Login(props) {
 //             mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
 //             variables={{ email, password, name }}
 //             onCompleted={(data) => {
-//               //console.log("onCompleted??");
 //               this._confirm(data);
 //             }}
 //           >
@@ -262,8 +242,6 @@ function Login(props) {
 //   }
 
 //   _confirm = async (data) => {
-//     //console.log("inside _confirm. data: ");
-//     //console.log(data);
 //     const { token } = this.state.login ? data.login : data.signup;
 //     this._saveUserData(token);
 //     // this.props.setLoggedInUser("poop");
