@@ -1,10 +1,8 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import NavTodo from "./NavTodo";
 import { AUTH_TOKEN } from "./constants";
-import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
-import Button from "react-bootstrap/Button";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 
 const SIGNUP_MUTATION = gql`
   mutation SignupMutation($email: String!, $password: String!, $name: String!) {
