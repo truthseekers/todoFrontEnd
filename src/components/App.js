@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import AppContainer from "./AppContainer";
+import AppContainer from "../AppContainer";
 import { Route, Switch } from "react-router-dom"; // they only use browserrouter
-import Login from "./Login";
-import Signup from "./Signup";
-import Dashboard from "./Dashboard";
-import { AUTH_TOKEN } from "./constants";
-import { ME, ALL_LISTS, DELETE_LIST } from "./queries";
+import Login from "../Login";
+import Signup from "../Signup";
+import Dashboard from "../Dashboard";
+import { AUTH_TOKEN } from "../constants";
+import { ME, ALL_LISTS, DELETE_LIST } from "../queries";
 import { useQuery, useMutation } from "react-apollo";
-import Lists from "./Lists";
+import Lists from "../Lists";
 
 function App() {
   const authToken = localStorage.getItem(AUTH_TOKEN);

@@ -1,22 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
-import { BrowserRouter } from "react-router-dom"; // they only use browserrouter
+import App from "./components/App";
+import { BrowserRouter } from "react-router-dom";
 import { AUTH_TOKEN } from "./constants";
-import { ApolloProvider } from "react-apollo"; // same
-import { setContext } from "apollo-link-context"; // same
+import { ApolloProvider } from "react-apollo";
+import { setContext } from "apollo-link-context";
 
-import { createHttpLink } from "apollo-link-http"; // same
+import { createHttpLink } from "apollo-link-http";
 
 import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { ApolloClient, InMemoryCache } from "@apollo/client"; // "apollo-client" in original. // apollo-cache-memory in original
-import { WebSocketLink } from "apollo-link-ws"; // same
-import { split } from "apollo-link"; // same
-import { getMainDefinition } from "apollo-utilities"; // same
-// let history = createdBrowserHistory();
+import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { WebSocketLink } from "apollo-link-ws";
+import { split } from "apollo-link";
+import { getMainDefinition } from "apollo-utilities";
 
 const httpLink = createHttpLink({
   uri: "http://localhost:4000",
@@ -61,26 +60,11 @@ const client = new ApolloClient({
 ReactDOM.render(
   <BrowserRouter>
     <ApolloProvider client={client}>
-      {/* <AuthContext.Provider value={themes}> */}
       <App />
-      {/* <Switch>
-          <Route path="/login" component={Login} />
-          <Route path="/dashboard" component={Dashboard} />
-          <Route path="/signup" component={Signup} />
-          <Route path="/" component={App} />
-        </Switch> */}
-      {/* </AuthContext.Provider> */}
     </ApolloProvider>
   </BrowserRouter>,
   document.getElementById("root")
 );
-
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>,
-//   document.getElementById("root")
-// );
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
