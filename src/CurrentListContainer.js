@@ -58,17 +58,6 @@ function CurrentListContainer(props) {
     });
   };
 
-  const checkTodo = (updatedItem) => {
-    // let newState = todosState.map((elem) => {
-    //   if (updatedItem === elem.id) {
-    //     return { ...elem, completed: !elem.completed };
-    //   } else {
-    //     return elem;
-    //   }
-    // });
-    // setTodosState(newState);
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -128,7 +117,6 @@ function CurrentListContainer(props) {
             loggedInUser={props.loggedInUser}
             todos={data.listById.todos}
             deleteTodo={onDeleteTodo}
-            checkTodo={checkTodo}
             listId={props.listId}
           />
         </div>

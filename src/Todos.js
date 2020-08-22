@@ -33,10 +33,6 @@ function Todos(props) {
   //   });
   // },
 
-  const checkTodo = () => {
-    //updateTodo();
-  };
-
   props.todos.map((elem) => {
     if (elem.isCompleted) {
       completedTodos.push(
@@ -57,7 +53,6 @@ function Todos(props) {
           key={elem.id.toString()}
           id={elem.id}
           deleteTodo={props.deleteTodo}
-          // checkTodo={checkTodo}
           completed={elem.isCompleted}
           postedBy={elem.postedBy}
           task={elem.name}

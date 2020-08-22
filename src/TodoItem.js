@@ -37,8 +37,6 @@ function TodoItem(props) {
 
   const handleChange = () => {
     updateTodo();
-    // setTaskField(taskField === true ? false : true);
-    // props.checkTodo(props.id);
   };
 
   return (

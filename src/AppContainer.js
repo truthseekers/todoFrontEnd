@@ -99,17 +99,6 @@ function AppContainer(props) {
     setCurrentListId(newListId);
   };
 
-  const checkTodo = (updatedItem) => {
-    let newState = todosState.map((elem) => {
-      if (updatedItem === elem.id) {
-        return { ...elem, completed: !elem.completed };
-      } else {
-        return elem;
-      }
-    });
-    setTodosState(newState);
-  };
-
   const onDeleteList = (listId) => {
     deleteList({
       variables: { listId: listId },
