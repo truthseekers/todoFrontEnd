@@ -1,13 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import AppContainer from "./AppContainer";
-import { BrowserRouter, Link, Route, Switch } from "react-router-dom"; // they only use browserrouter
+import { Route, Switch } from "react-router-dom"; // they only use browserrouter
 import Login from "./Login";
 import Signup from "./Signup";
 import Dashboard from "./Dashboard";
 import { AUTH_TOKEN } from "./constants";
 import { ME, ALL_LISTS, DELETE_LIST } from "./queries";
 import { useQuery, useMutation } from "react-apollo";
-import authContext from "./AuthContext";
 import Lists from "./Lists";
 
 function App() {
@@ -16,7 +15,7 @@ function App() {
   const meQuery = useQuery(ME);
   const listsQuery = useQuery(ALL_LISTS);
 
-  let defaultLoggedInUser = "";
+  let defaultLoggedInUser;
   if (authToken && meQuery.data) {
     defaultLoggedInUser = {
       id: localStorage.getItem("userId"),

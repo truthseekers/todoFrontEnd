@@ -33,11 +33,10 @@ const LOGIN_MUTATION = gql`
 function Login(props) {
   const [login, setLogin] = useState(true);
   const [password, setPassword] = useState("");
-  const [testField, setTestField] = useState("");
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState([]);
-  const [doLogin, loginObj] = useMutation(LOGIN_MUTATION, {
+  const [doLogin] = useMutation(LOGIN_MUTATION, {
     onCompleted(data) {
       props.setLoggedInUser(data.login.user);
       localStorage.setItem("userName", data.login.user.name);

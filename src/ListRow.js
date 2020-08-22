@@ -15,7 +15,7 @@ function ListRow(props) {
       <span style={{ cursor: "pointer" }} onClick={handleListChange}>
         {props.name}
       </span>
-      {props.loggedInUser.id == props.postedBy.id && (
+      {props.loggedInUser.id === props.postedBy.id && (
         <span>
           - <TrashFill onClick={deleteRow} />
         </span>
