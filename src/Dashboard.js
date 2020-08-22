@@ -1,6 +1,5 @@
 import React from "react";
 import { AUTH_TOKEN } from "./constants";
-import { createContext } from "react";
 
 function Dashboard(props) {
   const authToken = localStorage.getItem(AUTH_TOKEN);
