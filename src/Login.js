@@ -1,34 +1,8 @@
 import React, { useState } from "react";
 import NavTodo from "./NavTodo";
 import { AUTH_TOKEN } from "./constants";
-import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
-
-const SIGNUP_MUTATION = gql`
-  mutation SignupMutation($email: String!, $password: String!, $name: String!) {
-    signup(email: $email, password: $password, name: $name) {
-      token
-      user {
-        id
-        name
-        email
-      }
-    }
-  }
-`;
-
-const LOGIN_MUTATION = gql`
-  mutation LoginMutation($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      token
-      user {
-        id
-        name
-        email
-      }
-    }
-  }
-`;
+import { LOGIN_MUTATION, SIGNUP_MUTATION } from "./queries";
 
 function Login(props) {
   const [login, setLogin] = useState(true);
@@ -68,12 +42,8 @@ function Login(props) {
 
   const _confirm = async (data) => {
     const { token } = login ? data.login : data.signup;
-    // const { token } = this.state.login ? data.login : data.signup;
     _saveUserData(token);
-    // this.props.setLoggedInUser("poop");
     props.history.push(`/`);
-    //props.setLoggedInUser(true);
-    // setLogin(true);
   };
 
   const _saveUserData = (token) => {
@@ -98,7 +68,6 @@ function Login(props) {
     <div>
       <NavTodo
         userName={props.userName}
-        // userData={props.userData}
         setLoggedInUser={props.setLoggedInUser}
         loggedInUser={props.loggedInUser}
       />
@@ -142,7 +111,6 @@ function Login(props) {
         >
           <button>{login ? "login" : "Sign Up!"}</button>
         </span>
-        {/* <div className="pointer button" onClick={() => setLogin(!login)}> */}
         <span className="pointer button" onClick={() => setLogin(!login)}>
           <button>
             {login ? "Create an account?" : "already have an account?"}
