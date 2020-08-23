@@ -5,7 +5,7 @@ import Loader from "react-loader";
 import Lists from "./Lists";
 import { ALL_LISTS } from "./queries";
 import ListForm from "./components/ListForm";
-
+import ListsContainer from "./components/ListsContainer";
 function SidebarTodo(props) {
   const { data, loading, error } = useQuery(ALL_LISTS);
 
@@ -20,13 +20,20 @@ function SidebarTodo(props) {
   let renderLists;
   if (data.lists.length > 0) {
     renderLists = (
-      <Lists
-        loggedInUser={props.loggedInUser}
-        onDeleteList={props.deleteList}
-        selectList={props.selectList}
-        lists={data.lists}
-        postedBy={data.postedBy}
-      />
+      <div>
+        <ListsContainer
+          selectList={props.selectList}
+          loggedInUser={props.loggedInUser}
+        />
+
+        <Lists
+          loggedInUser={props.loggedInUser}
+          onDeleteList={props.deleteList}
+          selectList={props.selectList}
+          lists={data.lists}
+          postedBy={data.postedBy}
+        />
+      </div>
     );
   } else {
     renderLists = <p>You have no lists! Create some!</p>;

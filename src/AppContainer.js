@@ -9,14 +9,13 @@ import SidebarTodo from "./SidebarTodo";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import CurrentListContainer from "./CurrentListContainer";
 import { GET_LIST_IDS, DELETE_LIST, ALL_LISTS } from "./queries";
-import Lists from "./Lists";
 import Collapse from "react-bootstrap/Collapse";
 import Button from "react-bootstrap/Button";
 import ListForm from "./components/ListForm";
+import ListsContainer from "./components/ListsContainer";
 
 function AppContainer(props) {
   const { data, loading, error } = useQuery(GET_LIST_IDS);
-  const allLists = useQuery(ALL_LISTS);
   const [currentListId, setCurrentListId] = useState("");
   const [isListEmpty, setIsListEmpty] = useState(false);
   const [open, setOpen] = useState(false);
@@ -62,6 +61,7 @@ function AppContainer(props) {
   }
 
   const selectList = (newListId) => {
+    console.log("selecting list from appContainer");
     setCurrentListId(newListId);
   };
 
@@ -72,22 +72,6 @@ function AppContainer(props) {
   };
 
   let renderLists;
-  if (data.lists.length > 0) {
-    renderLists = (
-      <div>
-        <ListForm userData={props.userData} />
-        <Lists
-          loggedInUser={props.loggedInUser}
-          onDeleteList={onDeleteList}
-          selectList={selectList}
-          lists={allLists.data.lists}
-          postedBy={allLists.postedBy}
-        />
-      </div>
-    );
-  } else {
-    renderLists = <p>You have no lists! Create some!</p>;
-  }
 
   return (
     <div>
@@ -101,6 +85,7 @@ function AppContainer(props) {
           <SidebarTodo
             selectList={selectList}
             userData={props.userData}
+            selectList={selectList}
             currentListId={currentListId}
             loggedInUser={props.loggedInUser}
             deleteList={onDeleteList}
@@ -119,7 +104,14 @@ function AppContainer(props) {
                     {open ? "Hide Lists" : "Show Lists"}
                   </Button>
                   <Collapse in={open}>
-                    <div id="mobile-lists">{renderLists}</div>
+                    <div id="mobile-lists">
+                      {/* {renderLists} */}
+                      <ListForm userData={props.userData} />
+                      <ListsContainer
+                        selectList={selectList}
+                        loggedInUser={props.loggedInUser}
+                      />
+                    </div>
                   </Collapse>
                 </div>{" "}
                 <CurrentListContainer
