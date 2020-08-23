@@ -8,19 +8,17 @@ import NavTodo from "./NavTodo";
 import SidebarTodo from "./SidebarTodo";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import CurrentListContainer from "./CurrentListContainer";
-import { GET_LIST_IDS, DELETE_LIST, ALL_LISTS, NEW_LIST } from "./queries";
+import { GET_LIST_IDS, DELETE_LIST, ALL_LISTS } from "./queries";
 import Lists from "./Lists";
-import { AUTH_TOKEN } from "./constants";
 import Collapse from "react-bootstrap/Collapse";
 import Button from "react-bootstrap/Button";
+import ListForm from "./ListForm";
 
 function AppContainer(props) {
   const { data, loading, error } = useQuery(GET_LIST_IDS);
   const allLists = useQuery(ALL_LISTS);
   const [currentListId, setCurrentListId] = useState("");
   const [isListEmpty, setIsListEmpty] = useState(false);
-  const authToken = localStorage.getItem(AUTH_TOKEN);
-  const [taskField, setTaskField] = useState("");
   const [open, setOpen] = useState(false);
 
   const [deleteList] = useMutation(DELETE_LIST, {
@@ -42,29 +40,6 @@ function AppContainer(props) {
       });
     },
   });
-  const [createList] = useMutation(NEW_LIST, {
-    update(cache, { data: { newList } }) {
-      const { lists } = cache.readQuery({ query: ALL_LISTS });
-      cache.writeQuery({
-        query: ALL_LISTS,
-        data: {
-          lists: [newList, ...lists],
-        },
-      });
-      selectList(newList.id);
-    },
-  });
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    createList({
-      variables: { title: taskField, userId: props.userData.me.id },
-    });
-  };
-
-  const handleChange = (event) => {
-    setTaskField(event.target.value);
-  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -100,26 +75,7 @@ function AppContainer(props) {
   if (data.lists.length > 0) {
     renderLists = (
       <div>
-        {authToken ? (
-          <div>
-            <form onSubmit={handleSubmit}>
-              <label>
-                <input
-                  placeholder="Create a new List"
-                  type="text"
-                  value={taskField}
-                  onChange={handleChange}
-                  name="name"
-                />
-              </label>
-              <input type="submit" value="Submit" />
-            </form>
-          </div>
-        ) : (
-          <div style={{ fontWeight: "bold", margin: "25px", color: "orange" }}>
-            Log in / Sign up to create a todo list!
-          </div>
-        )}
+        <ListForm userData={props.userData} />
         <Lists
           loggedInUser={props.loggedInUser}
           onDeleteList={onDeleteList}
@@ -171,24 +127,8 @@ function AppContainer(props) {
                   isListEmpty={isListEmpty}
                   listId={currentListId}
                 />
-                {/* <SidebarTodo
-                  selectList={selectList}
-                  userData={props.userData}
-                  currentListId={currentListId}
-                  loggedInUser={props.loggedInUser}
-                /> */}
-                {/* <Lists
-                  loggedInUser={props.loggedInUser}
-                  onDeleteList={onDeleteList}
-                  // selectList={props.selectList}
-                  lists={allLists.lists}
-                  postedBy={allLists.postedBy}
-                /> */}
               </Col>
             </Row>
-            {/* <authContext.Consumer>
-              {(value) => <div>poo value {value} </div>}
-            </authContext.Consumer> */}
           </main>
         </Row>
       </Container>
