@@ -12,7 +12,7 @@ import { GET_LIST_IDS, DELETE_LIST, ALL_LISTS } from "./queries";
 import Lists from "./Lists";
 import Collapse from "react-bootstrap/Collapse";
 import Button from "react-bootstrap/Button";
-import ListForm from "./ListForm";
+import ListForm from "./components/ListForm";
 
 function AppContainer(props) {
   const { data, loading, error } = useQuery(GET_LIST_IDS);

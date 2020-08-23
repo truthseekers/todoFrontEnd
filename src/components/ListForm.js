@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { NEW_LIST, ALL_LISTS } from "./queries";
+import { NEW_LIST, ALL_LISTS } from "../queries";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { AUTH_TOKEN } from "./constants";
+import { AUTH_TOKEN } from "../constants";
 
 function ListForm(props) {
   const [taskField, setTaskField] = useState("");

@@ -75,21 +75,6 @@ function App() {
     setCurrentListId(listsQuery.data.lists[0].id);
   }
 
-  let renderLists;
-  if (listsQuery.data.lists.length > 0) {
-    renderLists = (
-      <Lists
-        loggedInUser={loggedInUser}
-        onDeleteList={onDeleteList}
-        selectList={selectList}
-        lists={listsQuery.data.lists}
-        postedBy={listsQuery.data.postedBy}
-      />
-    );
-  } else {
-    renderLists = <p>You have no lists! Create some!</p>;
-  }
-
   return (
     <div>
       <Switch>

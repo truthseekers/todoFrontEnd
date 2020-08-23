@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/react-hooks";
 import Loader from "react-loader";
 import Lists from "./Lists";
 import { ALL_LISTS } from "./queries";
-import ListForm from "./ListForm";
+import ListForm from "./components/ListForm";
 
 function SidebarTodo(props) {
   const { data, loading, error } = useQuery(ALL_LISTS);
