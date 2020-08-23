@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { NEW_LIST, ALL_LISTS } from "../queries";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import { AUTH_TOKEN } from "../constants";
 
 function ListForm(props) {
   const [taskField, setTaskField] = useState("");
-  const [currentListId, setCurrentListId] = useState("");
   const authToken = localStorage.getItem(AUTH_TOKEN);
 
   const [createList] = useMutation(NEW_LIST, {
@@ -17,7 +16,7 @@ function ListForm(props) {
           lists: [newList, ...lists],
         },
       });
-      selectList(newList.id);
+      props.selectList(newList.id);
     },
   });
 
@@ -30,10 +29,6 @@ function ListForm(props) {
 
   const handleChange = (event) => {
     setTaskField(event.target.value);
-  };
-
-  const selectList = (newListId) => {
-    setCurrentListId(newListId);
   };
 
   return (

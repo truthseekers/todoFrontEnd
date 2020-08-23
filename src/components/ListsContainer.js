@@ -38,7 +38,6 @@ function ListContainer(props) {
   const selectList = (newListId) => {
     console.log("selecting List? props...");
     console.log(props);
-    // setCurrentListId(newListId);
     props.selectList(newListId);
   };
 
@@ -70,17 +69,10 @@ function ListContainer(props) {
       </div>
     );
   } else {
-    renderLists = <p>You have no lists! Create some yayaya!</p>;
+    renderLists = <p>You have no lists! Create some!</p>;
   }
 
   return <div>{renderLists}</div>;
-  // <Lists
-  //   loggedInUser={props.loggedInUser}
-  //   onDeleteList={onDeleteList}
-  //   selectList={selectList}
-  //   lists={allLists.data.lists}
-  //   postedBy={allLists.postedBy}
-  // />
 }
 
 export default ListContainer;

@@ -71,8 +71,6 @@ function AppContainer(props) {
     });
   };
 
-  let renderLists;
-
   return (
     <div>
       <NavTodo
@@ -85,7 +83,6 @@ function AppContainer(props) {
           <SidebarTodo
             selectList={selectList}
             userData={props.userData}
-            selectList={selectList}
             currentListId={currentListId}
             loggedInUser={props.loggedInUser}
             deleteList={onDeleteList}
@@ -105,7 +102,6 @@ function AppContainer(props) {
                   </Button>
                   <Collapse in={open}>
                     <div id="mobile-lists">
-                      {/* {renderLists} */}
                       <ListForm userData={props.userData} />
                       <ListsContainer
                         selectList={selectList}
