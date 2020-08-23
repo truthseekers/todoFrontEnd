@@ -36,8 +36,6 @@ function ListContainer(props) {
   };
 
   const selectList = (newListId) => {
-    console.log("selecting List? props...");
-    console.log(props);
     props.selectList(newListId);
   };
 

@@ -23,7 +23,12 @@ function ListForm(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     createList({
-      variables: { title: taskField, userId: props.userData.me.id },
+      variables: {
+        title: taskField,
+        userId: props.userData
+          ? props.userData.me.id
+          : localStorage.getItem("userId"),
+      },
     });
   };
 
