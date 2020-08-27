@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { TrashFill } from "react-bootstrap-icons";
+import { AuthContext } from "./AuthContext";
 
 function ListRow(props) {
+  const [state, setState] = useContext(AuthContext);
   const handleListChange = () => {
     props.onSelect(props.id);
   };
@@ -15,7 +17,7 @@ function ListRow(props) {
       <span style={{ cursor: "pointer" }} onClick={handleListChange}>
         {props.name}
       </span>
-      {props.loggedInUser.id === props.postedBy.id && (
+      {state.userId === props.postedBy.id && (
         <span>
           - <TrashFill onClick={deleteRow} />
         </span>

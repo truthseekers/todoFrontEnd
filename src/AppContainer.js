@@ -61,7 +61,7 @@ function AppContainer(props) {
   }
 
   const selectList = (newListId) => {
-    console.log("selecting list from appContainer");
+    // console.log("selecting list from appContainer");
     setCurrentListId(newListId);
   };
 
@@ -73,18 +73,13 @@ function AppContainer(props) {
 
   return (
     <div>
-      <NavTodo
-        userName={props.userName}
-        setLoggedInUser={props.setLoggedInUser}
-        loggedInUser={props.loggedInUser}
-      />
+      <NavTodo userName={props.userName} />
       <Container fluid>
         <Row>
           <SidebarTodo
             selectList={selectList}
             userData={props.userData}
             currentListId={currentListId}
-            loggedInUser={props.loggedInUser}
             deleteList={onDeleteList}
           />
 
@@ -103,15 +98,11 @@ function AppContainer(props) {
                   <Collapse in={open}>
                     <div id="mobile-lists">
                       <ListForm userData={props.userData} />
-                      <ListsContainer
-                        selectList={selectList}
-                        loggedInUser={props.loggedInUser}
-                      />
+                      <ListsContainer selectList={selectList} />
                     </div>
                   </Collapse>
                 </div>{" "}
                 <CurrentListContainer
-                  loggedInUser={props.loggedInUser}
                   isListEmpty={isListEmpty}
                   listId={currentListId}
                 />

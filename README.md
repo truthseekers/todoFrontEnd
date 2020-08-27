@@ -1,3 +1,18 @@
+
+
+
+
+
+REMOVING LOGGEDINUSER from app. deeper components first.
+
+
+
+Options:
+prepare data to pass into AuthContext. Maybe check the "loggedIn" state?
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

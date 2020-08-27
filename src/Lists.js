@@ -7,7 +7,6 @@ function Lists(props) {
   props.lists.map((elem) => {
     rows.push(
       <ListRow
-        loggedInUser={props.loggedInUser}
         key={elem.id.toString()}
         id={elem.id}
         onDeleteList={props.onDeleteList}

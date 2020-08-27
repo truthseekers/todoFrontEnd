@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { TrashFill } from "react-bootstrap-icons";
 import { useMutation } from "@apollo/react-hooks";
 import { UPDATE_TODO_ITEM } from "./queries";
+import { AuthContext } from "./AuthContext";
 
 function TodoItem(props) {
+  const [state, setState] = useContext(AuthContext);
   const [updateTodo] = useMutation(UPDATE_TODO_ITEM, {
     variables: {
       todo: props.id,
@@ -27,7 +29,7 @@ function TodoItem(props) {
         onChange={handleChange}
       />
       {props.task} (By: {props.postedBy.name})
-      {props.postedBy.id === props.loggedInUser.id && (
+      {props.postedBy.id === state.userId && (
         <span>
           - <TrashFill onClick={deleteTodoItem} />
         </span>

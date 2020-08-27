@@ -58,7 +58,6 @@ function ListContainer(props) {
     renderLists = (
       <div>
         <Lists
-          loggedInUser={props.loggedInUser}
           onDeleteList={onDeleteList}
           selectList={selectList}
           lists={allLists.data.lists}

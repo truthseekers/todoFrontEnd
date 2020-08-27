@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import NavTodo from "./NavTodo";
 import { AUTH_TOKEN } from "./constants";
 import { useMutation } from "@apollo/react-hooks";
 import { LOGIN_MUTATION, SIGNUP_MUTATION } from "./queries";
+import { AuthContext } from "./AuthContext";
 
 function Login(props) {
+  const [state, setState] = useContext(AuthContext);
   const [login, setLogin] = useState(true);
   const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
@@ -12,7 +14,12 @@ function Login(props) {
   const [errors, setErrors] = useState([]);
   const [doLogin] = useMutation(LOGIN_MUTATION, {
     onCompleted(data) {
-      props.setLoggedInUser(data.login.user);
+      setState((state) => ({
+        ...state,
+        userName: data.login.user.name,
+        userId: data.login.user.id,
+        isLoggedIn: true,
+      }));
       localStorage.setItem("userName", data.login.user.name);
       localStorage.setItem("userId", data.login.user.id);
 
@@ -27,7 +34,12 @@ function Login(props) {
     onCompleted(data) {
       localStorage.setItem("userName", data.signup.user.name);
       localStorage.setItem("userId", data.signup.user.id);
-      props.setLoggedInUser(data.signup.user);
+      setState((state) => ({
+        ...state,
+        userName: data.signup.user.name,
+        userId: data.signup.user.id,
+        isLoggedIn: true,
+      }));
       _confirm(data);
     },
     onError(data) {
@@ -59,6 +71,12 @@ function Login(props) {
     }
   };
 
+  // const setUserName = (e) => {
+  //   console.log("still setting username!");
+  //   e.preventDefault();
+  //   setUserName(e.target.value);
+  // }
+
   let errorsList = [];
   if (errors) {
     errorsList = errors.map((error) => <li>{error.message}</li>);
@@ -66,11 +84,7 @@ function Login(props) {
 
   return (
     <div>
-      <NavTodo
-        userName={props.userName}
-        setLoggedInUser={props.setLoggedInUser}
-        loggedInUser={props.loggedInUser}
-      />
+      <NavTodo userName={props.userName} />
       <h3 style={{ color: "orange" }}>
         Note: This is a demo app on a DEMO server. Please use fake
         email/passwords. Example - "hello@123.com" and "pass"
@@ -121,103 +135,5 @@ function Login(props) {
     </div>
   );
 }
-
-// class Login extends Component {
-//   constructor(props) {
-//     super(props);
-
-//     this.handleUpdate = this.handleUpdate.bind(this);
-//   }
-//   // state = {
-//   //   login: true,
-//   //   email: "",
-//   //   password: "",
-//   //   name: "",
-//   //   testField: "",
-//   // };
-
-//   // handleUpdate(event) {
-//   // this.props.setLoggedInUser("poop");
-//   // }
-
-//   render() {
-//     const { login, email, password, name, testField } = this.state;
-//     return (
-//       <div>
-//         {/* <h4 className="mv3">{login ? "Login" : "Sign Up"}</h4> */}
-//         <div className="flex flex-column">
-//           <input
-//             value={testField}
-//             onChange={(e) => this.setState({ testField: e.target.value })}
-//             type="text"
-//             placeholder="Test field"
-//           />
-
-//           <div className="pointer mr2 button" onClick={this.handleUpdate}>
-//             <button>Update test state</button>
-//           </div>
-
-//           {!login && (
-//             <div>
-//               <input
-//                 value={name}
-//                 onChange={(e) => this.setState({ name: e.target.value })}
-//                 type="text"
-//                 placeholder="Your name"
-//               />
-//             </div>
-//           )}
-//           <input
-//             value={email}
-//             onChange={(e) => this.setState({ email: e.target.value })}
-//             type="text"
-//             placeholder="Your email address"
-//           />
-//           <input
-//             value={password}
-//             onChange={(e) => this.setState({ password: e.target.value })}
-//             type="password"
-//             placeholder="Choose a safe password"
-//           />
-//         </div>
-//         <h3>yo man</h3>
-//         <div className="flex mt3">
-//           {/* <Mutation
-//             mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
-//             variables={{ email, password, name }}
-//             onCompleted={(data) => {
-//               this._confirm(data);
-//             }}
-//           >
-//             {(mutation) => ( */}
-//           <div className="pointer mr2 button">
-//             <button>{login ? "login" : "create account"}</button>
-//           </div>
-//           {/* )} */}
-//           {/* </Mutation> */}
-//           <div
-//             className="pointer button"
-//             onClick={() => this.setState({ login: !login })}
-//           >
-//             {login ? "need to create an account?" : "already have an account?"}
-//           </div>
-//         </div>
-//       </div>
-//     );
-//   }
-
-//   _confirm = async (data) => {
-//     const { token } = this.state.login ? data.login : data.signup;
-//     this._saveUserData(token);
-//     // this.props.setLoggedInUser("poop");
-//     this.props.history.push(`/`);
-//   };
-
-//   _saveUserData = (token) => {
-//     localStorage.setItem(AUTH_TOKEN, token);
-//   };
-// }
-
-//export { Login, authContext2};
 
 export default Login;

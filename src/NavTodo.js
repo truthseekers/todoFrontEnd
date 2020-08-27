@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { AUTH_TOKEN } from "./constants";
 import { withRouter } from "react-router";
+import { AuthContext } from "./AuthContext";
 
 function NavTodo(props) {
   const authToken = localStorage.getItem(AUTH_TOKEN);
+  const [state, setState] = useContext(AuthContext);
 
   const updateLoggedInStatus = () => {
-    props.setLoggedInUser(false);
+    console.log("called the logout. setting context state to logged out");
+    setState((state) => ({ ...state, isLoggedIn: false, userId: "" }));
   };
 
   return (
@@ -36,10 +39,8 @@ function NavTodo(props) {
           <Button variant="outline-success">Login/Signup</Button>
         </Link>
       )}
-      {props.loggedInUser.name && (
-        <span style={{ marginLeft: "20px" }}>
-          Welcome {props.loggedInUser.name}
-        </span>
+      {state.isLoggedIn && (
+        <span style={{ marginLeft: "20px" }}>Welcome {state.userName}</span>
       )}
     </Navbar>
   );

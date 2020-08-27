@@ -9,7 +9,6 @@ function Todos(props) {
     if (elem.isCompleted) {
       completedTodos.push(
         <TodoItem
-          loggedInUser={props.loggedInUser}
           key={elem.id.toString()}
           id={elem.id}
           deleteTodo={props.deleteTodo}
@@ -21,7 +20,6 @@ function Todos(props) {
     } else {
       incompleteRows.push(
         <TodoItem
-          loggedInUser={props.loggedInUser}
           key={elem.id.toString()}
           id={elem.id}
           deleteTodo={props.deleteTodo}

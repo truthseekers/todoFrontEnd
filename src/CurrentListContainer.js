@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { LIST_TODOS } from "./queries";
 import Todos from "./Todos";
 import { NEW_TODO, DELETE_TODO_ITEM } from "./queries";
+import { AuthContext } from "./AuthContext";
 
 function CurrentListContainer(props) {
+  const [state, setState] = useContext(AuthContext);
   const [taskField, setTaskField] = useState("");
   const { data, loading, error } = useQuery(LIST_TODOS, {
     variables: { listId: props.listId },
@@ -84,7 +86,7 @@ function CurrentListContainer(props) {
         <p>No List Selected!</p>
       ) : (
         <div>
-          {!props.loggedInUser.id ? (
+          {!state.userId ? (
             <div
               style={{ fontWeight: "bold", margin: "25px", color: "#28a745" }}
             >
@@ -114,7 +116,6 @@ function CurrentListContainer(props) {
             </h3>
           </div>
           <Todos
-            loggedInUser={props.loggedInUser}
             todos={data.listById.todos}
             deleteTodo={onDeleteTodo}
             listId={props.listId}

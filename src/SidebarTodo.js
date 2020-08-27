@@ -10,10 +10,7 @@ function SidebarTodo(props) {
     >
       <div style={{ background: "#eee" }} className="sidebar-sticky pt-3">
         <ListForm selectList={props.selectList} userData={props.userData} />
-        <ListsContainer
-          selectList={props.selectList}
-          loggedInUser={props.loggedInUser}
-        />
+        <ListsContainer selectList={props.selectList} />
       </div>
     </Nav>
   );
