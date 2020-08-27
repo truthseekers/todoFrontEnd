@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { NEW_LIST, ALL_LISTS } from "../queries";
 import { useMutation } from "@apollo/react-hooks";
 import { AUTH_TOKEN } from "../constants";
+import { AuthContext } from "../AuthContext";
 
 function ListForm(props) {
+  const [state, setState] = useContext(AuthContext);
   const [taskField, setTaskField] = useState("");
   const authToken = localStorage.getItem(AUTH_TOKEN);
 
@@ -25,9 +27,7 @@ function ListForm(props) {
     createList({
       variables: {
         title: taskField,
-        userId: props.userData
-          ? props.userData.me.id
-          : localStorage.getItem("userId"),
+        userId: state.userId,
       },
     });
   };

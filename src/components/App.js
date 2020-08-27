@@ -11,7 +11,6 @@ import { AuthContext } from "../AuthContext";
 
 function App() {
   const authToken = localStorage.getItem(AUTH_TOKEN);
-  const [state, setState] = useContext(AuthContext);
   const meQuery = useQuery(ME);
   const listsQuery = useQuery(ALL_LISTS);
 
@@ -31,12 +30,7 @@ function App() {
         <Switch>
           <Route path="/login" render={(props) => <Login {...props} />} />
           <Route path="/dashboard" component={Dashboard} />
-          <Route
-            path="/"
-            render={(props) => (
-              <AppContainer {...props} userData={meQuery.data} />
-            )}
-          />
+          <Route path="/" render={(props) => <AppContainer {...props} />} />
         </Switch>
       </AuthProvider>
     </div>

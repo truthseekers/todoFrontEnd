@@ -78,7 +78,6 @@ function AppContainer(props) {
         <Row>
           <SidebarTodo
             selectList={selectList}
-            userData={props.userData}
             currentListId={currentListId}
             deleteList={onDeleteList}
           />
@@ -97,7 +96,7 @@ function AppContainer(props) {
                   </Button>
                   <Collapse in={open}>
                     <div id="mobile-lists">
-                      <ListForm userData={props.userData} />
+                      <ListForm />
                       <ListsContainer selectList={selectList} />
                     </div>
                   </Collapse>
