@@ -20,8 +20,6 @@ function Login(props) {
         userId: data.login.user.id,
         isLoggedIn: true,
       }));
-      localStorage.setItem("userName", data.login.user.name);
-      localStorage.setItem("userId", data.login.user.id);
 
       _confirm(data);
     },
@@ -32,8 +30,6 @@ function Login(props) {
 
   const [doSignup] = useMutation(SIGNUP_MUTATION, {
     onCompleted(data) {
-      localStorage.setItem("userName", data.signup.user.name);
-      localStorage.setItem("userId", data.signup.user.id);
       setState((state) => ({
         ...state,
         userName: data.signup.user.name,
@@ -70,12 +66,6 @@ function Login(props) {
       doSignup({ variables: { email, password, name: userName } });
     }
   };
-
-  // const setUserName = (e) => {
-  //   console.log("still setting username!");
-  //   e.preventDefault();
-  //   setUserName(e.target.value);
-  // }
 
   let errorsList = [];
   if (errors) {

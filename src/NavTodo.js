@@ -25,8 +25,6 @@ function NavTodo(props) {
         <div
           onClick={() => {
             localStorage.removeItem(AUTH_TOKEN);
-            localStorage.removeItem("userName");
-            localStorage.removeItem("userId");
             props.history.push(`/`);
             updateLoggedInStatus();
           }}

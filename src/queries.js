@@ -22,16 +22,6 @@ const LIST_TODOS = gql`
   }
 `;
 
-const ALL_TODOS = gql`
-  query getAllTodos {
-    todos {
-      name
-      id
-      __typename
-    }
-  }
-`;
-
 const ALL_LISTS = gql`
   query allLists {
     lists {
@@ -137,7 +127,6 @@ const DELETE_LIST = gql`
 
 export {
   ALL_LISTS,
-  ALL_TODOS,
   DELETE_LIST,
   DELETE_TODO_ITEM,
   GET_LIST_IDS,

@@ -22,6 +22,7 @@ function AppContainer(props) {
 
   const [deleteList] = useMutation(DELETE_LIST, {
     update(cache, { data: { deleteList } }) {
+      console.log("Deleting list called in AppContainer.js");
       const { lists } = cache.readQuery({ query: ALL_LISTS });
       let updatedLists = lists.filter((elem) => {
         if (elem.id !== deleteList.list.id) {
@@ -61,7 +62,7 @@ function AppContainer(props) {
   }
 
   const selectList = (newListId) => {
-    // console.log("selecting list from appContainer");
+    console.log("selecting list from appContainer");
     setCurrentListId(newListId);
   };
 

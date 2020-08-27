@@ -11,6 +11,7 @@ function ListContainer(props) {
 
   const [deleteList] = useMutation(DELETE_LIST, {
     update(cache, { data: { deleteList } }) {
+      console.log("deleteList called in listsContainer.js");
       const { lists } = cache.readQuery({ query: ALL_LISTS });
       let updatedLists = lists.filter((elem) => {
         if (elem.id !== deleteList.list.id) {
@@ -36,6 +37,7 @@ function ListContainer(props) {
   };
 
   const selectList = (newListId) => {
+    console.log("WOW react gives shitty errors");
     props.selectList(newListId);
   };
 
