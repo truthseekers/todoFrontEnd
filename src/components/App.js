@@ -15,28 +15,7 @@ function App() {
   const meQuery = useQuery(ME);
   const listsQuery = useQuery(ALL_LISTS);
 
-  let defaultLoggedInUser;
-  if (authToken && meQuery.data) {
-    defaultLoggedInUser = {
-      id: localStorage.getItem("userId"),
-      name: localStorage.getItem("userName"),
-      email: "jajaja@ya.com",
-    };
-  }
-  // console.log("state in App.js: ");
-  // console.log(state);
-
-  const [loggedInUser, setLoggedInUser] = useState({
-    id: localStorage.getItem("userId"),
-    name: localStorage.getItem("userName"),
-    email: "jaja@ya.com",
-  });
-
   const [currentListId, setCurrentListId] = useState("");
-
-  const updateLoggedInUser = (arg) => {
-    setLoggedInUser(arg);
-  };
 
   if (meQuery.loading || listsQuery.loading) {
     return <div>Loading...</div>;
@@ -46,7 +25,6 @@ function App() {
     setCurrentListId(listsQuery.data.lists[0].id);
   }
 
-  // console.log("setting userData of AuthProvider to meQuery data.");
   return (
     <div>
       <AuthProvider userData={meQuery.data}>

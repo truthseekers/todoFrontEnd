@@ -13,9 +13,7 @@ const AuthProvider = (props) => {
     userId = props.userData.me.id;
     loggedInStatus = true;
   }
-  // const meQuery = useQuery(ME);
-  //console.log("props in authprovider: ");
-  //console.log(props);
+
   const [state, setState] = useState({
     test: "foo",
     testUser: "",

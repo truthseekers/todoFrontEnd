@@ -11,7 +11,6 @@ function NavTodo(props) {
   const [state, setState] = useContext(AuthContext);
 
   const updateLoggedInStatus = () => {
-    console.log("called the logout. setting context state to logged out");
     setState((state) => ({ ...state, isLoggedIn: false, userId: "" }));
   };
 
