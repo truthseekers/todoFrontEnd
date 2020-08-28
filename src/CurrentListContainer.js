@@ -76,13 +76,13 @@ function CurrentListContainer(props) {
     return <div>Loading...</div>;
   }
 
-  if (error && !props.isListEmpty) {
+  if (error) {
     return <p>error</p>;
   }
 
   return (
     <div>
-      {props.isListEmpty ? (
+      {!state.currentListId ? (
         <p>No List Selected!</p>
       ) : (
         <div>

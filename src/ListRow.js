@@ -5,7 +5,8 @@ import { AuthContext } from "./AuthContext";
 function ListRow(props) {
   const [state, setState] = useContext(AuthContext);
   const handleListChange = () => {
-    props.onSelect(props.id);
+    // console.log("listRow handleChange");
+    setState((state) => ({ ...state, currentListId: props.id }));
   };
 
   const deleteRow = () => {

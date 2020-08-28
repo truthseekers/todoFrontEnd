@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./dashboard.css";
 import "./App.css";
 import Container from "react-bootstrap/Container";
@@ -13,33 +13,12 @@ import Collapse from "react-bootstrap/Collapse";
 import Button from "react-bootstrap/Button";
 import ListForm from "./components/ListForm";
 import ListsContainer from "./components/ListsContainer";
+import { AuthContext } from "./AuthContext";
 
 function AppContainer(props) {
+  const [state, setState] = useContext(AuthContext);
   const { data, loading, error } = useQuery(GET_LIST_IDS);
-  const [currentListId, setCurrentListId] = useState("");
-  const [isListEmpty, setIsListEmpty] = useState(false);
   const [open, setOpen] = useState(false);
-
-  const [deleteList] = useMutation(DELETE_LIST, {
-    update(cache, { data: { deleteList } }) {
-      console.log("Deleting list called in AppContainer.js");
-      const { lists } = cache.readQuery({ query: ALL_LISTS });
-      let updatedLists = lists.filter((elem) => {
-        if (elem.id !== deleteList.list.id) {
-          return elem;
-        }
-      });
-      if (updatedLists.length !== 0) {
-        selectList(updatedLists[0].id);
-      }
-      cache.writeQuery({
-        query: ALL_LISTS,
-        data: {
-          lists: updatedLists,
-        },
-      });
-    },
-  });
 
   if (loading) {
     return <div>Loading...</div>;
@@ -49,39 +28,12 @@ function AppContainer(props) {
     return <div>Error</div>;
   }
 
-  // data always exists past this point since its after loading conditional
-  // If a list exists then set state to first list. Need !currentListId otherwise render infinite loop
-  if (!currentListId && data.lists.length > 0) {
-    setCurrentListId(data.lists[0].id);
-  }
-
-  if (data.lists.length === 0 && !isListEmpty) {
-    setIsListEmpty(true);
-  } else if (data.lists.length !== 0 && isListEmpty) {
-    setIsListEmpty(false);
-  }
-
-  const selectList = (newListId) => {
-    console.log("selecting list from appContainer");
-    setCurrentListId(newListId);
-  };
-
-  const onDeleteList = (listId) => {
-    deleteList({
-      variables: { listId: listId },
-    });
-  };
-
   return (
     <div>
       <NavTodo userName={props.userName} />
       <Container fluid>
         <Row>
-          <SidebarTodo
-            selectList={selectList}
-            currentListId={currentListId}
-            deleteList={onDeleteList}
-          />
+          <SidebarTodo />
 
           <main className="col-md-8 ml-sm-auto col-lg-10 px-md-4">
             <Row className="justify-content-md-center text-center">
@@ -98,14 +50,11 @@ function AppContainer(props) {
                   <Collapse in={open}>
                     <div id="mobile-lists">
                       <ListForm />
-                      <ListsContainer selectList={selectList} />
+                      <ListsContainer />
                     </div>
                   </Collapse>
                 </div>{" "}
-                <CurrentListContainer
-                  isListEmpty={isListEmpty}
-                  listId={currentListId}
-                />
+                <CurrentListContainer listId={state.currentListId} />
               </Col>
             </Row>
           </main>

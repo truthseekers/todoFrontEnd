@@ -8,7 +8,7 @@ import { AuthProvider } from "../AuthContext";
 
 function App() {
   const meQuery = useQuery(ME);
-  const listsQuery = useQuery(ALL_LISTS); // can't delete this for some reason without error
+  // const listsQuery = useQuery(ALL_LISTS); // can't delete this for some reason without error
 
   if (meQuery.loading) {
     return <div>Loading...</div>;

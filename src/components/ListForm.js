@@ -18,9 +18,8 @@ function ListForm(props) {
           lists: [newList, ...lists],
         },
       });
-      console.log("createList from ListForm.js");
 
-      props.selectList(newList.id);
+      setState((state) => ({ ...state, currentListId: newList.id }));
     },
   });
 

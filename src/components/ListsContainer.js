@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { GET_LIST_IDS, DELETE_LIST, ALL_LISTS } from "../queries";
 import Lists from "../Lists";
+import { AuthContext } from "../AuthContext";
 
 function ListContainer(props) {
   const { data, loading, error } = useQuery(GET_LIST_IDS);
+  const [state, setState] = useContext(AuthContext);
 
-  const [currentListId, setCurrentListId] = useState("");
   const allLists = useQuery(ALL_LISTS);
 
   const [deleteList] = useMutation(DELETE_LIST, {
     update(cache, { data: { deleteList } }) {
-      console.log("deleteList called in listsContainer.js");
+      //console.log("deleteList called in listsContainer.js");
       const { lists } = cache.readQuery({ query: ALL_LISTS });
       let updatedLists = lists.filter((elem) => {
         if (elem.id !== deleteList.list.id) {
@@ -19,7 +20,10 @@ function ListContainer(props) {
         }
       });
       if (updatedLists.length !== 0) {
-        selectList(updatedLists[0].id);
+        //console.log(
+        //  "selecting a list after deletion SHUTTED IT OFF listcontainer"
+        //);
+        setState((state) => ({ ...state, currentListId: updatedLists[0].id }));
       }
       cache.writeQuery({
         query: ALL_LISTS,
@@ -36,24 +40,25 @@ function ListContainer(props) {
     });
   };
 
-  const selectList = (newListId) => {
-    console.log("WOW react gives shitty errors");
-    props.selectList(newListId);
-  };
-
-  if (loading) {
+  if (loading || allLists.loading) {
     return <div>Loading...</div>;
+  }
+  if (!state.currentListId && data.lists.length > 0) {
+    //console.log("setting state in listsContainer");
+    // setState((state) => ({
+    //   ...state,
+    //   currentListId: allLists.data.lists[0].id,
+    // }));
   }
 
   if (error) {
+    // console.log("error");
+    // console.log(error);
     return <div>Error</div>;
   }
 
-  // data always exists past this point since its after loading conditional
-  // If a list exists then set state to first list. Need !currentListId otherwise render infinite loop
-  if (!currentListId && data.lists.length > 0) {
-    setCurrentListId(data.lists[0].id);
-  }
+  //console.log("done loading?");
+  //console.log(allLists);
 
   let renderLists;
   if (data.lists.length > 0) {
@@ -61,7 +66,6 @@ function ListContainer(props) {
       <div>
         <Lists
           onDeleteList={onDeleteList}
-          selectList={selectList}
           lists={allLists.data.lists}
           postedBy={allLists.postedBy}
         />

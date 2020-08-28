@@ -9,8 +9,8 @@ function SidebarTodo(props) {
       className="col-md-4 col-lg-2 d-md-block bg-light sidebar collapse"
     >
       <div style={{ background: "#eee" }} className="sidebar-sticky pt-3">
-        <ListForm selectList={props.selectList} />
-        <ListsContainer selectList={props.selectList} />
+        <ListForm />
+        <ListsContainer />
       </div>
     </Nav>
   );

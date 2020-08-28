@@ -11,7 +11,6 @@ function Lists(props) {
         id={elem.id}
         onDeleteList={props.onDeleteList}
         name={elem.title}
-        onSelect={props.selectList}
         postedBy={elem.postedBy}
       />
     );
