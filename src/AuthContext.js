@@ -13,16 +13,12 @@ const AuthProvider = (props) => {
   }
 
   const [state, setState] = useState({
-    test: "foo",
-    testUser: "",
     userName: userName,
     isLoggedIn: loggedInStatus,
     userId: userId,
-    currentListId: "404",
+    // currentListId: "406",
   });
 
-  //console.log("state obj in authcontext: ");
-  //console.log(state);
   return (
     <AuthContext.Provider value={[state, setState]}>
       {props.children}

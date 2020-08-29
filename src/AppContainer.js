@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import "./dashboard.css";
 import "./App.css";
 import Container from "react-bootstrap/Container";
@@ -6,27 +6,14 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import NavTodo from "./NavTodo";
 import SidebarTodo from "./SidebarTodo";
-import { useQuery, useMutation } from "@apollo/react-hooks";
 import CurrentListContainer from "./CurrentListContainer";
-import { GET_LIST_IDS, DELETE_LIST, ALL_LISTS } from "./queries";
 import Collapse from "react-bootstrap/Collapse";
 import Button from "react-bootstrap/Button";
 import ListForm from "./components/ListForm";
 import ListsContainer from "./components/ListsContainer";
-import { AuthContext } from "./AuthContext";
 
 function AppContainer(props) {
-  const [state, setState] = useContext(AuthContext);
-  const { data, loading, error } = useQuery(GET_LIST_IDS);
   const [open, setOpen] = useState(false);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error</div>;
-  }
 
   return (
     <div>
@@ -54,7 +41,7 @@ function AppContainer(props) {
                     </div>
                   </Collapse>
                 </div>{" "}
-                <CurrentListContainer listId={state.currentListId} />
+                <CurrentListContainer />
               </Col>
             </Row>
           </main>

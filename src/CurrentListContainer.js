@@ -9,14 +9,14 @@ function CurrentListContainer(props) {
   const [state, setState] = useContext(AuthContext);
   const [taskField, setTaskField] = useState("");
   const { data, loading, error } = useQuery(LIST_TODOS, {
-    variables: { listId: props.listId },
+    variables: { listId: state.currentListId },
   });
 
   const [deleteTodo] = useMutation(DELETE_TODO_ITEM, {
     update(cache, { data: { deleteTodo } }) {
       const thingThree = cache.readQuery({
         query: LIST_TODOS,
-        variables: { listId: props.listId },
+        variables: { listId: state.currentListId },
       });
       let updatedListTodos = thingThree.listById.todos.filter((elem) => {
         if (elem.id !== deleteTodo.id) {
@@ -29,7 +29,7 @@ function CurrentListContainer(props) {
       newListById.todos = updatedListTodos;
       cache.writeQuery({
         query: LIST_TODOS,
-        variables: { listId: props.listId },
+        variables: { listId: state.currentListId },
         data: {
           listById: newListById,
         },
@@ -41,12 +41,12 @@ function CurrentListContainer(props) {
     update(cache, { data: { createTodo } }) {
       const thingThree = cache.readQuery({
         query: LIST_TODOS,
-        variables: { listId: props.listId },
+        variables: { listId: state.currentListId },
       });
 
       cache.writeQuery({
         query: LIST_TODOS,
-        variables: { listId: props.listId },
+        variables: { listId: state.currentListId },
         data: {
           listById: [createTodo, ...thingThree.listById.todos],
         },
@@ -64,7 +64,7 @@ function CurrentListContainer(props) {
     event.preventDefault();
 
     createTodo({
-      variables: { listId: props.listId, newTodo: taskField },
+      variables: { listId: state.currentListId, newTodo: taskField },
     });
     setTaskField("");
   };
@@ -118,7 +118,7 @@ function CurrentListContainer(props) {
           <Todos
             todos={data.listById.todos}
             deleteTodo={onDeleteTodo}
-            listId={props.listId}
+            listId={state.currentListId}
           />
         </div>
       )}
